@@ -1,0 +1,30 @@
+# Segurança
+
+## Requisitos desde o início
+
+- Validação de inputs com Zod.
+- Sanitização de texto vindo de arquivos.
+- Rate limit por usuário e por IP.
+- Limites de upload por plano.
+- Storage privado para arquivos.
+- RLS em tabelas do Supabase.
+- Variáveis de ambiente fora do Git.
+- Logs sem chaves, tokens ou conteúdo sensível integral.
+- Tratamento seguro de erros.
+- Consentimento explícito para processar arquivos com IA.
+- Termos de uso e política de privacidade públicos.
+
+## Supabase
+
+- Não expor `service_role` no cliente.
+- Não usar `user_metadata` para autorização.
+- Usar `to authenticated` + predicado por `user_id` em políticas.
+- UPDATE precisa de `using` e `with check`.
+- Views devem usar `security_invoker = true` quando expostas.
+
+## IA e arquivos
+
+- Arquivos são privados por padrão.
+- Conteúdo enviado à IA deve ser minimizado ao necessário.
+- Referências devem usar IDs internos e metadados seguros.
+- O usuário deve poder excluir arquivos e dados associados.
