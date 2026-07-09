@@ -2,6 +2,7 @@
 node_modules/
 .npm-cache/
 .git-studypilot/
+.turbo/
 
 # build output
 .next/
