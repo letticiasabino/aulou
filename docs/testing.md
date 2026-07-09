@@ -32,3 +32,19 @@ Cobertura inicial criada para:
 - conflito de agenda;
 - limites por plano;
 - geração básica de tarefas de estudo.
+
+## Sprint 1
+
+Adicionar testes básicos para:
+
+- renderização da landing.
+- renderização do dashboard skeleton.
+- schema de autenticação.
+- helpers de analytics.
+- smoke E2E das rotas públicas principais.
+
+Configuração final:
+
+- `npm run test` executa Vitest e ignora os testes E2E.
+- `npm run e2e` executa `next build`, sobe `next start` em porta dedicada e roda Playwright contra o build de produção.
+- Playwright usa Chrome instalado no sistema local para evitar download de navegador no ambiente Windows atual.

@@ -47,3 +47,39 @@ Motivo: o audit apontou vulnerabilidade moderada no `postcss` transitivo do Next
 Decisão: definir `turbopack.root` em `next.config.ts`.
 
 Motivo: havia outro lockfile fora do workspace e o Next inferiu a pasta do usuário como raiz, causando erro de permissão no build.
+
+## 2026-07-08 - Sprint 1 usa Feature First
+
+Decisão: organizar fluxos em `src/features/*`, mantendo `src/components/ui` para primitivos e `src/components/layouts` para cascas reutilizáveis.
+
+Motivo: o produto vai crescer em módulos grandes. Feature First reduz acoplamento e deixa cada área evoluir sem transformar `app/` em depósito de lógica.
+
+## 2026-07-08 - Auth Supabase com SSR e fallback seguro
+
+Decisão: implementar Auth por Supabase SSR, mas tratar ausência de env pública como erro de configuração amigável nas telas.
+
+Motivo: a Sprint 1 deve rodar localmente sem quebrar mesmo antes de conectar um projeto Supabase real.
+
+## 2026-07-08 - Componentes Shadcn-compatible locais
+
+Decisão: criar componentes base localmente, seguindo APIs Radix/Shadcn e validando o projeto com `shadcn info`.
+
+Motivo: o `shadcn init` falhou na Sprint 0 por TLS local. Manter componentes como código próprio preserva controle e permite adicionar novos via CLI quando o ambiente permitir.
+
+## 2026-07-08 - Conceitos visuais da Sprint 1
+
+Decisão: gerar conceitos para landing e dashboard skeleton antes de implementar.
+
+Motivo: a Sprint 1 é fundação visual e estrutural; conceitos ajudam a manter o produto premium, consistente e fora de uma aparência genérica.
+
+## 2026-07-08 - Typed routes mantido com cache limpo
+
+Decisão: manter os tipos de rota gerados pelo Next, mas limpar artefatos defasados de `.next/dev` quando eles não refletirem as rotas criadas.
+
+Motivo: o build gerou `.next/types` com todas as rotas corretamente. O erro vinha de tipos antigos de desenvolvimento. Manter route typing ajuda a evitar links quebrados sem criar cast manual nas rotas.
+
+## 2026-07-08 - Executor E2E próprio para Windows
+
+Decisão: substituir o `webServer` automático do Playwright por `scripts/run-e2e.mjs`, que sobe `next start`, espera a aplicação responder, roda Playwright e encerra a árvore de processos explicitamente.
+
+Motivo: no Windows local, o `webServer` do Playwright executava os testes com sucesso, mas ficava preso na finalização do servidor. O executor mantém `npm run e2e` com saída limpa e valida o build de produção.

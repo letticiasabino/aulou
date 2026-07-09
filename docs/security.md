@@ -28,3 +28,11 @@
 - Conteúdo enviado à IA deve ser minimizado ao necessário.
 - Referências devem usar IDs internos e metadados seguros.
 - O usuário deve poder excluir arquivos e dados associados.
+
+## Sprint 1
+
+- Middleware protege rotas privadas.
+- Headers de segurança são definidos no `next.config.ts`.
+- Env validation diferencia variáveis server-only e public.
+- Rate limit inicial fica preparado por adapter em memória para desenvolvimento.
+- Auth usa Supabase SSR com cookies e sessão persistente.

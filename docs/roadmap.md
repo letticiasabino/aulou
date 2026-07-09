@@ -6,7 +6,7 @@ Documentação, arquitetura, banco, regras de negócio, design system e projeto 
 
 ## Sprint 1 - Base Técnica
 
-Next.js, TypeScript, Tailwind, Shadcn/UI, Supabase, Auth, layout base, rotas públicas e privadas.
+Next.js, TypeScript, Tailwind, Shadcn/UI, Supabase Auth, providers globais, tema, layouts reutilizáveis, rotas públicas e privadas, landing page, pricing, onboarding visual, dashboard skeleton, SEO, segurança inicial e tooling de qualidade.
 
 ## Sprint 2 - Onboarding e Domínio Acadêmico
 

@@ -29,6 +29,21 @@
 - `src/config`: planos, limites, flags e env.
 - `src/tests`: utilitários de teste.
 
+## Sprint 1 - Feature First
+
+A Sprint 1 organiza a aplicação em Feature First:
+
+- `src/features/marketing`: landing, pricing e conteúdo público.
+- `src/features/auth`: login, cadastro, recuperação e reset de senha.
+- `src/features/dashboard`: app shell e placeholders logados.
+- `src/features/onboarding`: fluxo visual preparado para persistência futura.
+- `src/components/ui`: primitivos reutilizáveis compatíveis com Shadcn/UI.
+- `src/components/layouts`: landing, auth, dashboard e erro.
+- `src/components/providers`: tema, query, Supabase, toast e modal.
+- `src/services`: integrações desacopladas.
+
+Adaptação: os engines já existem em `src/engines` desde a Sprint 0 com implementação mínima testada. Na Sprint 1 eles serão preservados e complementados com placeholders quando o motor ainda não deve executar regra nova.
+
 ## Princípios
 
 - Regra de negócio não mora em componente visual.

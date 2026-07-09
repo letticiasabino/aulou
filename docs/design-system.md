@@ -8,6 +8,11 @@ Dark mode elegante como padrão, com opção light no futuro. A interface deve p
 
 Conceito gerado para Sprint 0: `docs/assets/studypilot-dashboard-concept.png`.
 
+Conceitos gerados para Sprint 1:
+
+- Landing page: `docs/assets/sprint1-landing-concept.png`.
+- Dashboard skeleton: `docs/assets/sprint1-dashboard-concept.png`.
+
 ## Tokens iniciais
 
 - Background: preto suave e superfícies near-black.
@@ -36,3 +41,14 @@ Conceito gerado para Sprint 0: `docs/assets/studypilot-dashboard-concept.png`.
 - Todo dado extraído por IA precisa mostrar fonte e confiança.
 - Telas logadas priorizam trabalho real, não marketing.
 - CTAs principais usam verbo claro: importar, confirmar, gerar, revisar.
+
+## Sprint 1 - Tokens refinados
+
+- Fundo: preto profundo com superfícies near-black.
+- Primário: roxo vivo e acessível.
+- Secundário: branco/cinza frio para leitura.
+- Acento: ciano usado com moderação para status e foco.
+- Raio: 8px por padrão.
+- Bordas: finas, discretas e contrastadas.
+- Movimento: microinterações curtas, respeitando `prefers-reduced-motion`.
+- Tipografia: Inter via `next/font`, com fallback sans-serif.
