@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createImportPreview, labelConfidence, normalizeExtractedEvent } from "@/engines/import-engine";
+import {
+  createImportPreview,
+  labelConfidence,
+  normalizeExtractedEvent,
+} from "@/engines/import-engine";
 
 describe("ImportEngine", () => {
   it("classifica confiança conforme regra de negócio", () => {
