@@ -15,5 +15,7 @@ export interface StructuredAIResponse<TOutput> {
 }
 
 export interface AIProvider {
-  runStructured<TInput, TOutput>(request: StructuredAIRequest<TInput>): Promise<StructuredAIResponse<TOutput>>;
+  runStructured<TInput, TOutput>(
+    request: StructuredAIRequest<TInput>,
+  ): Promise<StructuredAIResponse<TOutput>>;
 }

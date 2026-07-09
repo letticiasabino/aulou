@@ -1,11 +1,5 @@
 export type AcademicEventType =
-  | "class"
-  | "exam"
-  | "assignment"
-  | "forum"
-  | "reading"
-  | "study"
-  | "other";
+  "class" | "exam" | "assignment" | "forum" | "reading" | "study" | "other";
 
 export type AcademicPriority = "low" | "medium" | "high" | "maximum";
 

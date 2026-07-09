@@ -27,7 +27,9 @@ export function labelConfidence(score: number): ConfidenceLabel {
   return "needs_review";
 }
 
-export function priorityForEvent(eventType: ParsedExtractedAcademicEventInput["eventType"]): AcademicPriority {
+export function priorityForEvent(
+  eventType: ParsedExtractedAcademicEventInput["eventType"],
+): AcademicPriority {
   if (eventType === "exam") {
     return "maximum";
   }
@@ -43,8 +45,15 @@ export function priorityForEvent(eventType: ParsedExtractedAcademicEventInput["e
   return "low";
 }
 
-export function buildDedupeKey(input: Pick<ExtractedAcademicEventInput, "title" | "subjectName" | "eventType" | "startsAt">) {
-  return [input.subjectName || "Sem disciplina", input.eventType, input.startsAt ?? "ambiguous-date", input.title]
+export function buildDedupeKey(
+  input: Pick<ExtractedAcademicEventInput, "title" | "subjectName" | "eventType" | "startsAt">,
+) {
+  return [
+    input.subjectName || "Sem disciplina",
+    input.eventType,
+    input.startsAt ?? "ambiguous-date",
+    input.title,
+  ]
     .join("|")
     .toLowerCase()
     .normalize("NFD")
@@ -53,7 +62,9 @@ export function buildDedupeKey(input: Pick<ExtractedAcademicEventInput, "title" 
     .trim();
 }
 
-export function normalizeExtractedEvent(rawEvent: ExtractedAcademicEventInput): ExtractedAcademicEvent {
+export function normalizeExtractedEvent(
+  rawEvent: ExtractedAcademicEventInput,
+): ExtractedAcademicEvent {
   const parsed = extractedAcademicEventInputSchema.parse(rawEvent);
   const subjectName = parsed.subjectName || "Sem disciplina";
   const confidenceLabel = labelConfidence(parsed.confidenceScore);

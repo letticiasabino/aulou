@@ -12,5 +12,7 @@ export function buildReminderSchedule(event: AcademicEvent) {
   const oneHourBefore = new Date(start);
   oneHourBefore.setHours(start.getHours() - 1);
 
-  return event.isAllDay ? [oneDayBefore.toISOString()] : [oneDayBefore.toISOString(), oneHourBefore.toISOString()];
+  return event.isAllDay
+    ? [oneDayBefore.toISOString()]
+    : [oneDayBefore.toISOString(), oneHourBefore.toISOString()];
 }

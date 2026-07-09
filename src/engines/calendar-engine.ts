@@ -10,7 +10,10 @@ function toTime(value: string | null) {
   return value ? new Date(value).getTime() : null;
 }
 
-export function detectConflicts(events: AcademicEvent[], candidate: ExtractedAcademicEvent): EventConflict[] {
+export function detectConflicts(
+  events: AcademicEvent[],
+  candidate: ExtractedAcademicEvent,
+): EventConflict[] {
   const candidateStart = toTime(candidate.startsAt);
   const candidateEnd = toTime(candidate.endsAt);
 
@@ -36,7 +39,11 @@ export function detectConflicts(events: AcademicEvent[], candidate: ExtractedAca
     }));
 }
 
-export function confirmAcademicEvent(event: ExtractedAcademicEvent, userId: string, confirmedAt = new Date().toISOString()): AcademicEvent {
+export function confirmAcademicEvent(
+  event: ExtractedAcademicEvent,
+  userId: string,
+  confirmedAt = new Date().toISOString(),
+): AcademicEvent {
   return {
     ...event,
     userId,

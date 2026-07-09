@@ -13,7 +13,9 @@ export function generateBasicStudyTasks(input: PlanningInput): StudyTask[] {
     .map((event) => {
       const difficulty = input.difficultyBySubject?.[event.subjectName] ?? 3;
       const weightMultiplier = event.weight ? Math.max(1, event.weight / 20) : 1;
-      const estimatedMinutes = Math.ceil(Math.min(240, input.availableMinutesPerDay * difficulty * weightMultiplier));
+      const estimatedMinutes = Math.ceil(
+        Math.min(240, input.availableMinutesPerDay * difficulty * weightMultiplier),
+      );
 
       return {
         id: `task_${event.id}`,

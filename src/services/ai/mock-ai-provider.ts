@@ -1,4 +1,8 @@
-import type { AIProvider, StructuredAIRequest, StructuredAIResponse } from "@/services/ai/ai-provider";
+import type {
+  AIProvider,
+  StructuredAIRequest,
+  StructuredAIResponse,
+} from "@/services/ai/ai-provider";
 
 export class MockAIProvider implements AIProvider {
   async runStructured<TInput, TOutput>(
