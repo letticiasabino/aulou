@@ -9,8 +9,14 @@ Usar Server Actions e Route Handlers do Next.js. Toda entrada deve passar por sc
 - `auth.signUp`
 - `auth.signIn`
 - `onboarding.complete`
+- `profile.getAcademicContext`
+- `profile.updateAcademicContext`
 - `subjects.create`
+- `subjects.list`
 - `subjects.update`
+- `subjects.delete`
+- `teachers.create`
+- `teachers.list`
 - `files.createUpload`
 - `files.confirmUpload`
 - `imports.process`
@@ -35,6 +41,10 @@ Usar Server Actions e Route Handlers do Next.js. Toda entrada deve passar por sc
 
 ## Erros de domínio
 
+- `ACADEMIC_PROFILE_REQUIRED`
+- `INVALID_SEMESTER`
+- `SUBJECT_REQUIRED`
+- `TEACHER_REQUIRED`
 - `FILE_TOO_LARGE`
 - `UNSUPPORTED_FILE_TYPE`
 - `LOW_CONFIDENCE_EXTRACTION`

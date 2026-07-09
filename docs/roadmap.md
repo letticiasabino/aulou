@@ -10,7 +10,7 @@ Next.js, TypeScript, Tailwind, Shadcn/UI, Supabase Auth, providers globais, tema
 
 ## Sprint 2 - Onboarding e Domínio Acadêmico
 
-Perfil, faculdade, curso, semestre, disciplinas e professores.
+Perfil acadêmico funcional, faculdade, curso, semestre, disciplinas, professores, validações e persistência local-first compatível com Supabase.
 
 ## Sprint 3 - Upload e Importação
 

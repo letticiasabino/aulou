@@ -32,6 +32,20 @@
 - Considera atrasos e tarefas não concluídas.
 - Reorganiza tarefas quando o usuário falha em cumprir o plano.
 
+## Domínio acadêmico
+
+- Perfil acadêmico pertence sempre a um usuário autenticado.
+- Faculdade, curso e semestre são obrigatórios para concluir o onboarding.
+- Nome preferido deve existir no perfil, mesmo que seja herdado do cadastro.
+- Semestre atual deve ser um número entre 1 e 12.
+- Ano letivo deve ser maior ou igual a 2020.
+- Disciplina precisa ter nome e pode começar sem professor definido.
+- Professor pode ser criado junto com uma disciplina ou reutilizado em várias disciplinas.
+- Código da disciplina é opcional, mas quando informado deve ser normalizado em caixa alta.
+- Carga horária semanal é opcional e deve ficar entre 1 e 40 horas.
+- A exclusão de disciplina na Sprint 2 é local e reversível apenas por recriação manual.
+- Dados acadêmicos locais são fallback de desenvolvimento; em Supabase, todos os registros sensíveis precisam de `user_id`.
+
 ## Monetização
 
 - Free tem limites baixos e suficiente valor para ativação.

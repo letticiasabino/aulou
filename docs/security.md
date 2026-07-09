@@ -36,3 +36,11 @@
 - Env validation diferencia variáveis server-only e public.
 - Rate limit inicial fica preparado por adapter em memória para desenvolvimento.
 - Auth usa Supabase SSR com cookies e sessão persistente.
+
+## Sprint 2
+
+- Dados acadêmicos passam por schemas Zod antes de salvar.
+- Fallback local usa `localStorage` apenas para desenvolvimento sem Supabase configurado.
+- Nenhuma decisão de autorização usa `user_metadata`.
+- Contrato de RLS exige `user_id` em `profiles`, `courses`, `semesters`, `teachers` e `subjects`.
+- Logs e toasts exibem erros de domínio seguros, sem despejar payloads completos.

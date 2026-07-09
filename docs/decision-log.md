@@ -83,3 +83,9 @@ Motivo: o build gerou `.next/types` com todas as rotas corretamente. O erro vinh
 Decisão: substituir o `webServer` automático do Playwright por `scripts/run-e2e.mjs`, que sobe `next start`, espera a aplicação responder, roda Playwright e encerra a árvore de processos explicitamente.
 
 Motivo: no Windows local, o `webServer` do Playwright executava os testes com sucesso, mas ficava preso na finalização do servidor. O executor mantém `npm run e2e` com saída limpa e valida o build de produção.
+
+## 2026-07-09 - Sprint 2 local-first para domínio acadêmico
+
+Decisão: implementar perfil, curso, semestre, disciplinas e professores por service local-first, com contratos compatíveis com Supabase.
+
+Motivo: o Supabase CLI não está instalado neste ambiente. Criar uma migration manual sem o CLI violaria o fluxo seguro. O app fica funcional localmente e pronto para conectar as tabelas reais quando o ambiente Supabase estiver disponível. O changelog oficial foi consultado via Node; a mudança de 2026-04-28 sobre tabelas não serem expostas automaticamente reforça que a migration futura deve incluir grants explícitos além de RLS.

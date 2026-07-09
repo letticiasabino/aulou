@@ -48,3 +48,13 @@ Configuração final:
 - `npm run test` executa Vitest e ignora os testes E2E.
 - `npm run e2e` executa `next build`, sobe `next start` em porta dedicada e roda Playwright contra o build de produção.
 - Playwright usa Chrome instalado no sistema local para evitar download de navegador no ambiente Windows atual.
+
+## Sprint 2
+
+Adicionar cobertura para:
+
+- validação do perfil acadêmico.
+- normalização de disciplina e professor.
+- persistência local-first do contexto acadêmico.
+- renderização do onboarding funcional.
+- smoke E2E do fluxo de cadastro acadêmico.

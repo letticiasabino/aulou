@@ -57,3 +57,71 @@
 - `priority`
 - `dedupe_key`
 - `confirmed_at`
+
+## Sprint 2 - Domínio acadêmico
+
+Tabelas alvo para a primeira camada persistente:
+
+### profiles
+
+- `id uuid primary key references auth.users(id) on delete cascade`
+- `user_id uuid not null unique references auth.users(id) on delete cascade`
+- `display_name text not null`
+- `institution_name text not null`
+- `course_name text not null`
+- `current_semester integer not null check (current_semester between 1 and 12)`
+- `academic_year integer not null`
+- `timezone text not null default 'America/Sao_Paulo'`
+- `onboarding_completed_at timestamptz`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+### courses
+
+- `id uuid primary key default gen_random_uuid()`
+- `user_id uuid not null references auth.users(id) on delete cascade`
+- `name text not null`
+- `institution_name text not null`
+- `degree text`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+### semesters
+
+- `id uuid primary key default gen_random_uuid()`
+- `user_id uuid not null references auth.users(id) on delete cascade`
+- `course_id uuid references courses(id) on delete set null`
+- `label text not null`
+- `number integer not null check (number between 1 and 12)`
+- `starts_on date`
+- `ends_on date`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+### teachers
+
+- `id uuid primary key default gen_random_uuid()`
+- `user_id uuid not null references auth.users(id) on delete cascade`
+- `name text not null`
+- `email text`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+### subjects
+
+- `id uuid primary key default gen_random_uuid()`
+- `user_id uuid not null references auth.users(id) on delete cascade`
+- `semester_id uuid references semesters(id) on delete set null`
+- `teacher_id uuid references teachers(id) on delete set null`
+- `name text not null`
+- `code text`
+- `weekly_hours integer check (weekly_hours between 1 and 40)`
+- `difficulty integer not null default 3 check (difficulty between 1 and 5)`
+- `color text not null default '#9b7cff'`
+- `status text not null default 'active'`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+RLS alvo: habilitar RLS em todas as tabelas e criar policies por tabela com `to authenticated`, `using ((select auth.uid()) = user_id)` e `with check ((select auth.uid()) = user_id)` para insert/update. Como o changelog do Supabase de 2026-04-28 indica que tabelas podem não ser expostas automaticamente à Data API, a migration futura também deve revisar grants explícitos para `authenticated` sem abrir acesso indevido ao `anon`.
+
+Observação: a Sprint 2 não executa migration remota porque o Supabase CLI não está instalado neste ambiente e não há projeto remoto conectado. A implementação usa service local-first com contratos compatíveis com esse schema.
