@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
-import { DashboardShell } from "@/features/dashboard/components/dashboard-shell";
+import { AcademicDashboard } from "@/features/academic/components/academic-dashboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <DashboardLayout title="Dashboard">
-      <DashboardShell />
+      <AcademicDashboard />
     </DashboardLayout>
   );
 }
