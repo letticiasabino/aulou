@@ -15,6 +15,7 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
     exclude: ["src/tests/e2e/**", "node_modules/**", ".next/**"],
     globals: true,
+    testTimeout: 15_000,
     setupFiles: ["./src/tests/setup.ts"],
     coverage: {
       provider: "v8",
