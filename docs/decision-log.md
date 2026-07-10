@@ -89,3 +89,9 @@ Motivo: no Windows local, o `webServer` do Playwright executava os testes com su
 Decisão: implementar perfil, curso, semestre, disciplinas e professores por service local-first, com contratos compatíveis com Supabase.
 
 Motivo: o Supabase CLI não está instalado neste ambiente. Criar uma migration manual sem o CLI violaria o fluxo seguro. O app fica funcional localmente e pronto para conectar as tabelas reais quando o ambiente Supabase estiver disponível. O changelog oficial foi consultado via Node; a mudança de 2026-04-28 sobre tabelas não serem expostas automaticamente reforça que a migration futura deve incluir grants explícitos além de RLS.
+
+## 2026-07-10 - Sprint 3 endurece o domínio acadêmico antes de upload
+
+Decisão: tratar a Sprint 3 solicitada como evolução do domínio acadêmico, deslocando Upload e Importação para a próxima sprint no roadmap.
+
+Motivo: o produto precisa de uma base acadêmica editável e confiável antes de importar cronogramas. Foi adicionada uma entidade local-first de faculdade (`institution`) para deixar o contrato mais próximo de um banco real, mantendo compatibilidade com os campos já existentes em `profiles` e `courses`.

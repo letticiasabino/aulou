@@ -58,3 +58,15 @@ Adicionar cobertura para:
 - persistência local-first do contexto acadêmico.
 - renderização do onboarding funcional.
 - smoke E2E do fluxo de cadastro acadêmico.
+
+## Sprint 3
+
+Adicionar cobertura para:
+
+- schemas de faculdade, semestre e professor.
+- atualização local-first de faculdade, curso e semestre.
+- criação, edição, remoção e desvinculação de professores.
+- edição, arquivamento e reativação de disciplinas.
+- renderização da central de contexto acadêmico.
+- renderização da tela de professores com estado vazio.
+- E2E do cadastro acadêmico com navegação para perfil, professores e disciplinas.

@@ -52,3 +52,18 @@
 - Plus desbloqueia mais volume, flashcards, quizzes, plano semanal e lembretes avançados.
 - Pro desbloqueia IA Tutor avançada, importações maiores, relatórios, prioridade e integrações futuras.
 - Bloqueios devem explicar o benefício do upgrade e preservar o trabalho já feito.
+
+## Sprint 3 - Domínio acadêmico operacional
+
+- Faculdade, curso, semestre, disciplinas e professores devem ser gerenciáveis depois do onboarding.
+- Faculdade é tratada como entidade própria no contrato local-first, mesmo que a primeira migration possa manter dados denormalizados em `profiles` para compatibilidade.
+- Curso pertence a uma faculdade e a um usuário; mudanças no curso atual devem atualizar o resumo do perfil acadêmico.
+- Semestre pertence ao curso ativo e deve guardar número, ano letivo, rótulo e datas opcionais de início/fim.
+- Data final do semestre, quando informada, não pode ser anterior à data inicial.
+- Professor pode existir sem disciplina vinculada.
+- E-mail de professor é opcional, mas deve ser válido quando informado.
+- Disciplina pode ser vinculada a professor existente ou criar professor durante o cadastro.
+- Disciplina pode ser editada, arquivada ou removida localmente.
+- Professores removidos devem ser desvinculados das disciplinas antes da exclusão local.
+- Toda entidade acadêmica local deve manter `id`, `userId`, `createdAt` e `updatedAt` para facilitar migração para banco real.
+- Telas do domínio acadêmico devem exibir estados de carregamento, erro e vazio sem bloquear a navegação.

@@ -125,3 +125,39 @@ Tabelas alvo para a primeira camada persistente:
 RLS alvo: habilitar RLS em todas as tabelas e criar policies por tabela com `to authenticated`, `using ((select auth.uid()) = user_id)` e `with check ((select auth.uid()) = user_id)` para insert/update. Como o changelog do Supabase de 2026-04-28 indica que tabelas podem não ser expostas automaticamente à Data API, a migration futura também deve revisar grants explícitos para `authenticated` sem abrir acesso indevido ao `anon`.
 
 Observação: a Sprint 2 não executa migration remota porque o Supabase CLI não está instalado neste ambiente e não há projeto remoto conectado. A implementação usa service local-first com contratos compatíveis com esse schema.
+
+## Sprint 3 - Contrato local-first ampliado
+
+Para a gestão acadêmica completa, o contrato da aplicação passa a incluir `institutions` como entidade de aplicação. A migration real poderá criar a tabela ou manter os campos espelhados em `profiles` e `courses` no primeiro ciclo, mas a camada de serviço já trabalha com IDs separados.
+
+### institutions
+
+- `id uuid primary key default gen_random_uuid()`
+- `user_id uuid not null references auth.users(id) on delete cascade`
+- `name text not null`
+- `campus text`
+- `city text`
+- `country text not null default 'Brasil'`
+- `created_at timestamptz not null default now()`
+- `updated_at timestamptz not null default now()`
+
+### courses - campos adicionais de aplicação
+
+- `institution_id uuid references institutions(id) on delete set null`
+- `status text not null default 'active'`
+
+### semesters - campos adicionais de aplicação
+
+- `academic_year integer not null`
+- `status text not null default 'active'`
+
+### teachers - campos adicionais de aplicação
+
+- `department text`
+- `notes text`
+
+### subjects - campos adicionais de aplicação
+
+- `schedule_notes text`
+
+Todas as tabelas acima mantêm RLS por `user_id`. A Sprint 3 ainda não executa migration remota; o objetivo é deixar o contrato, telas e validações prontos para substituir o storage local por Supabase client tipado.
