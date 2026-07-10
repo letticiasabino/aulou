@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   academicProfileSchema,
+  institutionSchema,
+  semesterSchema,
   subjectSchema,
+  teacherSchema,
 } from "@/features/academic/schemas/academic-profile-schema";
 
 describe("academicProfileSchema", () => {
@@ -49,5 +52,65 @@ describe("subjectSchema", () => {
     expect(subject.teacherEmail).toBeUndefined();
     expect(subject.weeklyHours).toBe(4);
     expect(subject.difficulty).toBe(5);
+  });
+
+  it("normaliza seleção vazia de professor", () => {
+    const subject = subjectSchema.parse({
+      name: "Bioquímica",
+      code: "",
+      teacherId: "none",
+      teacherName: "",
+      teacherEmail: "",
+      weeklyHours: "",
+      difficulty: "3",
+      color: "#9b7cff",
+      scheduleNotes: "",
+    });
+
+    expect(subject.teacherId).toBeUndefined();
+    expect(subject.teacherName).toBeUndefined();
+    expect(subject.weeklyHours).toBeUndefined();
+  });
+});
+
+describe("institutionSchema", () => {
+  it("valida faculdade com país padrão", () => {
+    const institution = institutionSchema.parse({
+      name: "Universidade Federal",
+      campus: "",
+      city: "Curitiba",
+      country: "Brasil",
+    });
+
+    expect(institution.name).toBe("Universidade Federal");
+    expect(institution.campus).toBeUndefined();
+    expect(institution.country).toBe("Brasil");
+  });
+});
+
+describe("semesterSchema", () => {
+  it("rejeita período com data final anterior à inicial", () => {
+    const result = semesterSchema.safeParse({
+      number: "4",
+      academicYear: "2026",
+      startsOn: "2026-08-01",
+      endsOn: "2026-07-01",
+    });
+
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("teacherSchema", () => {
+  it("valida e-mail opcional de professor", () => {
+    const teacher = teacherSchema.parse({
+      name: "Dra. Beatriz",
+      email: "",
+      department: "Saúde",
+      notes: "",
+    });
+
+    expect(teacher.email).toBeUndefined();
+    expect(teacher.department).toBe("Saúde");
   });
 });

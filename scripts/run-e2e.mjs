@@ -1,7 +1,12 @@
 import { spawn, spawnSync } from "node:child_process";
+import { mkdirSync } from "node:fs";
+import { resolve } from "node:path";
 
 const port = process.env.PLAYWRIGHT_PORT ?? "3107";
 const baseURL = `http://127.0.0.1:${port}`;
+const tempDir = resolve("work", "playwright-tmp");
+
+mkdirSync(tempDir, { recursive: true });
 
 let serverLog = "";
 
@@ -75,6 +80,9 @@ function runPlaywright() {
         env: {
           ...process.env,
           PLAYWRIGHT_PORT: port,
+          TEMP: tempDir,
+          TMP: tempDir,
+          TMPDIR: tempDir,
         },
         stdio: "inherit",
         windowsHide: true,

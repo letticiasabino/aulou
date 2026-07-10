@@ -33,4 +33,25 @@ test("cadastro acadêmico local conclui onboarding", async ({ page }) => {
 
   await expect(page.getByRole("heading", { name: "Olá, Marina" })).toBeVisible();
   await expect(page.getByText("Engenharia de Software")).toBeVisible();
+
+  await page.goto("/profile");
+  await expect(page.getByRole("heading", { name: "Contexto acadêmico" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Faculdade" })).toHaveValue(
+    "Universidade Federal",
+  );
+
+  await page.goto("/teachers");
+  await page.getByLabel("Professor").fill("Prof. Ana Ribeiro");
+  await page.getByLabel("E-mail").fill("ana@faculdade.edu");
+  await page.getByRole("button", { name: /Adicionar professor/i }).click();
+  await expect(page.getByRole("button", { name: "Editar Prof. Ana Ribeiro" })).toBeVisible();
+
+  await page.goto("/subjects");
+  await page.getByLabel("Disciplina").fill("Cálculo I");
+  await page.getByLabel("Código").fill("mat101");
+  await page.getByLabel("Horas/semana").fill("4");
+  await page.getByLabel("Novo professor").fill("Prof. Bruno");
+  await page.getByRole("button", { name: /Adicionar disciplina/i }).click();
+  await expect(page.getByRole("button", { name: "Editar Cálculo I" })).toBeVisible();
+  await expect(page.getByText("MAT101")).toBeVisible();
 });
