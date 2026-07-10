@@ -1,45 +1,49 @@
 # Roadmap
 
-## Sprint 0 - Documentação e Fundação
+## Sprint 0 - Documentacao e Fundacao
 
-Documentação, arquitetura, banco, regras de negócio, design system e projeto base.
+Documentacao, arquitetura, banco, regras de negocio, design system e projeto base.
 
-## Sprint 1 - Base Técnica
+## Sprint 1 - Base Tecnica
 
-Next.js, TypeScript, Tailwind, Shadcn/UI, Supabase Auth, providers globais, tema, layouts reutilizáveis, rotas públicas e privadas, landing page, pricing, onboarding visual, dashboard skeleton, SEO, segurança inicial e tooling de qualidade.
+Next.js, TypeScript, Tailwind, Supabase Auth, providers, tema, layouts, rotas, landing, pricing, onboarding visual, dashboard skeleton, SEO, seguranca inicial e tooling.
 
-## Sprint 2 - Onboarding e Domínio Acadêmico
+## Sprint 2 - Onboarding e Dominio Academico
 
-Perfil acadêmico funcional, faculdade, curso, semestre, disciplinas, professores, validações e persistência local-first compatível com Supabase.
+Perfil academico funcional, faculdade, curso, semestre, disciplinas, professores, validacoes e persistencia local-first compativel com Supabase.
 
-## Sprint 3 - Domínio Acadêmico
+## Sprint 3 - Dominio Academico
 
-Gestão completa de faculdade, curso, semestre, disciplinas e professores, com edição, estados de UI, validações e contrato local-first preparado para banco real.
+Gestao completa de faculdade, curso, semestre, disciplinas e professores, com edicao, estados de UI, validacoes e contrato local-first.
 
 ## Sprint 4 - Backend, Banco e Supabase
 
-Supabase Auth real, schema inicial, migrations, RLS, storage privado, tipos de banco e integração frontend/backend com fallback local.
+Supabase Auth real, schema inicial, migrations, RLS, Storage privado, tipos de banco e integracao frontend/backend com fallback local.
 
 ## Sprint 5 - Upload de Arquivos
 
-Upload seguro, metadados, biblioteca, estados de processamento, Storage privado e limites. A extração permanece pendente/mock para a sprint de importação.
+Upload seguro, metadados, biblioteca, estados de processamento, Storage privado e limites.
 
-## Sprint 6 - Agenda
+## Sprint 6 - ImportEngine
 
-Eventos acadêmicos, calendário, filtros, próximos eventos, edição e status.
+Extracao de texto para TXT/CSV, parser mockado deterministico, schema Zod, confidence score, deduplicacao, preview editavel e confirmacao protegida.
 
-## Sprint 7 - IA
+## Sprint 7 - Agenda
 
-Provider abstrato, prompts, AIContextEngine, resumo de material e geração estruturada de eventos.
+Persistencia dos eventos confirmados, calendario, filtros, proximos eventos, edicao e status.
 
-## Sprint 8 - Estudos
+## Sprint 8 - IA
+
+Provider abstrato, prompts, AIContextEngine, resumo de material e geracao estruturada de eventos.
+
+## Sprint 9 - Estudos
 
 Plano de estudos, tarefas, flashcards e quizzes simples.
 
-## Sprint 9 - Monetização
+## Sprint 10 - Monetizacao
 
 Planos, limites, assinatura, bloqueios premium, pricing page e checkout mockado ou real.
 
-## Sprint 10 - Beta
+## Sprint 11 - Beta
 
 Analytics, feedback, ajustes, testes e deploy.

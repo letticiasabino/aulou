@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 6 - ImportEngine sem invenção de dados
+
+- TXT e CSV são processados localmente no navegador com parser determinístico para o primeiro ciclo.
+- PDF, imagem, DOCX e XLSX entram no pipeline, mas ficam sem eventos até um extrator específico estar configurado.
+- A confirmação do preview ainda não grava em `academic_events`; ela conclui a revisão local. A persistência será implementada junto da Agenda.
+
 ## Sprint 5 - upload sem IA real
 
 - O upload registra metadados e cria uma extração `pending` com provider `mock`; não há chamada de IA nesta etapa.

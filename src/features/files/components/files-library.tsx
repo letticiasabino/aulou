@@ -9,10 +9,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { EmptyState } from "@/components/ui/empty-state";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  importAcademicFile,
+  validateImportPreviewEvents,
+  type ImportFileResult,
+} from "@/engines/import-engine";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
+import { ImportPreviewDialog } from "@/features/files/components/import-preview-dialog";
 import { formatFileSize } from "@/schemas/academic-file";
 import { filesService } from "@/services/files.service";
 import type { AcademicFile } from "@/types/academic-file";
+import type { ExtractedAcademicEvent } from "@/types/academic";
 
 const statusLabels: Record<AcademicFile["status"], string> = {
   uploaded: "Upload concluído",
@@ -28,6 +35,10 @@ export function FilesLibrary() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [uploading, setUploading] = React.useState(false);
+  const [preview, setPreview] = React.useState<{
+    fileName: string;
+    result: ImportFileResult;
+  } | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const loadFiles = React.useCallback(async () => {
@@ -58,7 +69,8 @@ export function FilesLibrary() {
     if (!file || !user) return;
     setUploading(true);
     try {
-      await filesService.upload(user.id, file);
+      const uploaded = await filesService.upload(user.id, file);
+      setPreview({ fileName: file.name, result: await importAcademicFile(file, uploaded.id) });
       toast.success("Arquivo enviado. A extração ficará disponível na próxima etapa.");
       await loadFiles();
     } catch (unknownError) {
@@ -136,8 +148,28 @@ export function FilesLibrary() {
       <Button variant="ghost" className="w-fit" onClick={() => void loadFiles()} disabled={loading}>
         <RefreshCw /> Atualizar biblioteca
       </Button>
+      <ImportPreviewDialog
+        result={preview?.result ?? null}
+        fileName={preview?.fileName ?? "Arquivo"}
+        onClose={() => setPreview(null)}
+        onConfirm={(events) => handlePreviewConfirm(events)}
+      />
     </div>
   );
+
+  function handlePreviewConfirm(events: ExtractedAcademicEvent[]) {
+    try {
+      const validated = validateImportPreviewEvents(events);
+      setPreview(null);
+      toast.success(
+        `${validated.length} evento(s) revisado(s). A persistência na agenda será conectada na próxima camada.`,
+      );
+    } catch (unknownError) {
+      toast.error(
+        unknownError instanceof Error ? unknownError.message : "Revise os campos do preview.",
+      );
+    }
+  }
 }
 
 function FileCard({ file }: { file: AcademicFile }) {
