@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookOpen, Loader2, Plus, Trash2, UsersRound } from "lucide-react";
-import { useForm, useWatch } from "react-hook-form";
+import { Archive, BookOpen, Edit3, Loader2, Plus, RotateCcw, Trash2, X } from "lucide-react";
+import { useForm, useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
 import {
   subjectSchema,
   type SubjectInput,
@@ -30,23 +32,49 @@ import type { Subject, Teacher } from "@/types/academic-domain";
 
 const subjectColors = ["#9b7cff", "#42d392", "#5cc8ff", "#ffcc66", "#ff7aa2"];
 
+const blankSubject: SubjectInput = {
+  name: "",
+  code: "",
+  teacherId: "none",
+  teacherName: "",
+  teacherEmail: "",
+  weeklyHours: "",
+  difficulty: 3,
+  color: subjectColors[0],
+  scheduleNotes: "",
+};
+
 export function SubjectsManager() {
-  const { user, context, loading, refresh } = useAcademicContext();
-  const [pendingDeleteId, setPendingDeleteId] = React.useState<string | null>(null);
+  const { user, context, loading, error, refresh } = useAcademicContext();
+  const [editingSubject, setEditingSubject] = React.useState<Subject | null>(null);
+  const [pendingId, setPendingId] = React.useState<string | null>(null);
   const form = useForm<SubjectInput>({
     resolver: zodResolver(subjectSchema),
-    defaultValues: {
-      name: "",
-      code: "",
-      teacherName: "",
-      teacherEmail: "",
-      weeklyHours: "",
-      difficulty: 3,
-      color: subjectColors[0],
-    },
+    defaultValues: blankSubject,
   });
   const selectedColor = useWatch({ control: form.control, name: "color" });
   const selectedDifficulty = useWatch({ control: form.control, name: "difficulty" });
+  const selectedTeacherId = useWatch({ control: form.control, name: "teacherId" });
+
+  function resetForm() {
+    setEditingSubject(null);
+    form.reset(blankSubject);
+  }
+
+  function startEditing(subject: Subject) {
+    setEditingSubject(subject);
+    form.reset({
+      name: subject.name,
+      code: subject.code ?? "",
+      teacherId: subject.teacherId ?? "none",
+      teacherName: "",
+      teacherEmail: "",
+      weeklyHours: subject.weeklyHours ? String(subject.weeklyHours) : "",
+      difficulty: subject.difficulty,
+      color: subject.color,
+      scheduleNotes: subject.scheduleNotes ?? "",
+    });
+  }
 
   async function submit(values: SubjectInput) {
     if (!user) {
@@ -55,20 +83,62 @@ export function SubjectsManager() {
     }
 
     try {
-      await academicService.addSubject(user.id, values);
+      if (editingSubject) {
+        await academicService.updateSubject(user.id, editingSubject.id, values);
+        toast.success("Disciplina atualizada.");
+      } else {
+        await academicService.addSubject(user.id, values);
+        toast.success("Disciplina cadastrada.");
+      }
       await refresh();
-      form.reset({
-        name: "",
-        code: "",
-        teacherName: "",
-        teacherEmail: "",
-        weeklyHours: "",
-        difficulty: 3,
-        color: subjectColors[0],
-      });
-      toast.success("Disciplina cadastrada.");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível cadastrar.");
+      resetForm();
+    } catch (unknownError) {
+      toast.error(
+        unknownError instanceof Error ? unknownError.message : "Não foi possível cadastrar.",
+      );
+    }
+  }
+
+  async function archiveSubject(subjectId: string) {
+    if (!user) {
+      return;
+    }
+
+    setPendingId(subjectId);
+
+    try {
+      await academicService.archiveSubject(user.id, subjectId);
+      await refresh();
+      if (editingSubject?.id === subjectId) {
+        resetForm();
+      }
+      toast.success("Disciplina arquivada.");
+    } catch (unknownError) {
+      toast.error(
+        unknownError instanceof Error ? unknownError.message : "Não foi possível arquivar.",
+      );
+    } finally {
+      setPendingId(null);
+    }
+  }
+
+  async function restoreSubject(subjectId: string) {
+    if (!user) {
+      return;
+    }
+
+    setPendingId(subjectId);
+
+    try {
+      await academicService.restoreSubject(user.id, subjectId);
+      await refresh();
+      toast.success("Disciplina reativada.");
+    } catch (unknownError) {
+      toast.error(
+        unknownError instanceof Error ? unknownError.message : "Não foi possível reativar.",
+      );
+    } finally {
+      setPendingId(null);
     }
   }
 
@@ -77,57 +147,110 @@ export function SubjectsManager() {
       return;
     }
 
-    setPendingDeleteId(subjectId);
+    setPendingId(subjectId);
 
     try {
       await academicService.removeSubject(user.id, subjectId);
       await refresh();
       toast.success("Disciplina removida.");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível remover.");
+    } catch (unknownError) {
+      toast.error(
+        unknownError instanceof Error ? unknownError.message : "Não foi possível remover.",
+      );
     } finally {
-      setPendingDeleteId(null);
+      setPendingId(null);
     }
   }
 
+  if (loading) {
+    return <SubjectsLoading />;
+  }
+
+  if (error) {
+    return (
+      <EmptyState
+        icon={BookOpen}
+        title="Não foi possível carregar disciplinas"
+        description={error}
+      />
+    );
+  }
+
   const subjects = context?.subjects ?? [];
-  const teachers = context?.teachers ?? [];
+  const activeSubjects = subjects.filter((subject) => subject.status === "active");
+  const archivedSubjects = subjects.filter((subject) => subject.status === "archived");
+  const teachers = context?.teachers.filter((teacher) => teacher.status === "active") ?? [];
+  const canCreateInlineTeacher = !selectedTeacherId || selectedTeacherId === "none";
 
   return (
     <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
       <Card>
         <CardHeader>
-          <CardTitle>Cadastrar disciplina</CardTitle>
+          <CardTitle>{editingSubject ? "Editar disciplina" : "Cadastrar disciplina"}</CardTitle>
           <CardDescription>
-            Adicione as matérias do semestre. Professores são criados automaticamente quando
-            informados.
+            Organize as matérias do semestre com professor, carga horária e dificuldade.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(submit)}>
             <FieldGroup>
-              <TextField
+              <SubjectTextField
                 id="name"
                 label="Disciplina"
                 placeholder="Cálculo Diferencial"
                 form={form}
               />
               <div className="grid gap-4 sm:grid-cols-2">
-                <TextField id="code" label="Código" placeholder="MAT101" form={form} />
-                <TextField id="weeklyHours" label="Horas/semana" placeholder="4" form={form} />
+                <SubjectTextField id="code" label="Código" placeholder="MAT101" form={form} />
+                <SubjectTextField
+                  id="weeklyHours"
+                  label="Horas/semana"
+                  placeholder="4"
+                  form={form}
+                />
               </div>
-              <TextField
-                id="teacherName"
-                label="Professor"
-                placeholder="Prof. Ana Ribeiro"
-                form={form}
-              />
-              <TextField
-                id="teacherEmail"
-                label="E-mail do professor"
-                placeholder="ana@faculdade.edu"
-                form={form}
-              />
+              <Field data-invalid={Boolean(form.formState.errors.teacherId)}>
+                <Label>Professor vinculado</Label>
+                <Select
+                  value={String(selectedTeacherId ?? "none")}
+                  onValueChange={(value) =>
+                    form.setValue("teacherId", value, { shouldValidate: true })
+                  }
+                >
+                  <SelectTrigger aria-invalid={Boolean(form.formState.errors.teacherId)}>
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="none">Sem professor definido</SelectItem>
+                      {teachers.map((teacher) => (
+                        <SelectItem key={teacher.id} value={teacher.id}>
+                          {teacher.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FieldDescription>
+                  Se o professor ainda não existir, preencha os campos abaixo.
+                </FieldDescription>
+              </Field>
+              {canCreateInlineTeacher ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <SubjectTextField
+                    id="teacherName"
+                    label="Novo professor"
+                    placeholder="Prof. Ana Ribeiro"
+                    form={form}
+                  />
+                  <SubjectTextField
+                    id="teacherEmail"
+                    label="E-mail do professor"
+                    placeholder="ana@faculdade.edu"
+                    form={form}
+                  />
+                </div>
+              ) : null}
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field data-invalid={Boolean(form.formState.errors.difficulty)}>
                   <Label>Dificuldade percebida</Label>
@@ -174,15 +297,35 @@ export function SubjectsManager() {
                   </FieldDescription>
                 </Field>
               </div>
+              <Field data-invalid={Boolean(form.formState.errors.scheduleNotes)}>
+                <Label htmlFor="scheduleNotes">Observações de rotina</Label>
+                <Textarea
+                  id="scheduleNotes"
+                  placeholder="Ex.: aulas às terças, lista semanal, laboratório quinzenal."
+                  aria-invalid={Boolean(form.formState.errors.scheduleNotes)}
+                  {...form.register("scheduleNotes")}
+                />
+                {form.formState.errors.scheduleNotes ? (
+                  <FieldError>{form.formState.errors.scheduleNotes.message}</FieldError>
+                ) : null}
+              </Field>
             </FieldGroup>
-            <Button disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? (
-                <Loader2 data-icon="inline-start" className="animate-spin" />
-              ) : (
-                <Plus data-icon="inline-start" />
-              )}
-              Adicionar disciplina
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? (
+                  <Loader2 data-icon="inline-start" className="animate-spin" />
+                ) : (
+                  <Plus data-icon="inline-start" />
+                )}
+                {editingSubject ? "Salvar alterações" : "Adicionar disciplina"}
+              </Button>
+              {editingSubject ? (
+                <Button type="button" variant="secondary" onClick={resetForm}>
+                  <X data-icon="inline-start" />
+                  Cancelar edição
+                </Button>
+              ) : null}
+            </div>
           </form>
         </CardContent>
       </Card>
@@ -192,23 +335,22 @@ export function SubjectsManager() {
           <CardHeader>
             <CardTitle>Disciplinas do semestre</CardTitle>
             <CardDescription>
-              {subjects.length
-                ? `${subjects.length} disciplina(s) cadastrada(s).`
+              {activeSubjects.length
+                ? `${activeSubjects.length} disciplina(s) ativa(s).`
                 : "Cadastre suas primeiras matérias para personalizar o semestre."}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <p className="text-sm text-muted-foreground">Carregando disciplinas...</p>
-            ) : subjects.length ? (
+            {activeSubjects.length ? (
               <div className="flex flex-col gap-3">
-                {subjects.map((subject) => (
+                {activeSubjects.map((subject) => (
                   <SubjectRow
                     key={subject.id}
                     subject={subject}
                     teacher={teachers.find((item) => item.id === subject.teacherId)}
-                    pending={pendingDeleteId === subject.id}
-                    onDelete={() => void removeSubject(subject.id)}
+                    pending={pendingId === subject.id}
+                    onEdit={() => startEditing(subject)}
+                    onArchive={() => void archiveSubject(subject.id)}
                   />
                 ))}
               </div>
@@ -217,7 +359,6 @@ export function SubjectsManager() {
                 icon={BookOpen}
                 title="Nenhuma disciplina cadastrada"
                 description="Adicione matérias para a IA entender seu semestre antes da importação de cronogramas."
-                actionLabel="Pronto para começar"
               />
             )}
           </CardContent>
@@ -225,27 +366,27 @@ export function SubjectsManager() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Professores</CardTitle>
-            <CardDescription>Lista criada a partir das disciplinas cadastradas.</CardDescription>
+            <CardTitle>Arquivadas</CardTitle>
+            <CardDescription>
+              Disciplinas fora do semestre atual ficam separadas sem bagunçar a agenda.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            {teachers.length ? (
-              <div className="grid gap-3 sm:grid-cols-2">
-                {teachers.map((teacher) => (
-                  <div key={teacher.id} className="rounded-md border bg-background p-3">
-                    <div className="flex items-center gap-2">
-                      <UsersRound className="text-primary" aria-hidden="true" />
-                      <p className="font-medium">{teacher.name}</p>
-                    </div>
-                    {teacher.email ? (
-                      <p className="mt-1 text-sm text-muted-foreground">{teacher.email}</p>
-                    ) : null}
-                  </div>
+            {archivedSubjects.length ? (
+              <div className="flex flex-col gap-3">
+                {archivedSubjects.map((subject) => (
+                  <ArchivedSubjectRow
+                    key={subject.id}
+                    subject={subject}
+                    pending={pendingId === subject.id}
+                    onRestore={() => void restoreSubject(subject.id)}
+                    onRemove={() => void removeSubject(subject.id)}
+                  />
                 ))}
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                Professores aparecerão aqui quando você os vincular às disciplinas.
+                Nenhuma disciplina arquivada neste contexto.
               </p>
             )}
           </CardContent>
@@ -259,45 +400,120 @@ function SubjectRow({
   subject,
   teacher,
   pending,
-  onDelete,
+  onEdit,
+  onArchive,
 }: {
   subject: Subject;
   teacher?: Teacher;
   pending: boolean;
-  onDelete: () => void;
+  onEdit: () => void;
+  onArchive: () => void;
 }) {
   return (
     <div className="flex flex-col gap-3 rounded-md border bg-background p-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-start gap-3">
-        <span
-          className="mt-1 size-3 rounded-full"
-          style={{ backgroundColor: subject.color }}
-          aria-hidden="true"
-        />
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="font-medium">{subject.name}</p>
-            {subject.code ? <Badge variant="secondary">{subject.code}</Badge> : null}
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {teacher?.name ?? "Sem professor"} · dificuldade {subject.difficulty}/5
-            {subject.weeklyHours ? ` · ${subject.weeklyHours}h/semana` : ""}
-          </p>
-        </div>
+      <SubjectSummary subject={subject} teacher={teacher} />
+      <div className="flex gap-2">
+        <Button type="button" variant="secondary" size="icon" onClick={onEdit}>
+          <Edit3 aria-hidden="true" />
+          <span className="sr-only">Editar {subject.name}</span>
+        </Button>
+        <Button type="button" variant="ghost" size="icon" disabled={pending} onClick={onArchive}>
+          {pending ? (
+            <Loader2 className="animate-spin" aria-hidden="true" />
+          ) : (
+            <Archive aria-hidden="true" />
+          )}
+          <span className="sr-only">Arquivar {subject.name}</span>
+        </Button>
       </div>
-      <Button type="button" variant="ghost" size="icon" disabled={pending} onClick={onDelete}>
-        {pending ? (
-          <Loader2 className="animate-spin" aria-hidden="true" />
-        ) : (
-          <Trash2 aria-hidden="true" />
-        )}
-        <span className="sr-only">Remover {subject.name}</span>
-      </Button>
     </div>
   );
 }
 
-function TextField({
+function ArchivedSubjectRow({
+  subject,
+  pending,
+  onRestore,
+  onRemove,
+}: {
+  subject: Subject;
+  pending: boolean;
+  onRestore: () => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-md border bg-background p-4 sm:flex-row sm:items-center sm:justify-between">
+      <SubjectSummary subject={subject} />
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          disabled={pending}
+          onClick={onRestore}
+        >
+          <RotateCcw aria-hidden="true" />
+          <span className="sr-only">Reativar {subject.name}</span>
+        </Button>
+        <Button type="button" variant="ghost" size="icon" disabled={pending} onClick={onRemove}>
+          {pending ? (
+            <Loader2 className="animate-spin" aria-hidden="true" />
+          ) : (
+            <Trash2 aria-hidden="true" />
+          )}
+          <span className="sr-only">Remover {subject.name}</span>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function SubjectSummary({ subject, teacher }: { subject: Subject; teacher?: Teacher }) {
+  return (
+    <div className="flex min-w-0 items-start gap-3">
+      <span
+        className="mt-1 size-3 rounded-full"
+        style={{ backgroundColor: subject.color }}
+        aria-hidden="true"
+      />
+      <div className="flex min-w-0 flex-col gap-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="font-medium">{subject.name}</p>
+          {subject.code ? <Badge variant="secondary">{subject.code}</Badge> : null}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          {teacher?.name ?? "Sem professor"} · dificuldade {subject.difficulty}/5
+          {subject.weeklyHours ? ` · ${subject.weeklyHours}h/semana` : ""}
+        </p>
+        {subject.scheduleNotes ? (
+          <p className="text-sm text-muted-foreground">{subject.scheduleNotes}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function SubjectsLoading() {
+  return (
+    <div className="grid gap-6 xl:grid-cols-2">
+      {Array.from({ length: 2 }, (_, index) => (
+        <Card key={index}>
+          <CardHeader>
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-64" />
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-44" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function SubjectTextField({
   id,
   label,
   placeholder,
@@ -306,7 +522,7 @@ function TextField({
   id: keyof SubjectInput;
   label: string;
   placeholder: string;
-  form: ReturnType<typeof useForm<SubjectInput>>;
+  form: UseFormReturn<SubjectInput>;
 }) {
   const error = form.formState.errors[id];
 

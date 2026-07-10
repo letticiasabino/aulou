@@ -9,6 +9,7 @@ import {
   Settings,
   Sparkles,
   UserRound,
+  UsersRound,
 } from "lucide-react";
 
 export const marketingNavItems = [
@@ -23,6 +24,7 @@ export const appNavItems = [
   { label: "Agenda", href: "/calendar", icon: CalendarDays },
   { label: "Arquivos", href: "/files", icon: FileUp },
   { label: "Disciplinas", href: "/subjects", icon: GraduationCap },
+  { label: "Professores", href: "/teachers", icon: UsersRound },
   { label: "Plano", href: "/planner", icon: Sparkles },
   { label: "Flashcards", href: "/flashcards", icon: Library },
   { label: "Quizzes", href: "/quizzes", icon: CreditCard },

@@ -92,8 +92,8 @@ export function AcademicDashboard() {
           <CardContent className="flex flex-col gap-3">
             {[
               { title: "Cadastrar disciplinas", href: "/subjects", done: summary.subjectCount > 0 },
+              { title: "Cadastrar professores", href: "/teachers", done: summary.teacherCount > 0 },
               { title: "Revisar perfil acadêmico", href: "/profile", done: Boolean(profile) },
-              { title: "Preparar upload de cronograma", href: "/files", done: false },
             ].map((task) => (
               <div
                 key={task.title}
@@ -132,15 +132,18 @@ export function AcademicDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {(context?.subjects ?? []).slice(0, 5).map((subject) => (
-                <TableRow key={subject.id}>
-                  <TableCell>{subject.name}</TableCell>
-                  <TableCell>{subject.code ?? "--"}</TableCell>
-                  <TableCell>{subject.difficulty}/5</TableCell>
-                  <TableCell>{subject.weeklyHours ? `${subject.weeklyHours}h` : "--"}</TableCell>
-                </TableRow>
-              ))}
-              {!context?.subjects.length ? (
+              {(context?.subjects ?? [])
+                .filter((subject) => subject.status === "active")
+                .slice(0, 5)
+                .map((subject) => (
+                  <TableRow key={subject.id}>
+                    <TableCell>{subject.name}</TableCell>
+                    <TableCell>{subject.code ?? "--"}</TableCell>
+                    <TableCell>{subject.difficulty}/5</TableCell>
+                    <TableCell>{subject.weeklyHours ? `${subject.weeklyHours}h` : "--"}</TableCell>
+                  </TableRow>
+                ))}
+              {!(context?.subjects ?? []).some((subject) => subject.status === "active") ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-muted-foreground">
                     Nenhuma disciplina cadastrada ainda.
