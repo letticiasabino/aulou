@@ -20,9 +20,9 @@ Gestão completa de faculdade, curso, semestre, disciplinas e professores, com e
 
 Supabase Auth real, schema inicial, migrations, RLS, storage privado, tipos de banco e integração frontend/backend com fallback local.
 
-## Sprint 5 - Upload e Importação
+## Sprint 5 - Upload de Arquivos
 
-Upload, storage, extração mockada, schema Zod, ImportEngine e preview.
+Upload seguro, metadados, biblioteca, estados de processamento, Storage privado e limites. A extração permanece pendente/mock para a sprint de importação.
 
 ## Sprint 6 - Agenda
 

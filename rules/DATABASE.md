@@ -1,5 +1,12 @@
 # Database Rules
 
+## Sprint 5 - arquivos
+
+- `files.size_bytes` deve ser maior que zero e no máximo 10 MB.
+- `files.content_type` só aceita PDF, PNG, JPEG, WEBP, DOCX, XLSX, CSV ou TXT.
+- Cada upload cria um registro em `file_extractions` com `status = pending` e `provider = mock` até a engine de extração ser implementada.
+- O fallback local mantém somente metadados; o conteúdo binário não é salvo em `localStorage`.
+
 ## Escopo da Sprint 4
 
 O banco real do StudyPilot AI usa Supabase Postgres como backend alvo. A Sprint 4 versiona a primeira migration aplicável e mantém o fallback local apenas para desenvolvimento sem env pública configurada.

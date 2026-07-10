@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 5 - upload sem IA real
+
+- O upload registra metadados e cria uma extração `pending` com provider `mock`; não há chamada de IA nesta etapa.
+- O limite inicial é 10 MB por arquivo, aplicado no cliente, na tabela `files` e no bucket `academic-files`.
+- A biblioteca usa o Storage real quando Supabase está configurado e fallback local-first quando as variáveis públicas não estão presentes.
+
 ## 2026-07-08 - Sprint 0 inicia com documentação antes de funcionalidades
 
 Decisão: criar documentação de produto, arquitetura, regras, segurança, monetização e testes antes de implementar features.

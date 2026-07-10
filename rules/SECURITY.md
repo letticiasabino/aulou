@@ -1,5 +1,11 @@
 # Security Rules
 
+## Sprint 5 - arquivos
+
+- A aplicação valida extensão, MIME quando fornecido e limite de 10 MB antes de criar o upload.
+- Banco e bucket repetem o limite de 10 MB e a lista de MIME permitidos como defesa em profundidade.
+- A tabela de metadados é criada antes do upload; falhas do Storage marcam o arquivo como `failed`.
+
 ## Supabase Auth
 
 - O cliente usa apenas URL pública e publishable/anon key.
