@@ -17,6 +17,8 @@ import {
   type TeacherInput,
   type InstitutionInput,
 } from "@/features/academic/schemas/academic-profile-schema";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { supabaseAcademicRepository } from "@/services/academic.supabase-repository";
 import type {
   AcademicContext,
   AcademicContextSummary,
@@ -275,10 +277,18 @@ function buildTeacher(userId: string, input: NormalizedTeacherInput, existing?: 
 
 export const academicService = {
   async getContext(userId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.getContext(userId);
+    }
+
     return readContext(userId);
   },
 
   async saveProfile(userId: string, input: AcademicProfileInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.saveProfile(userId, input);
+    }
+
     const values = academicProfileSchema.parse(input);
     const current = readContext(userId);
     const timestamp = now();
@@ -337,6 +347,10 @@ export const academicService = {
   },
 
   async saveInstitution(userId: string, input: InstitutionInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.saveInstitution(userId, input);
+    }
+
     const values = institutionSchema.parse(input);
     const current = readContext(userId);
     const institution = buildInstitution(userId, values, current.institution);
@@ -364,6 +378,10 @@ export const academicService = {
   },
 
   async saveCourse(userId: string, input: CourseInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.saveCourse(userId, input);
+    }
+
     const values = courseSchema.parse(input);
     const current = readContext(userId);
     const institution = current.institution;
@@ -387,6 +405,10 @@ export const academicService = {
   },
 
   async saveSemester(userId: string, input: SemesterInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.saveSemester(userId, input);
+    }
+
     const values = semesterSchema.parse(input);
     const current = readContext(userId);
     const semester = buildSemester(userId, current.course?.id ?? null, values, current.semester);
@@ -407,6 +429,10 @@ export const academicService = {
   },
 
   async addTeacher(userId: string, input: TeacherInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.addTeacher(userId, input);
+    }
+
     const values = teacherSchema.parse(input);
     const current = readContext(userId);
     const teacher = buildTeacher(userId, values);
@@ -421,6 +447,10 @@ export const academicService = {
     teacherId: string,
     input: TeacherInput,
   ): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.updateTeacher(userId, teacherId, input);
+    }
+
     const values = teacherSchema.parse(input);
     const current = readContext(userId);
     const teachers = current.teachers.map((teacher) =>
@@ -433,6 +463,10 @@ export const academicService = {
   },
 
   async removeTeacher(userId: string, teacherId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.removeTeacher(userId, teacherId);
+    }
+
     const current = readContext(userId);
     const timestamp = now();
     const nextContext = {
@@ -450,6 +484,10 @@ export const academicService = {
   },
 
   async addSubject(userId: string, input: SubjectInput): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.addSubject(userId, input);
+    }
+
     const values = subjectSchema.parse(input);
     const current = readContext(userId);
     const timestamp = now();
@@ -485,6 +523,10 @@ export const academicService = {
     subjectId: string,
     input: SubjectInput,
   ): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.updateSubject(userId, subjectId, input);
+    }
+
     const values = subjectSchema.parse(input);
     const current = readContext(userId);
     const teacherState = upsertTeacherFromSubject(userId, current.teachers, values);
@@ -511,6 +553,10 @@ export const academicService = {
   },
 
   async archiveSubject(userId: string, subjectId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.archiveSubject(userId, subjectId);
+    }
+
     const current = readContext(userId);
     const timestamp = now();
     const subjects = current.subjects.map((subject) =>
@@ -525,6 +571,10 @@ export const academicService = {
   },
 
   async restoreSubject(userId: string, subjectId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.restoreSubject(userId, subjectId);
+    }
+
     const current = readContext(userId);
     const timestamp = now();
     const subjects = current.subjects.map((subject) =>
@@ -539,6 +589,10 @@ export const academicService = {
   },
 
   async removeSubject(userId: string, subjectId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.removeSubject(userId, subjectId);
+    }
+
     const current = readContext(userId);
     const nextContext = {
       ...current,
@@ -550,6 +604,10 @@ export const academicService = {
   },
 
   async clearContext(userId: string): Promise<AcademicContext> {
+    if (isSupabaseConfigured()) {
+      return supabaseAcademicRepository.clearContext(userId);
+    }
+
     const nextContext = emptyContext();
     writeContext(userId, nextContext);
     return nextContext;

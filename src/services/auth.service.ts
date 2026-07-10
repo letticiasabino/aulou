@@ -164,4 +164,17 @@ export const authService = {
       throw new Error(error.message);
     }
   },
+
+  subscribeToAuthChanges(callback: (user: AppUser | null) => void) {
+    if (!isSupabaseConfigured()) {
+      return () => undefined;
+    }
+
+    const supabase = createClient();
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      callback(session?.user ? mapSupabaseUser(session.user) : null);
+    });
+
+    return () => data.subscription.unsubscribe();
+  },
 };

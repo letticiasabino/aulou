@@ -43,8 +43,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
+    const unsubscribe = authService.subscribeToAuthChanges((nextUser) => {
+      if (mounted) {
+        setUser(nextUser);
+      }
+    });
+
     return () => {
       mounted = false;
+      unsubscribe();
     };
   }, []);
 
