@@ -95,3 +95,9 @@ Motivo: o Supabase CLI não está instalado neste ambiente. Criar uma migration 
 Decisão: tratar a Sprint 3 solicitada como evolução do domínio acadêmico, deslocando Upload e Importação para a próxima sprint no roadmap.
 
 Motivo: o produto precisa de uma base acadêmica editável e confiável antes de importar cronogramas. Foi adicionada uma entidade local-first de faculdade (`institution`) para deixar o contrato mais próximo de um banco real, mantendo compatibilidade com os campos já existentes em `profiles` e `courses`.
+
+## 2026-07-10 - Sprint 4 cria backend Supabase sem exigir projeto remoto
+
+Decisão: versionar migrations, RLS, storage, tipos de banco e integração frontend/backend, mas não aplicar migration remota neste ambiente.
+
+Motivo: não há projeto Supabase conectado nem CLI garantido no workspace. A aplicação fica pronta para backend real quando as envs públicas forem configuradas, preservando o fallback local para desenvolvimento e testes automatizados.

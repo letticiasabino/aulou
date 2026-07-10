@@ -70,3 +70,12 @@ Adicionar cobertura para:
 - renderização da central de contexto acadêmico.
 - renderização da tela de professores com estado vazio.
 - E2E do cadastro acadêmico com navegação para perfil, professores e disciplinas.
+
+## Sprint 4
+
+Adicionar cobertura para:
+
+- rota `/teachers` como rota privada.
+- paths seguros do bucket `academic-files`.
+- intent de upload compatível com fallback local.
+- migration inicial contendo RLS, policies por usuário e policies de Storage.

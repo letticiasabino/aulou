@@ -16,26 +16,30 @@ Perfil acadêmico funcional, faculdade, curso, semestre, disciplinas, professore
 
 Gestão completa de faculdade, curso, semestre, disciplinas e professores, com edição, estados de UI, validações e contrato local-first preparado para banco real.
 
-## Sprint 4 - Upload e Importação
+## Sprint 4 - Backend, Banco e Supabase
+
+Supabase Auth real, schema inicial, migrations, RLS, storage privado, tipos de banco e integração frontend/backend com fallback local.
+
+## Sprint 5 - Upload e Importação
 
 Upload, storage, extração mockada, schema Zod, ImportEngine e preview.
 
-## Sprint 5 - Agenda
+## Sprint 6 - Agenda
 
 Eventos acadêmicos, calendário, filtros, próximos eventos, edição e status.
 
-## Sprint 6 - IA
+## Sprint 7 - IA
 
 Provider abstrato, prompts, AIContextEngine, resumo de material e geração estruturada de eventos.
 
-## Sprint 7 - Estudos
+## Sprint 8 - Estudos
 
 Plano de estudos, tarefas, flashcards e quizzes simples.
 
-## Sprint 8 - Monetização
+## Sprint 9 - Monetização
 
 Planos, limites, assinatura, bloqueios premium, pricing page e checkout mockado ou real.
 
-## Sprint 9 - Beta
+## Sprint 10 - Beta
 
 Analytics, feedback, ajustes, testes e deploy.

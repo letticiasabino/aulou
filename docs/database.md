@@ -161,3 +161,16 @@ Para a gestão acadêmica completa, o contrato da aplicação passa a incluir `i
 - `schedule_notes text`
 
 Todas as tabelas acima mantêm RLS por `user_id`. A Sprint 3 ainda não executa migration remota; o objetivo é deixar o contrato, telas e validações prontos para substituir o storage local por Supabase client tipado.
+
+## Sprint 4 - Supabase aplicado
+
+A Sprint 4 cria `supabase/migrations/20260710000000_initial_backend.sql` com:
+
+- tabelas acadêmicas persistentes: `profiles`, `institutions`, `courses`, `semesters`, `teachers`, `subjects`;
+- base de arquivos: `files`, `file_extractions`;
+- base operacional: `user_settings`, `subscriptions`, `usage_limits`, `audit_logs`;
+- RLS e grants por tabela;
+- bucket privado `academic-files`;
+- policies de `storage.objects` por pasta de usuário.
+
+O frontend passa a usar Supabase quando `NEXT_PUBLIC_SUPABASE_URL` e uma chave pública (`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` ou `NEXT_PUBLIC_SUPABASE_ANON_KEY`) existirem. Sem essas envs, o serviço local-first continua ativo para desenvolvimento e testes.

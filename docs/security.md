@@ -44,3 +44,13 @@
 - Nenhuma decisão de autorização usa `user_metadata`.
 - Contrato de RLS exige `user_id` em `profiles`, `courses`, `semesters`, `teachers` e `subjects`.
 - Logs e toasts exibem erros de domínio seguros, sem despejar payloads completos.
+
+## Sprint 4
+
+- Migration inicial habilita RLS em todas as tabelas sensíveis.
+- Policies usam `to authenticated`, `using` e `with check` por `user_id`.
+- O papel `anon` não recebe grants nas tabelas acadêmicas, arquivos, assinaturas ou auditoria.
+- Bucket `academic-files` é privado e restringe objetos à pasta do próprio usuário.
+- Frontend usa Supabase real somente quando env pública estiver configurada; caso contrário, mantém fallback local de desenvolvimento.
+- A rota `/teachers` entra na lista de rotas privadas do middleware.
+- Regras operacionais passam a existir em `rules/DATABASE.md` e `rules/SECURITY.md`.
