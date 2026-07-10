@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { isSupabaseConfigured, publicEnv } from "@/config/env";
 import { isAuthRoute, isPrivateRoute } from "@/config/routes";
+import type { Database } from "@/types/database.types";
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -11,20 +12,24 @@ export async function updateSession(request: NextRequest) {
     return response;
   }
 
-  const supabase = createServerClient(publicEnv.supabaseUrl, publicEnv.supabasePublishableKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options);
-        });
+  const supabase = createServerClient<Database>(
+    publicEnv.supabaseUrl,
+    publicEnv.supabasePublishableKey,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
       },
     },
-  });
+  );
 
   const { data, error } = await supabase.auth.getClaims();
   const isAuthenticated = Boolean(data?.claims?.sub && !error);

@@ -4,6 +4,7 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string().optional(),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional().or(z.literal("")),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().optional(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_APP_ENV: z.enum(["development", "preview", "production"]).default("development"),
   SUPABASE_SECRET_KEY: z.string().optional(),
@@ -21,7 +22,8 @@ export const publicEnv = {
   appEnv: env.NEXT_PUBLIC_APP_ENV,
   siteUrl: env.NEXT_PUBLIC_SITE_URL,
   supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL || "",
-  supabasePublishableKey: env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "",
+  supabasePublishableKey:
+    env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
 };
 
 export function isSupabaseConfigured() {

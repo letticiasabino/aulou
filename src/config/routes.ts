@@ -16,6 +16,7 @@ export const privateRoutes = [
   "/calendar",
   "/files",
   "/subjects",
+  "/teachers",
   "/planner",
   "/flashcards",
   "/quizzes",
