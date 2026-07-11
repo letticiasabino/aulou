@@ -351,8 +351,9 @@ function EventEditorDialog({
               }}
             />
           </div>
-          <label className="flex items-center gap-2 text-sm">
+          <label htmlFor="event-all-day" className="flex items-center gap-2 text-sm">
             <input
+              id="event-all-day"
               type="checkbox"
               checked={isAllDay}
               onChange={(input) => setIsAllDay(input.target.checked)}

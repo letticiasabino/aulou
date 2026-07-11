@@ -111,6 +111,7 @@ export function FilesLibrary() {
           <input
             ref={inputRef}
             className="sr-only"
+            aria-label="Selecionar arquivo acadêmico"
             type="file"
             accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.xlsx,.csv,.txt"
             onChange={handleFileChange}

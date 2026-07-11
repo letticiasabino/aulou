@@ -12,6 +12,15 @@ test("login carrega com formulário", async ({ page }) => {
   await expect(page.getByLabel("E-mail")).toBeVisible();
 });
 
+test("responde com headers de segurança e página 404 acessível", async ({ page }) => {
+  const response = await page.goto("/pricing");
+  expect(response?.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(response?.headers()["x-frame-options"]).toBe("DENY");
+  expect(response?.headers()["content-security-policy"]).toContain("frame-ancestors 'none'");
+  await page.goto("/rota-que-nao-existe");
+  await expect(page.locator("body")).toContainText("rota ainda");
+});
+
 test("cadastro acadêmico local conclui onboarding", async ({ page }) => {
   await page.goto("/register");
   await page.getByLabel("Nome").fill("Marina Lima");

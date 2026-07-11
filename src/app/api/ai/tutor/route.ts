@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { runUserTutor } from "@/services/ai/server-ai.service";
+import { checkApiRequest } from "@/lib/api-security";
 
 const requestSchema = z.object({
   question: z.string().trim().min(2).max(4000),
@@ -9,6 +10,8 @@ const requestSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const securityResponse = checkApiRequest(request, "ai-tutor");
+  if (securityResponse) return securityResponse;
   try {
     const input = requestSchema.parse(await request.json());
     return NextResponse.json(await runUserTutor(input));

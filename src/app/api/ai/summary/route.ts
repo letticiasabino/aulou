@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { runUserSummary } from "@/services/ai/server-ai.service";
+import { checkApiRequest } from "@/lib/api-security";
 
 const requestSchema = z.object({
   materialText: z.string().max(20000).optional().default(""),
@@ -8,6 +9,8 @@ const requestSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const securityResponse = checkApiRequest(request, "ai-summary");
+  if (securityResponse) return securityResponse;
   try {
     const input = requestSchema.parse(await request.json());
     return NextResponse.json(await runUserSummary(input));
