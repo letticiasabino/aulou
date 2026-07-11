@@ -2,19 +2,13 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "StudyPilot AI",
-    short_name: "StudyPilot",
-    description: "Assistente acadêmico com IA para organizar cronogramas e estudos.",
+    name: "Aulou",
+    short_name: "Aulou",
+    description: "Envie seu cronograma. O Aulou organiza seu semestre.",
     start_url: "/",
     display: "standalone",
-    background_color: "#08070d",
-    theme_color: "#8b5cf6",
-    icons: [
-      {
-        src: "/icon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
-      },
-    ],
+    background_color: "#F3F4F6",
+    theme_color: "#FF7A00",
+    icons: [{ src: "/brand/aulou-icon.png", sizes: "1248x1248", type: "image/png" }],
   };
 }

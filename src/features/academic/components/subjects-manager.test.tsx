@@ -4,7 +4,7 @@ import { SubjectsManager } from "@/features/academic/components/subjects-manager
 
 vi.mock("@/hooks/use-academic-context", () => ({
   useAcademicContext: () => ({
-    user: { id: "demo-user", email: "demo@studypilot.ai", mode: "demo" },
+    user: { id: "demo-user", email: "demo@aulou.app", mode: "demo" },
     loading: false,
     refresh: vi.fn(),
     context: {

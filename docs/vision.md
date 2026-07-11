@@ -1,12 +1,12 @@
-# StudyPilot AI - Visão
+# Aulou - Visão
 
 ## Promessa
 
-O estudante joga o caos acadêmico dentro do app e o StudyPilot AI organiza o semestre automaticamente.
+O estudante joga o caos acadêmico dentro do app e o Aulou organiza o semestre automaticamente.
 
 ## Produto
 
-StudyPilot AI é um SaaS acadêmico com IA para universitários. O produto transforma cronogramas, arquivos de disciplina e materiais de estudo em agenda, plano de estudos, lembretes, resumos, flashcards, quizzes e tutoria contextual.
+Aulou é um SaaS acadêmico com IA para universitários brasileiros. O produto transforma cronogramas, arquivos de disciplina e materiais de estudo em agenda, planos de estudo, lembretes, resumos, flashcards, quizzes e tutoria contextual.
 
 ## Resultado esperado
 

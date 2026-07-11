@@ -2,7 +2,7 @@
 
 ## Sprint 4
 
-Este diretório contém a configuração versionada do backend inicial do StudyPilot AI.
+Este diretório contém a configuração versionada do backend inicial do Aulou.
 
 ## Migration inicial
 

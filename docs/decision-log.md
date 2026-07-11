@@ -155,3 +155,6 @@ Motivo: o produto precisa de uma base acadêmica editável e confiável antes de
 Decisão: versionar migrations, RLS, storage, tipos de banco e integração frontend/backend, mas não aplicar migration remota neste ambiente.
 
 Motivo: não há projeto Supabase conectado nem CLI garantido no workspace. A aplicação fica pronta para backend real quando as envs públicas forem configuradas, preservando o fallback local para desenvolvimento e testes automatizados.
+# Aulou Decision Log
+
+O nome do produto foi alterado de StudyPilot AI para Aulou em 2026-07-11. As migrations e identificadores do banco foram preservados para compatibilidade. O hosting preferencial do app Next.js e Netlify; Supabase continua como backend de dados e Render fica reservado para workers assincronos.

@@ -159,7 +159,7 @@ function StepContent({ step, form }: { step: number; form: UseFormReturn<Academi
   if (step === 0) {
     return (
       <p className="text-sm leading-6 text-muted-foreground">
-        Vamos montar o contexto mínimo para o StudyPilot AI entender sua rotina acadêmica.
+        Vamos montar o contexto mínimo para o Aulou entender sua rotina acadêmica.
       </p>
     );
   }

@@ -4,7 +4,7 @@ import { academicNotificationListSchema } from "@/schemas/notification";
 import { supabaseNotificationRepository } from "@/services/notification.supabase-repository";
 import type { AcademicEvent, AcademicNotification, StudyTask } from "@/types/academic";
 
-const localStorageKey = "studypilot.notifications";
+const localStorageKey = "aulou.notifications";
 
 function readLocal(userId: string) {
   if (typeof window === "undefined") return [];

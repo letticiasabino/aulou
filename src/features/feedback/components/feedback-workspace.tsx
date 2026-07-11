@@ -54,7 +54,7 @@ export function FeedbackWorkspace() {
           <CheckCircle2 className="size-10 text-emerald-500" />
           <h1 className="text-xl font-semibold">Feedback recebido</h1>
           <p className="max-w-md text-sm text-muted-foreground">
-            Obrigado por ajudar a deixar o StudyPilot mais útil para estudantes.
+            Obrigado por ajudar a deixar o Aulou mais útil para estudantes.
           </p>
           <Button variant="outline" onClick={() => setSent(false)}>
             Enviar outro
@@ -66,7 +66,7 @@ export function FeedbackWorkspace() {
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <Badge className="w-fit">Beta fechado</Badge>
-        <CardTitle className="mt-2">Ajude a moldar o StudyPilot</CardTitle>
+        <CardTitle className="mt-2">Ajude a moldar o Aulou</CardTitle>
         <CardDescription>
           Conte o que funcionou, o que confundiu ou o que faria seu semestre ficar mais leve.
         </CardDescription>

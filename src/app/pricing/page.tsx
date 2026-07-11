@@ -5,7 +5,7 @@ import { PricingTable } from "@/features/monetization/components/pricing-table";
 
 export const metadata: Metadata = {
   title: "Planos",
-  description: "Planos Free, Plus e Pro do StudyPilot AI.",
+  description: "Planos Free, Plus e Pro do Aulou.",
   alternates: {
     canonical: "/pricing",
   },
@@ -20,7 +20,7 @@ export default function PricingPage() {
         aria-labelledby="pricing-table-title"
       >
         <div className="mb-8 max-w-2xl">
-          <p className="text-sm font-medium text-primary">Planos StudyPilot</p>
+          <p className="text-sm font-medium text-primary">Planos Aulou</p>
           <h1 id="pricing-table-title" className="mt-2 text-3xl font-semibold tracking-tight">
             Escolha o ritmo que combina com seu semestre.
           </h1>

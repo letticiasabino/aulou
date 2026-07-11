@@ -4,7 +4,7 @@ import { TeachersManager } from "@/features/academic/components/teachers-manager
 
 vi.mock("@/hooks/use-academic-context", () => ({
   useAcademicContext: () => ({
-    user: { id: "demo-user", email: "demo@studypilot.ai", mode: "demo" },
+    user: { id: "demo-user", email: "demo@aulou.app", mode: "demo" },
     loading: false,
     error: null,
     refresh: vi.fn(),

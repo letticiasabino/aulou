@@ -5,7 +5,7 @@ import { supabaseCalendarRepository } from "@/services/calendar.supabase-reposit
 import type { AcademicEvent, ExtractedAcademicEvent } from "@/types/academic";
 import type { AcademicEventFilters, AcademicEventRecord } from "@/types/academic-event-record";
 
-const localStorageKey = "studypilot.academic-events";
+const localStorageKey = "aulou.academic-events";
 
 function readLocal(userId: string) {
   if (typeof window === "undefined") return [];

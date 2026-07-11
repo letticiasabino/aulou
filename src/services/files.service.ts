@@ -5,7 +5,7 @@ import { storageService } from "@/services/storage.service";
 import type { AcademicFile } from "@/types/academic-file";
 import { analyticsService } from "@/services/analytics.service";
 
-const localStorageKey = "studypilot.academic-files";
+const localStorageKey = "aulou.academic-files";
 
 function readAllLocal() {
   if (typeof window === "undefined") return [];

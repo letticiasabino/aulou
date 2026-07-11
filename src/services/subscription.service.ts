@@ -4,8 +4,8 @@ import { paymentService } from "@/services/payment.service";
 import type { BillingCycle, PlanCode, Subscription, UsageCounters } from "@/types/academic";
 import { analyticsService } from "@/services/analytics.service";
 
-const subscriptionKey = "studypilot.subscription";
-const usageKey = "studypilot.usage";
+const subscriptionKey = "aulou.subscription";
+const usageKey = "aulou.usage";
 const initialUsage: UsageCounters = { uploads: 0, aiCredits: 0, flashcards: 0, quizzes: 0 };
 
 function readSubscription(userId: string): Subscription {

@@ -3,7 +3,7 @@
 ## Real status
 
 - Local build: previously passed at commit `11af2f2`; current rerun is blocked by a damaged local `node_modules` installation.
-- Public deploy: `BLOCKED BY EXTERNAL ACCESS`; Vercel account access was found, but no StudyPilot project or remote Git repository is connected.
+- Public deploy: `BLOCKED BY EXTERNAL ACCESS`; no Aulou project or remote Git repository is connected to a hosting provider.
 - Supabase: active project confirmed and migrations applied, including `feedback` and production hardening.
 - Feedback: backend migration, RLS and authenticated insert path are implemented and applied remotely.
 - Health check: available at `/api/health`, returning status, service and environment without secrets.
@@ -11,7 +11,7 @@
 
 ## External actions still required
 
-1. Create or connect the StudyPilot project in Vercel and configure production environment variables.
+1. Create or connect the Aulou project in Netlify and configure production environment variables.
 2. Publish the application, set `NEXT_PUBLIC_SITE_URL`, and configure Auth redirects.
 3. Run the two-user RLS test and complete `rules/SMOKE-TEST.md`.
 4. Configure uptime monitoring every 5 minutes for `/api/health`.

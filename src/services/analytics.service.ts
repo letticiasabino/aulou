@@ -38,7 +38,7 @@ const consoleAdapter: AnalyticsAdapter = {
 
 let adapter: AnalyticsAdapter = consoleAdapter;
 let currentUserId: string | null = null;
-const storageKey = "studypilot.analytics.events";
+const storageKey = "aulou.analytics.events";
 
 function persistEvent(event: AnalyticsEventRecord) {
   if (typeof window === "undefined") return;

@@ -4,7 +4,7 @@ import { isDue, scheduleFlashcardReview } from "@/engines/review-engine";
 import { supabaseFlashcardsRepository } from "@/services/flashcards.supabase-repository";
 import type { Flashcard, FlashcardDeck, FlashcardRating, FlashcardReview } from "@/types/academic";
 
-const storageKey = "studypilot.flashcards";
+const storageKey = "aulou.flashcards";
 type LocalData = { decks: FlashcardDeck[]; cards: Flashcard[]; reviews: FlashcardReview[] };
 function readLocal(): LocalData {
   if (typeof window === "undefined") return { decks: [], cards: [], reviews: [] };

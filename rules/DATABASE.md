@@ -3,7 +3,7 @@
 ## Sprint de produção
 
 - `feedback` está versionada na migration `20260711030000_feedback.sql`, com RLS de insert pelo próprio usuário.
-- A migration remota está pendente até existir um projeto Supabase Production autenticado.
+- A migration foi aplicada no projeto Supabase remoto do Aulou, incluindo o hardening de produção.
 
 ## Sprint 12 - notificacoes
 
@@ -37,7 +37,7 @@
 
 ## Escopo da Sprint 4
 
-O banco real do StudyPilot AI usa Supabase Postgres como backend alvo. A Sprint 4 versiona a primeira migration aplicável e mantém o fallback local apenas para desenvolvimento sem env pública configurada.
+O banco real do Aulou usa Supabase Postgres como backend alvo. O fallback local existe apenas para desenvolvimento sem env pública configurada.
 
 ## Convenções
 

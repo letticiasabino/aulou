@@ -10,7 +10,7 @@ export interface FeedbackRecord extends FeedbackInput {
   createdAt: string;
 }
 
-const storageKey = "studypilot.feedback";
+const storageKey = "aulou.feedback";
 
 export const feedbackService = {
   async submit(userId: string, input: FeedbackInput) {

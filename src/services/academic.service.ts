@@ -30,7 +30,7 @@ import type {
   Teacher,
 } from "@/types/academic-domain";
 
-const storagePrefix = "studypilot.academic-context";
+const storagePrefix = "aulou.academic-context";
 const defaultTimezone = "America/Sao_Paulo";
 const defaultCountry = "Brasil";
 

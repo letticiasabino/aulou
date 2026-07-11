@@ -6,7 +6,7 @@ Dark mode elegante como padrão, com opção light no futuro. A interface deve p
 
 ## Referência visual
 
-Conceito gerado para Sprint 0: `docs/assets/studypilot-dashboard-concept.png`.
+Conceito gerado para Sprint 0: `docs/assets/dashboard-concept.png`.
 
 Conceitos gerados para Sprint 1:
 

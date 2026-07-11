@@ -70,7 +70,7 @@ export function AcademicProfilePanel() {
       <Card>
         <CardHeader>
           <CardTitle>Resumo do semestre</CardTitle>
-          <CardDescription>Primeiros indicadores usados pelo StudyPilot AI.</CardDescription>
+          <CardDescription>Primeiros indicadores usados pelo Aulou.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-3">
           <div className="rounded-md border bg-background p-4">

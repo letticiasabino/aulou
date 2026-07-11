@@ -2,14 +2,14 @@ import { expect, test } from "@playwright/test";
 
 test("landing carrega com CTA principal", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "StudyPilot AI" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Aulou" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Importar cronograma/i })).toBeVisible();
 });
 
 test("health check responde com status operacional", async ({ request }) => {
   const response = await request.get("/api/health");
   expect(response.ok()).toBe(true);
-  await expect(response.json()).resolves.toMatchObject({ status: "ok", service: "studypilot-ai" });
+  await expect(response.json()).resolves.toMatchObject({ status: "ok", service: "app" });
 });
 
 test("login carrega com formulário", async ({ page }) => {
@@ -30,7 +30,7 @@ test("responde com headers de segurança e página 404 acessível", async ({ pag
 test("cadastro acadêmico local conclui onboarding", async ({ page }) => {
   await page.goto("/register");
   await page.getByLabel("Nome").fill("Marina Lima");
-  await page.getByLabel("E-mail").fill(`marina-${Date.now()}@studypilot.test`);
+  await page.getByLabel("E-mail").fill(`marina-${Date.now()}@aulou.test`);
   await page.getByLabel("Senha").fill("senha12345");
   await page.getByRole("button", { name: /Criar conta/i }).click();
 

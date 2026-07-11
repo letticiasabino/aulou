@@ -15,7 +15,7 @@ export type AppUser = {
   mode: "supabase" | "demo";
 };
 
-const demoStorageKey = "studypilot.demo.user";
+const demoStorageKey = "aulou.demo.user";
 
 function mapSupabaseUser(user: User): AppUser {
   return {

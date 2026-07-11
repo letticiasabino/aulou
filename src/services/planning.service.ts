@@ -7,7 +7,7 @@ import {
 import { supabasePlanningRepository } from "@/services/planning.supabase-repository";
 import type { StudyPlan, StudyTask } from "@/types/academic";
 
-const localStorageKey = "studypilot.study-plans";
+const localStorageKey = "aulou.study-plans";
 
 function readLocal(userId: string) {
   if (typeof window === "undefined") return [];

@@ -1,9 +1,9 @@
 export const siteConfig = {
-  name: "StudyPilot AI",
+  name: "Aulou",
   description:
-    "O estudante envia o cronograma e a IA organiza automaticamente toda sua vida acadêmica.",
+    "Envie cronogramas e materiais da faculdade. O Aulou transforma tudo em agenda, planos de estudo e revisoes.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ogImage: "/og",
+  ogImage: "/brand/aulou-icon.png",
   links: {
     app: "/dashboard",
     pricing: "/pricing",
@@ -11,8 +11,9 @@ export const siteConfig = {
     register: "/register",
   },
   keywords: [
-    "assistente acadêmico",
-    "cronograma universitário",
+    "Aulou",
+    "assistente academico",
+    "cronograma universitario",
     "agenda de estudos",
     "IA para estudantes",
     "plano de estudos",

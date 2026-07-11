@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col gap-3">
           <Logo />
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            StudyPilot AI organiza cronogramas, prazos e estudos para universitários que vivem com
+            Aulou organiza cronogramas, prazos e estudos para universitários que vivem com
             muita coisa acontecendo ao mesmo tempo.
           </p>
         </div>

@@ -1,6 +1,6 @@
-# StudyPilot AI
+# Aulou
 
-Assistente acadêmico com IA para transformar cronogramas e materiais universitários em agenda, plano de estudos e revisões acionáveis.
+Assistente acadêmico com IA para transformar cronogramas e materiais universitários em agenda, planos de estudo e revisões acionáveis.
 
 ## Desenvolvimento
 
@@ -25,7 +25,7 @@ npm run build
 
 ## Produção
 
-O deploy recomendado é Vercel. Importe o repositório, use `npm ci` e configure as variáveis de `.env.example` no ambiente `Production`. O projeto ainda não possui URL pública: deploy e Supabase Production estão `BLOQUEADOS POR ACESSO EXTERNO`. Depois do deploy, valide `/api/health`, login, onboarding, upload, agenda, IA, assinatura e `/feedback`.
+O Aulou é um único app Next.js full-stack. O frontend e os Route Handlers podem ser publicados no Netlify; o Supabase permanece como banco, Auth e Storage. Render fica reservado para workers futuros. O projeto ainda não possui URL pública: deploy e integrações de hosting estão `BLOQUEADOS POR ACESSO EXTERNO`.
 
 Para migrations, instale o Supabase CLI, autentique o projeto e aplique os arquivos de `supabase/migrations` em ordem. Não execute migrations de produção sem revisar RLS e backups.
 

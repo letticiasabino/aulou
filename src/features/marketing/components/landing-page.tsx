@@ -73,7 +73,7 @@ export function LandingPage() {
       <section className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-[1fr_0.9fr]">
         <div className="flex flex-col gap-8">
           <div className="flex max-w-3xl flex-col gap-5">
-            <h1 className="text-5xl font-semibold leading-tight md:text-7xl">StudyPilot AI</h1>
+            <h1 className="text-5xl font-semibold leading-tight md:text-7xl">Aulou</h1>
             <p className="max-w-2xl text-xl leading-8 text-muted-foreground">
               O estudante envia o cronograma e a IA organiza automaticamente toda sua vida
               acadêmica.
@@ -154,7 +154,7 @@ export function LandingPage() {
       >
         <SectionHeader
           title="Clareza para semanas caóticas"
-          description="StudyPilot AI foi desenhado para estudantes que trabalham, têm muitas disciplinas e recebem arquivos em formatos diferentes."
+          description="Aulou foi desenhado para estudantes que trabalham, têm muitas disciplinas e recebem arquivos em formatos diferentes."
         />
         <div className="grid gap-4 sm:grid-cols-2">
           {benefits.map((benefit) => (
