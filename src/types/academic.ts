@@ -115,6 +115,26 @@ export interface PlanLimit {
 
 export type PlanCode = "free" | "plus" | "pro";
 
+export type SubscriptionStatus = "active" | "trialing" | "canceled" | "past_due";
+export type BillingCycle = "monthly" | "yearly";
+
+export interface Subscription {
+  id: string;
+  userId: string;
+  plan: PlanCode;
+  status: SubscriptionStatus;
+  billingCycle: BillingCycle;
+  currentPeriodEndsAt?: string;
+  provider: "mock" | "stripe" | "mercado_pago";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type UsageCounters = Pick<
+  Record<"uploads" | "aiCredits" | "flashcards" | "quizzes", number>,
+  "uploads" | "aiCredits" | "flashcards" | "quizzes"
+>;
+
 export type RiskLevel = "low" | "moderate" | "high" | "critical";
 
 export interface AcademicRisk {

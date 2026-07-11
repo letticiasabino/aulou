@@ -66,7 +66,13 @@
 - `.env.example` pode expor apenas nomes de variáveis vazias.
 - OpenAI, Stripe, Resend, Supabase secret/service role e webhooks são server-only.
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` são os únicos valores Supabase públicos aceitos.
+
 ## Sprint 12 - notificacoes e risco
 
 - O score academico e calculado localmente a partir de dados ja autorizados do usuario.
 - Mensagens de notificacao nao incluem conteudo de arquivos ou dados sensiveis.
+
+## Sprint 13 - monetizacao
+
+- O navegador nao e fonte confiavel para liberar recursos pagos; limites reais devem ser revalidados no backend.
+- Checkout real deve validar assinatura por webhook, nunca por retorno visual do cliente.

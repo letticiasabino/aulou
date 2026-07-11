@@ -32,6 +32,7 @@ export const appNavItems = [
   { label: "Tutor IA", href: "/ai", icon: Bot },
   { label: "Notificações", href: "/notifications", icon: Bell },
   { label: "Risco acadêmico", href: "/progress", icon: Gauge },
+  { label: "Assinatura", href: "/subscription", icon: CreditCard },
   { label: "Configurações", href: "/settings", icon: Settings },
   { label: "Perfil", href: "/profile", icon: UserRound },
 ];

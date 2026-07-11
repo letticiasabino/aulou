@@ -1,5 +1,11 @@
 # Decision Log
 
+## 2026-07-11 - Monetizacao local-first com checkout mockado
+
+- **Decisao:** manter planos e limites em configuracao tipada, assinatura e uso em service local-first, e checkout atras de `paymentService`.
+- **Motivo:** a experiencia pode ser validada agora sem credenciais de Stripe/Mercado Pago, sem acoplar a interface a um provedor.
+- **Impacto:** a Sprint 13 entrega fluxo completo de pricing e upgrade; enforcement de producao dependera de webhook e persistencia server-side.
+
 ## 2026-07-11 - RiskEngine deterministico e notificacoes derivadas
 
 - **Decisao:** calcular risco sem IA e derivar notificacoes de eventos confirmados e tarefas abertas.

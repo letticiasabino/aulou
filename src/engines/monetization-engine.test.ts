@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { canUseFeature, getUpgradeTarget } from "@/engines/monetization-engine";
+import {
+  canUseFeature,
+  formatPlanPrice,
+  getUpgradeTarget,
+  getUsageState,
+} from "@/engines/monetization-engine";
 
 describe("MonetizationEngine", () => {
   it("bloqueia uso quando o limite do plano Free é atingido", () => {
@@ -11,5 +16,11 @@ describe("MonetizationEngine", () => {
     expect(getUpgradeTarget("free")).toBe("plus");
     expect(getUpgradeTarget("plus")).toBe("pro");
     expect(getUpgradeTarget("pro")).toBeNull();
+  });
+
+  it("calcula estado de uso e preço anual com desconto", () => {
+    const state = getUsageState("plus", { uploads: 4, aiCredits: 20, flashcards: 10, quizzes: 1 });
+    expect(state.uploads).toEqual({ used: 4, limit: 30 });
+    expect(formatPlanPrice("plus", "yearly")).toContain("199,00");
   });
 });
