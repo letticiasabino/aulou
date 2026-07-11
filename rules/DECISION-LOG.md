@@ -19,4 +19,5 @@
 - Netlify e o destino preferencial do app web nesta fase.
 - Supabase permanece como banco, Auth e Storage.
 - Render fica preparado para um worker futuro; nenhum servico vazio foi publicado.
+- O site Netlify `aulou` foi criado no plano existente; nenhum deploy foi declarado porque o upload nao concluiu.
 - Status: deploy e conexao dos provedores estao `BLOQUEADOS POR ACESSO EXTERNO`.

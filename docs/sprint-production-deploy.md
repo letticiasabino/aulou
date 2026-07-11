@@ -4,6 +4,7 @@
 
 - Local build: previously passed at commit `11af2f2`; current rerun is blocked by a damaged local `node_modules` installation.
 - Public deploy: `BLOCKED BY EXTERNAL ACCESS`; no Aulou project or remote Git repository is connected to a hosting provider.
+- Netlify project: created as `aulou`; public production variables configured; first deploy blocked because the local environment could not download the Netlify MCP package.
 - Supabase: active project confirmed and migrations applied, including `feedback` and production hardening.
 - Feedback: backend migration, RLS and authenticated insert path are implemented and applied remotely.
 - Health check: available at `/api/health`, returning status, service and environment without secrets.
@@ -16,6 +17,7 @@
 3. Run the two-user RLS test and complete `rules/SMOKE-TEST.md`.
 4. Configure uptime monitoring every 5 minutes for `/api/health`.
 5. Rotate the Supabase secret/API database credentials that were exposed during setup before commercial beta.
+6. Publish the repository to GitHub and connect `aulou` to the Netlify site, or rerun the authenticated Netlify upload from a network-enabled environment.
 
 ## Local validation note
 

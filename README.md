@@ -25,7 +25,7 @@ npm run build
 
 ## Produção
 
-O Aulou é um único app Next.js full-stack. O frontend e os Route Handlers podem ser publicados no Netlify; o Supabase permanece como banco, Auth e Storage. Render fica reservado para workers futuros. O projeto ainda não possui URL pública: deploy e integrações de hosting estão `BLOQUEADOS POR ACESSO EXTERNO`.
+O Aulou é um único app Next.js full-stack. O frontend e os Route Handlers podem ser publicados no Netlify; o Supabase permanece como banco, Auth e Storage. O projeto Netlify `aulou` já foi criado, mas o primeiro deploy ainda está `BLOQUEADO POR ACESSO EXTERNO` por falta de acesso ao registry npm/GitHub. Render fica reservado para workers futuros.
 
 Para migrations, instale o Supabase CLI, autentique o projeto e aplique os arquivos de `supabase/migrations` em ordem. Não execute migrations de produção sem revisar RLS e backups.
 
