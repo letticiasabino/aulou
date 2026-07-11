@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 8 - provider OpenAI server-side e mock seguro
+
+- A OpenAI Responses API é acessada somente em Route Handlers server-side; `OPENAI_API_KEY` nunca é importada por componentes client.
+- Saídas de resumo e tutor usam schemas Zod e guardrails que exigem separação entre informação extraída, inferência e recomendação.
+- Sem Supabase configurado, a interface usa `MockAIProvider` e declara falta de contexto em vez de simular fatos acadêmicos.
+
 ## Sprint 7 - agenda só recebe eventos confirmados
 
 - `academic_events` tem RLS por `user_id` e policies de insert/update exigindo `review_status = confirmed`.

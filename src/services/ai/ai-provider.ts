@@ -1,7 +1,11 @@
+import type { ZodType } from "zod";
+
 export interface StructuredAIRequest<TInput> {
   task: "extract_events" | "summarize_material" | "generate_flashcards" | "tutor_message";
   input: TInput;
   userId: string;
+  outputSchema?: ZodType;
+  systemInstructions?: string;
 }
 
 export interface StructuredAIResponse<TOutput> {

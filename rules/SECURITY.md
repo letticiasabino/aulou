@@ -1,5 +1,12 @@
 # Security Rules
 
+## Sprint 8 - IA
+
+- `OPENAI_API_KEY` e `OPENAI_MODEL` são server-only; nenhum componente client importa o provider OpenAI.
+- Route Handlers montam contexto somente após `auth.getUser()` e filtram eventos, arquivos e extrações por `user_id`.
+- Respostas externas são validadas com Zod antes de chegar à interface.
+- Logs não registram prompts, material integral ou respostas integrais.
+
 ## Sprint 7 - confirmação e agenda
 
 - O cliente não é a única barreira: as policies de `academic_events` rejeitam insert/update com status diferente de `confirmed`.

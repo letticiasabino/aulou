@@ -34,7 +34,7 @@ Persistencia dos eventos confirmados, calendario, filtros, proximos eventos, edi
 
 ## Sprint 8 - IA
 
-Provider abstrato, prompts, AIContextEngine, resumo de material e geracao estruturada de eventos.
+Provider abstrato, AIContextEngine, resumo de material e tutor acadêmico contextual com guardrails, referências e mock seguro.
 
 ## Sprint 9 - Estudos
 
