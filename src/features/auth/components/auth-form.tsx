@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { analyticsService } from "@/services/analytics.service";
 
 type AuthMode = "login" | "register" | "forgot" | "reset";
 
@@ -129,7 +130,10 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
 
   async function submit(values: RegisterInput) {
     try {
-      await auth.signUp(values);
+      analyticsService.track("signup_started");
+      const createdUser = await auth.signUp(values);
+      analyticsService.identify(createdUser.id);
+      analyticsService.track("signup_completed");
       toast.success("Conta criada.");
       onSuccess();
     } catch (error) {

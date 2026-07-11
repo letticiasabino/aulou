@@ -76,3 +76,8 @@
 
 - O navegador nao e fonte confiavel para liberar recursos pagos; limites reais devem ser revalidados no backend.
 - Checkout real deve validar assinatura por webhook, nunca por retorno visual do cliente.
+
+## Sprint 14 - analytics
+
+- Eventos não podem conter conteúdo de arquivos, perguntas, respostas, senhas, tokens ou nomes de arquivos.
+- Analytics não deve ser usado como fonte de autorização, cobrança ou decisão acadêmica.

@@ -25,6 +25,7 @@ import {
 } from "@/features/academic/schemas/academic-profile-schema";
 import { useAcademicContext } from "@/hooks/use-academic-context";
 import { academicService } from "@/services/academic.service";
+import { analyticsService } from "@/services/analytics.service";
 
 const steps = ["Bem-vindo", "Nome", "Faculdade", "Curso", "Semestre", "Conclusão"];
 const currentYear = new Date().getFullYear();
@@ -70,6 +71,8 @@ export function AcademicOnboardingFlow() {
 
     try {
       await academicService.saveProfile(user.id, values);
+      analyticsService.identify(user.id);
+      analyticsService.track("onboarding_completed");
       await refresh();
       toast.success("Contexto acadêmico salvo.");
       router.push("/dashboard");

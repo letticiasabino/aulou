@@ -1,5 +1,11 @@
 # Decision Log
 
+## 2026-07-11 - Analytics com taxonomia e armazenamento local-first
+
+- **Decisão:** normalizar eventos em uma lista tipada, sanitizar propriedades e persistir uma amostra local para o painel de desenvolvimento.
+- **Motivo:** medir o funil sem acoplar o produto a um fornecedor ou expor conteúdo acadêmico.
+- **Impacto:** PostHog pode ser conectado via adapter; decisões de cobrança continuam independentes dos eventos.
+
 ## 2026-07-11 - Monetizacao local-first com checkout mockado
 
 - **Decisao:** manter planos e limites em configuracao tipada, assinatura e uso em service local-first, e checkout atras de `paymentService`.

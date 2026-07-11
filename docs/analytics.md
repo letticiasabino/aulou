@@ -1,5 +1,12 @@
 # Analytics
 
+## Sprint 14
+
+- A taxonomia tipada cobre cadastro, onboarding, upload, IA, limites, upgrade e assinatura.
+- Propriedades são sanitizadas antes do envio e eventos locais ficam limitados a 1.000 registros.
+- `/analytics` mostra usuários únicos, conversão por etapa e eventos recentes.
+- O adapter pode ser trocado por PostHog ou outro fornecedor sem alterar os fluxos do produto.
+
 ## Eventos obrigatórios
 
 - `signup_started`

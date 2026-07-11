@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { BillingCycle, PlanCode } from "@/types/academic";
+import { analyticsService } from "@/services/analytics.service";
 
 const order: PlanCode[] = ["free", "plus", "pro"];
 
@@ -80,7 +81,15 @@ export function PricingTable({
                 </Button>
               ) : (
                 <Button asChild className="w-full" variant={featured ? "default" : "outline"}>
-                  <Link href={currentPlan ? "/subscription" : `/register?plan=${code}`}>
+                  <Link
+                    href={currentPlan ? "/subscription" : `/register?plan=${code}`}
+                    onClick={() =>
+                      analyticsService.track("upgrade_clicked", {
+                        target_plan: code,
+                        source: "pricing",
+                      })
+                    }
+                  >
                     {code === "free" ? "Começar grátis" : "Escolher plano"}
                   </Link>
                 </Button>

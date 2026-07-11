@@ -72,6 +72,7 @@ export function TutorWorkspace() {
       });
       setSummary(result);
       analyticsService.track("summary_generated", {
+        userId,
         sourceFileId: selectedFileId === "none" ? null : selectedFileId,
       });
       toast.success("Resumo gerado.");
@@ -103,6 +104,7 @@ export function TutorWorkspace() {
         { role: "assistant", text: response.answer, response },
       ]);
       analyticsService.track("tutor_message_sent", {
+        userId,
         sourceFileId: selectedFileId === "none" ? null : selectedFileId,
       });
     } catch (unknownError) {

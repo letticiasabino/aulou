@@ -1,6 +1,8 @@
 import { PLAN_DEFINITIONS } from "@/config/plans";
+import { getLimitForFeature } from "@/engines/monetization-engine";
 import { paymentService } from "@/services/payment.service";
 import type { BillingCycle, PlanCode, Subscription, UsageCounters } from "@/types/academic";
+import { analyticsService } from "@/services/analytics.service";
 
 const subscriptionKey = "studypilot.subscription";
 const usageKey = "studypilot.usage";
@@ -49,19 +51,42 @@ export const subscriptionService = {
     };
   },
   async startCheckout(userId: string, plan: PlanCode, billingCycle: BillingCycle) {
+    analyticsService.identify(userId);
+    analyticsService.track("upgrade_clicked", {
+      userId,
+      target_plan: plan,
+      billing_cycle: billingCycle,
+    });
     const result = await paymentService.startCheckout(plan, billingCycle, userId);
     if (result.subscription && typeof window !== "undefined")
       window.localStorage.setItem(
         `${subscriptionKey}:${userId}`,
         JSON.stringify(result.subscription),
       );
-    return result.subscription ?? readSubscription(userId);
+    const subscription = result.subscription ?? readSubscription(userId);
+    if (subscription.plan !== "free")
+      analyticsService.track("subscription_completed", {
+        userId,
+        plan: subscription.plan,
+        billing_cycle: billingCycle,
+      });
+    return subscription;
   },
   async incrementUsage(userId: string, resource: keyof UsageCounters) {
     const usage = await this.getUsage(userId);
     const next = { ...usage, [resource]: usage[resource] + 1 };
     if (typeof window !== "undefined")
       window.localStorage.setItem(`${usageKey}:${userId}`, JSON.stringify(next));
+    const subscription = await this.get(userId);
+    const resourceToLimit = {
+      uploads: "uploadsPerMonth",
+      aiCredits: "aiCreditsPerMonth",
+      flashcards: "flashcardsPerMonth",
+      quizzes: "quizzesPerMonth",
+    } as const;
+    const limit = getLimitForFeature(subscription.plan, resourceToLimit[resource]);
+    if (typeof limit === "number" && next[resource] >= limit)
+      analyticsService.track("limit_reached", { userId, resource, plan: subscription.plan });
     return next;
   },
   getPlanDefinition(plan: PlanCode) {

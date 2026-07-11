@@ -3,6 +3,7 @@ import { academicFileMetadataSchema, validateAcademicFile } from "@/schemas/acad
 import { supabaseFilesRepository } from "@/services/files.supabase-repository";
 import { storageService } from "@/services/storage.service";
 import type { AcademicFile } from "@/types/academic-file";
+import { analyticsService } from "@/services/analytics.service";
 
 const localStorageKey = "studypilot.academic-files";
 
@@ -27,6 +28,12 @@ export const filesService = {
   },
 
   async upload(userId: string, file: File) {
+    analyticsService.identify(userId);
+    analyticsService.track("upload_started", {
+      userId,
+      file_type: file.type,
+      file_size_bytes: file.size,
+    });
     const validated = validateAcademicFile(file);
     const fileId = crypto.randomUUID();
     const intent = await storageService.createUploadIntent({
@@ -56,6 +63,7 @@ export const filesService = {
 
     if (!isSupabaseConfigured()) {
       writeLocal([academicFile, ...readAllLocal()]);
+      analyticsService.track("upload_completed", { userId, file_type: validated.contentType });
       return academicFile;
     }
 
@@ -67,6 +75,7 @@ export const filesService = {
       await supabaseFilesRepository.updateStatus(userId, fileId, "failed", message);
       throw new Error(message);
     }
+    analyticsService.track("upload_completed", { userId, file_type: validated.contentType });
     return academicFile;
   },
 };
