@@ -114,3 +114,32 @@ export interface PlanLimit {
 }
 
 export type PlanCode = "free" | "plus" | "pro";
+
+export type RiskLevel = "low" | "moderate" | "high" | "critical";
+
+export interface AcademicRisk {
+  score: number;
+  level: RiskLevel;
+  overdueEvents: number;
+  overdueTasks: number;
+  upcomingAssessments: number;
+  busiestDay: { date: string; count: number } | null;
+  reasons: string[];
+  recommendations: string[];
+}
+
+export type NotificationType = "deadline" | "overdue" | "exam" | "study" | "risk";
+
+export interface AcademicNotification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  severity: RiskLevel;
+  relatedEventId?: string;
+  relatedTaskId?: string;
+  scheduledFor: string;
+  readAt?: string;
+  createdAt: string;
+}

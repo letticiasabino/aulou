@@ -1,5 +1,10 @@
 # Database Rules
 
+## Sprint 12 - notificacoes
+
+- Notificacoes sao isoladas por `user_id` e possuem RLS obrigatorio.
+- `related_event_id` referencia eventos academicos e o acesso permanece restrito ao dono.
+
 ## Sprint 10 - flashcards
 
 - Baralhos, cartões e revisões devem ter `user_id` e RLS.

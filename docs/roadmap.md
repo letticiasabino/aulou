@@ -48,6 +48,10 @@ Flashcards, baralhos por disciplina, criação manual, geração automática ini
 
 Planos, limites, assinatura, bloqueios premium, pricing page e checkout mockado ou real.
 
-## Sprint 12 - Beta
+## Sprint 12 - Notificacoes e risco
+
+Alertas de prazo, tarefas atrasadas, RiskEngine e Academic Health Score.
+
+## Sprint 13 - Beta
 
 Analytics, feedback, ajustes, testes e deploy.

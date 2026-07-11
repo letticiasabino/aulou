@@ -23,6 +23,8 @@ export const privateRoutes = [
   "/ai",
   "/settings",
   "/profile",
+  "/notifications",
+  "/progress",
   "/onboarding",
 ] as const;
 

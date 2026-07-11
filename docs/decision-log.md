@@ -1,5 +1,11 @@
 # Decision Log
 
+## 2026-07-11 - RiskEngine deterministico e notificacoes derivadas
+
+- **Decisao:** calcular risco sem IA e derivar notificacoes de eventos confirmados e tarefas abertas.
+- **Motivo:** explicabilidade, previsibilidade e operacao local sem dependencia de provider.
+- **Impacto:** o score pode ser recalculado em qualquer tela; notificacoes podem ser persistidas e deduplicadas.
+
 ## Sprint 10 - geração determinística e revisão espaçada inicial
 
 - A geração automática preserva trechos do texto e só separa frente/verso quando há `:`; não inventa conteúdo.

@@ -10,6 +10,8 @@ type ReviewStatus = "pending_review" | "confirmed" | "rejected";
 type AcademicPriority = "low" | "medium" | "high" | "maximum";
 type StudyTaskStatus = "todo" | "done" | "skipped";
 type FlashcardRating = "again" | "hard" | "good" | "easy";
+type NotificationType = "deadline" | "overdue" | "exam" | "study" | "risk";
+type RiskLevel = "low" | "moderate" | "high" | "critical";
 
 type TimestampColumns = {
   created_at: string;
@@ -202,6 +204,19 @@ export type FlashcardReviewRow = OwnerColumn & {
   next_interval_days: number;
 };
 
+export type NotificationRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    type: NotificationType;
+    title: string;
+    message: string;
+    severity: RiskLevel;
+    related_event_id: string | null;
+    related_task_id: string | null;
+    scheduled_for: string;
+    read_at: string | null;
+  };
+
 export type UserSettingsRow = OwnerColumn &
   TimestampColumns & {
     id: string;
@@ -270,6 +285,7 @@ export type Database = {
       flashcard_decks: Table<FlashcardDeckRow, Insertable<FlashcardDeckRow>>;
       flashcards: Table<FlashcardRow, Insertable<FlashcardRow>>;
       flashcard_reviews: Table<FlashcardReviewRow, Insertable<FlashcardReviewRow>>;
+      notifications: Table<NotificationRow, Insertable<NotificationRow>>;
       user_settings: Table<UserSettingsRow, Insertable<UserSettingsRow>>;
       subscriptions: Table<SubscriptionRow, Insertable<SubscriptionRow>>;
       usage_limits: Table<UsageLimitRow, Insertable<UsageLimitRow>>;
