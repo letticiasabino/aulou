@@ -1,21 +1,22 @@
-# Sprint de Produção — Deploy, Supabase, Monitoramento e Beta Real
+# Production Sprint - Deploy, Supabase, Monitoring and Real Beta
 
-## Estado real
+## Real status
 
-- Build local: aprovado anteriormente e revalidado durante a sprint.
-- Deploy público: `BLOQUEADO POR ACESSO EXTERNO`; não há sessão Netlify/Vercel nem URL de produção.
-- Supabase Production: `BLOQUEADO POR ACESSO EXTERNO`; CLI não instalado e nenhum projeto remoto identificado.
-- Feedback: migration e RLS versionados; aplicação remota ainda não executada.
-- Health check: disponível em `/api/health`, com `status`, `service` e `environment`, sem secrets.
+- Local build: previously passed at commit `11af2f2`; current rerun is blocked by a damaged local `node_modules` installation.
+- Public deploy: `BLOCKED BY EXTERNAL ACCESS`; Vercel account access was found, but no StudyPilot project or remote Git repository is connected.
+- Supabase: active project confirmed and migrations applied, including `feedback` and production hardening.
+- Feedback: backend migration, RLS and authenticated insert path are implemented and applied remotely.
+- Health check: available at `/api/health`, returning status, service and environment without secrets.
+- RLS: policies and advisor checks verified; two-user isolation test still requires two authenticated test accounts.
 
-## Próximas ações externas
+## External actions still required
 
-1. Criar projeto Supabase Production, aplicar migrations em ordem e configurar Auth/Storage/RLS.
-2. Criar projeto de hosting e configurar as variáveis de `.env.example` no ambiente Production.
-3. Publicar domínio, atualizar `NEXT_PUBLIC_SITE_URL` e configurar redirects `/login`, `/register`, `/reset-password` e `/auth/callback`.
-4. Executar `rules/SMOKE-TEST.md` com dois usuários reais de teste.
-5. Configurar uptime a cada 5 minutos para `/api/health` e um canal de alerta.
+1. Create or connect the StudyPilot project in Vercel and configure production environment variables.
+2. Publish the application, set `NEXT_PUBLIC_SITE_URL`, and configure Auth redirects.
+3. Run the two-user RLS test and complete `rules/SMOKE-TEST.md`.
+4. Configure uptime monitoring every 5 minutes for `/api/health`.
+5. Rotate the Supabase secret/API database credentials that were exposed during setup before commercial beta.
 
-## Observações
+## Local validation note
 
-`npm ci` ficou bloqueado localmente por `EPERM` ao tentar substituir o binário nativo `lightningcss` em `node_modules`; as validações usaram as dependências já instaladas. O `npm audit` anterior não conseguiu consultar o registry por falha de rede.
+`npm ci` is currently blocked by Windows file-lock/EPERM errors while replacing native dependencies. The lockfile was not changed. No production test result is claimed for the uncommitted changes until dependencies are restored.
