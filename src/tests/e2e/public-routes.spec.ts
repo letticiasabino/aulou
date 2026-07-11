@@ -6,6 +6,12 @@ test("landing carrega com CTA principal", async ({ page }) => {
   await expect(page.getByRole("link", { name: /Importar cronograma/i })).toBeVisible();
 });
 
+test("health check responde com status operacional", async ({ request }) => {
+  const response = await request.get("/api/health");
+  expect(response.ok()).toBe(true);
+  await expect(response.json()).resolves.toMatchObject({ status: "ok", service: "studypilot-ai" });
+});
+
 test("login carrega com formulário", async ({ page }) => {
   await page.goto("/login");
   await expect(page.getByRole("heading", { name: "Entre na sua conta" })).toBeVisible();

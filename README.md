@@ -1,34 +1,39 @@
 # StudyPilot AI
 
-Assistente acadêmico com IA para organizar cronogramas, agenda, estudos e materiais universitários.
+Assistente acadêmico com IA para transformar cronogramas e materiais universitários em agenda, plano de estudos e revisões acionáveis.
 
-## Sprint atual
-
-Sprint 0 concluída: documentação, arquitetura, design system, projeto base, engines iniciais e testes unitários.
-
-## Rodar localmente
+## Desenvolvimento
 
 ```bash
-npm install
+npm ci
+Copy-Item .env.example .env.local
 npm run dev
 ```
 
-O app abre em `http://localhost:3000`.
+Abra `http://localhost:3000`. Sem Supabase configurado, o app usa o modo local-first para permitir testes do beta sem backend remoto.
 
-## Validações
+## Qualidade
 
 ```bash
 npm run typecheck
 npm run lint
+npm run format:check
 npm run test
+npm run e2e
 npm run build
-npm audit --audit-level=moderate
 ```
+
+## Produção
+
+O deploy recomendado é Vercel. Importe o repositório, use `npm ci` e configure as variáveis de `.env.example` no ambiente `Production`. Depois do deploy, valide `/api/health`, login, onboarding, upload, agenda, IA, assinatura e `/feedback`.
 
 ## Documentação
 
-A documentação inicial fica em `docs/`, com decisões em `docs/decision-log.md`.
+- `docs/deploy.md`: deploy, ambientes e variáveis.
+- `docs/beta-checklist.md`: checklist de entrada do beta fechado.
+- `docs/sprint-16-beta-deploy.md`: escopo e critérios desta sprint.
+- `docs/decision-log.md`: decisões arquiteturais.
 
 ## Segurança
 
-Não commitar `.env.local`. Use `.env.example` como referência de variáveis.
+Nunca versione `.env.local`, chaves de API, tokens ou credenciais. O checkout real, limites pagos e persistência de feedback devem ser validados server-side antes de produção pública.

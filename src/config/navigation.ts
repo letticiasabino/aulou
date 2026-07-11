@@ -34,6 +34,7 @@ export const appNavItems = [
   { label: "Risco acadêmico", href: "/progress", icon: Gauge },
   { label: "Assinatura", href: "/subscription", icon: CreditCard },
   { label: "Analytics", href: "/analytics", icon: Gauge },
+  { label: "Feedback", href: "/feedback", icon: Sparkles },
   { label: "Configurações", href: "/settings", icon: Settings },
   { label: "Perfil", href: "/profile", icon: UserRound },
 ];

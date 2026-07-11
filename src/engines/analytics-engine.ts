@@ -17,6 +17,7 @@ export const analyticsEventNames = [
   "subscription_started",
   "subscription_completed",
   "subscription_cancelled",
+  "feedback_submitted",
 ] as const;
 
 export type AnalyticsEventName = (typeof analyticsEventNames)[number];

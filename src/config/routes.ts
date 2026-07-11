@@ -27,6 +27,7 @@ export const privateRoutes = [
   "/progress",
   "/subscription",
   "/analytics",
+  "/feedback",
   "/onboarding",
 ] as const;
 
