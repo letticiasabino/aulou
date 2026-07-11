@@ -1,5 +1,11 @@
 # Security Rules
 
+## Sprint 10 - flashcards
+
+- Conteúdo de cartões e histórico só podem ser lidos e alterados pelo próprio usuário.
+- Geração automática não pode persistir conteúdo de outro usuário.
+- O provider de geração não recebe chave secreta no cliente; o primeiro ciclo usa texto fornecido e fallback local.
+
 ## Sprint 9 - plano de estudos
 
 - Planos e tarefas são filtrados por `user_id` no fallback e no repositório Supabase.

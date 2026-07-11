@@ -68,6 +68,43 @@ export interface StudyPlan {
   updatedAt: string;
 }
 
+export type FlashcardRating = "again" | "hard" | "good" | "easy";
+
+export interface FlashcardDeck {
+  id: string;
+  userId: string;
+  title: string;
+  subjectName: string;
+  description?: string;
+  cardCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Flashcard {
+  id: string;
+  deckId: string;
+  userId: string;
+  front: string;
+  back: string;
+  sourceFileId?: string;
+  nextReviewAt: string;
+  repetitions: number;
+  intervalDays: number;
+  easeFactor: number;
+  lastReviewedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface FlashcardReview {
+  id: string;
+  flashcardId: string;
+  userId: string;
+  rating: FlashcardRating;
+  reviewedAt: string;
+  previousIntervalDays: number;
+  nextIntervalDays: number;
+}
+
 export interface PlanLimit {
   uploadsPerMonth: number;
   aiCreditsPerMonth: number;

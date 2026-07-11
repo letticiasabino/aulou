@@ -40,10 +40,14 @@ Provider abstrato, AIContextEngine, resumo de material e tutor acadêmico contex
 
 PlanningEngine, plano diário/semanal, tarefas, capacidade, dificuldade, reagendamento e progresso básico.
 
-## Sprint 10 - Monetizacao
+## Sprint 10 - Flashcards e Revisao
+
+Flashcards, baralhos por disciplina, criação manual, geração automática inicial e revisão espaçada.
+
+## Sprint 11 - Monetizacao
 
 Planos, limites, assinatura, bloqueios premium, pricing page e checkout mockado ou real.
 
-## Sprint 11 - Beta
+## Sprint 12 - Beta
 
 Analytics, feedback, ajustes, testes e deploy.

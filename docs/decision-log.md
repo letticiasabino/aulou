@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 10 - geração determinística e revisão espaçada inicial
+
+- A geração automática preserva trechos do texto e só separa frente/verso quando há `:`; não inventa conteúdo.
+- O intervalo inicial é curto e explicável: `again` 1 dia, `hard` 2 dias, `good` progressivo e `easy` progressivo.
+- O usuário controla a avaliação do cartão; o histórico de revisões é persistido separadamente.
+
 ## Sprint 9 - capacidade diária como limite rígido
 
 - A PlanningEngine nunca coloca mais minutos no dia do que a disponibilidade configurada.

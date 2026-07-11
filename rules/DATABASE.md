@@ -1,5 +1,11 @@
 # Database Rules
 
+## Sprint 10 - flashcards
+
+- Baralhos, cartões e revisões devem ter `user_id` e RLS.
+- `flashcards.deck_id` deve apontar para um baralho do mesmo usuário.
+- O histórico de revisão é append-only no primeiro ciclo.
+
 ## Sprint 9 - planos de estudo
 
 - `study_plans` e `study_tasks` pertencem ao usuário por `user_id` e devem usar RLS.

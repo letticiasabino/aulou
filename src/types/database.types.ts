@@ -9,6 +9,7 @@ type ConfidenceLabel = "needs_review" | "probable" | "high_confidence";
 type ReviewStatus = "pending_review" | "confirmed" | "rejected";
 type AcademicPriority = "low" | "medium" | "high" | "maximum";
 type StudyTaskStatus = "todo" | "done" | "skipped";
+type FlashcardRating = "again" | "hard" | "good" | "easy";
 
 type TimestampColumns = {
   created_at: string;
@@ -169,6 +170,38 @@ export type StudyTaskRow = OwnerColumn &
     overdue: boolean;
   };
 
+export type FlashcardDeckRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    title: string;
+    subject_name: string;
+    description: string | null;
+    card_count: number;
+  };
+
+export type FlashcardRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    deck_id: string;
+    front: string;
+    back: string;
+    source_file_id: string | null;
+    next_review_at: string;
+    repetitions: number;
+    interval_days: number;
+    ease_factor: number;
+    last_reviewed_at: string | null;
+  };
+
+export type FlashcardReviewRow = OwnerColumn & {
+  id: string;
+  flashcard_id: string;
+  rating: FlashcardRating;
+  reviewed_at: string;
+  previous_interval_days: number;
+  next_interval_days: number;
+};
+
 export type UserSettingsRow = OwnerColumn &
   TimestampColumns & {
     id: string;
@@ -234,6 +267,9 @@ export type Database = {
       academic_events: Table<AcademicEventRow, Insertable<AcademicEventRow>>;
       study_plans: Table<StudyPlanRow, Insertable<StudyPlanRow>>;
       study_tasks: Table<StudyTaskRow, Insertable<StudyTaskRow>>;
+      flashcard_decks: Table<FlashcardDeckRow, Insertable<FlashcardDeckRow>>;
+      flashcards: Table<FlashcardRow, Insertable<FlashcardRow>>;
+      flashcard_reviews: Table<FlashcardReviewRow, Insertable<FlashcardReviewRow>>;
       user_settings: Table<UserSettingsRow, Insertable<UserSettingsRow>>;
       subscriptions: Table<SubscriptionRow, Insertable<SubscriptionRow>>;
       usage_limits: Table<UsageLimitRow, Insertable<UsageLimitRow>>;
