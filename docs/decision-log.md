@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 9 - capacidade diária como limite rígido
+
+- A PlanningEngine nunca coloca mais minutos no dia do que a disponibilidade configurada.
+- Quando o horizonte não comporta todo o esforço estimado, o excedente fica em `unscheduledMinutes` para orientar o estudante.
+- O plano é determinístico e explicável; prioridades vêm dos eventos confirmados, peso e dificuldade informada.
+
 ## Sprint 8 - provider OpenAI server-side e mock seguro
 
 - A OpenAI Responses API é acessada somente em Route Handlers server-side; `OPENAI_API_KEY` nunca é importada por componentes client.

@@ -36,9 +36,9 @@ Persistencia dos eventos confirmados, calendario, filtros, proximos eventos, edi
 
 Provider abstrato, AIContextEngine, resumo de material e tutor acadêmico contextual com guardrails, referências e mock seguro.
 
-## Sprint 9 - Estudos
+## Sprint 9 - Plano de Estudos
 
-Plano de estudos, tarefas, flashcards e quizzes simples.
+PlanningEngine, plano diário/semanal, tarefas, capacidade, dificuldade, reagendamento e progresso básico.
 
 ## Sprint 10 - Monetizacao
 

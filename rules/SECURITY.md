@@ -1,5 +1,11 @@
 # Security Rules
 
+## Sprint 9 - plano de estudos
+
+- Planos e tarefas são filtrados por `user_id` no fallback e no repositório Supabase.
+- O plano não cria eventos acadêmicos nem altera dados de outros usuários.
+- Disponibilidade e dificuldade são preferências do usuário, não dados confiáveis para autorização.
+
 ## Sprint 8 - IA
 
 - `OPENAI_API_KEY` e `OPENAI_MODEL` são server-only; nenhum componente client importa o provider OpenAI.

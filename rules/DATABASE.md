@@ -1,5 +1,11 @@
 # Database Rules
 
+## Sprint 9 - planos de estudo
+
+- `study_plans` e `study_tasks` pertencem ao usuário por `user_id` e devem usar RLS.
+- Tarefas devem referenciar eventos acadêmicos confirmados.
+- A capacidade diária é configurada pelo usuário e não deve ser excedida silenciosamente.
+
 ## Sprint 7 - academic_events
 
 - Eventos importados só podem ser inseridos depois da confirmação do usuário.

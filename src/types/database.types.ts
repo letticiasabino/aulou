@@ -8,6 +8,7 @@ type AcademicEventType = "class" | "exam" | "assignment" | "forum" | "reading" |
 type ConfidenceLabel = "needs_review" | "probable" | "high_confidence";
 type ReviewStatus = "pending_review" | "confirmed" | "rejected";
 type AcademicPriority = "low" | "medium" | "high" | "maximum";
+type StudyTaskStatus = "todo" | "done" | "skipped";
 
 type TimestampColumns = {
   created_at: string;
@@ -143,6 +144,31 @@ export type AcademicEventRow = OwnerColumn &
     confirmed_at: string;
   };
 
+export type StudyPlanRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    period_start: string;
+    period_end: string;
+    available_minutes_per_day: number;
+    availability_by_weekday: Json | null;
+    status: "active" | "archived";
+  };
+
+export type StudyTaskRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    plan_id: string;
+    event_id: string;
+    title: string;
+    subject_name: string | null;
+    scheduled_for: string;
+    due_at: string;
+    estimated_minutes: number;
+    priority: AcademicPriority;
+    status: StudyTaskStatus;
+    overdue: boolean;
+  };
+
 export type UserSettingsRow = OwnerColumn &
   TimestampColumns & {
     id: string;
@@ -206,6 +232,8 @@ export type Database = {
       files: Table<FileRow, Insertable<FileRow>>;
       file_extractions: Table<FileExtractionRow, Insertable<FileExtractionRow>>;
       academic_events: Table<AcademicEventRow, Insertable<AcademicEventRow>>;
+      study_plans: Table<StudyPlanRow, Insertable<StudyPlanRow>>;
+      study_tasks: Table<StudyTaskRow, Insertable<StudyTaskRow>>;
       user_settings: Table<UserSettingsRow, Insertable<UserSettingsRow>>;
       subscriptions: Table<SubscriptionRow, Insertable<SubscriptionRow>>;
       usage_limits: Table<UsageLimitRow, Insertable<UsageLimitRow>>;

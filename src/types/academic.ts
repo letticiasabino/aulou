@@ -40,6 +40,32 @@ export interface StudyTask {
   estimatedMinutes: number;
   priority: AcademicPriority;
   status: "todo" | "done" | "skipped";
+  scheduledFor?: string;
+  subjectName?: string;
+  eventType?: AcademicEventType;
+  overdue?: boolean;
+}
+
+export interface StudyDay {
+  date: string;
+  availableMinutes: number;
+  plannedMinutes: number;
+  tasks: StudyTask[];
+}
+
+export interface StudyPlan {
+  id: string;
+  userId: string;
+  periodStart: string;
+  periodEnd: string;
+  availableMinutesPerDay: number;
+  availabilityByWeekday?: Partial<Record<number, number>>;
+  tasks: StudyTask[];
+  days: StudyDay[];
+  unscheduledMinutes?: number;
+  status: "active" | "archived";
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PlanLimit {
