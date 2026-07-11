@@ -1,7 +1,6 @@
 node_modules/
 .next/
 .npm-cache/
-.git-studypilot/
 work/
 outputs/
 coverage/
