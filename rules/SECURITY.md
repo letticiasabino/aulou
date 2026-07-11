@@ -1,5 +1,17 @@
 # Security Rules
 
+## Teste de isolamento entre usuários
+
+- Cenário: dois usuários autenticados tentam ler e alterar registros, eventos, arquivos, materiais e feedbacks do outro.
+- Resultado esperado: operações cruzadas retornam zero linhas ou erro de autorização; Storage privado não possui URL pública.
+- Resultado encontrado: não executado contra Supabase Production, pois projeto, credenciais e CLI não estão disponíveis.
+- Correção realizada: migration de feedback usa `user_id`, RLS e policy de insert própria; tabelas anteriores mantêm RLS versionado.
+- Status: `BLOQUEADO POR ACESSO EXTERNO`.
+
+## Backup e recuperação
+
+O procedimento, RPO/RTO e pendência de verificação do plano Supabase estão em `rules/BACKUP-AND-RECOVERY.md`. Nenhum backup de produção é declarado como concluído sem evidência do projeto remoto.
+
 ## Sprint 10 - flashcards
 
 - Conteúdo de cartões e histórico só podem ser lidos e alterados pelo próprio usuário.

@@ -1,5 +1,10 @@
 # Database Rules
 
+## Sprint de produção
+
+- `feedback` está versionada na migration `20260711030000_feedback.sql`, com RLS de insert pelo próprio usuário.
+- A migration remota está pendente até existir um projeto Supabase Production autenticado.
+
 ## Sprint 12 - notificacoes
 
 - Notificacoes sao isoladas por `user_id` e possuem RLS obrigatorio.

@@ -12,6 +12,8 @@ type StudyTaskStatus = "todo" | "done" | "skipped";
 type FlashcardRating = "again" | "hard" | "good" | "easy";
 type NotificationType = "deadline" | "overdue" | "exam" | "study" | "risk";
 type RiskLevel = "low" | "moderate" | "high" | "critical";
+type FeedbackCategory = "bug" | "suggestion" | "compliment" | "question" | "other";
+type FeedbackStatus = "new" | "reviewing" | "resolved" | "archived";
 
 type TimestampColumns = {
   created_at: string;
@@ -217,6 +219,17 @@ export type NotificationRow = OwnerColumn &
     read_at: string | null;
   };
 
+export type FeedbackRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    category: FeedbackCategory;
+    message: string;
+    rating: number;
+    page_url: string | null;
+    user_agent: string | null;
+    status: FeedbackStatus;
+  };
+
 export type UserSettingsRow = OwnerColumn &
   TimestampColumns & {
     id: string;
@@ -286,6 +299,7 @@ export type Database = {
       flashcards: Table<FlashcardRow, Insertable<FlashcardRow>>;
       flashcard_reviews: Table<FlashcardReviewRow, Insertable<FlashcardReviewRow>>;
       notifications: Table<NotificationRow, Insertable<NotificationRow>>;
+      feedback: Table<FeedbackRow, Insertable<FeedbackRow>>;
       user_settings: Table<UserSettingsRow, Insertable<UserSettingsRow>>;
       subscriptions: Table<SubscriptionRow, Insertable<SubscriptionRow>>;
       usage_limits: Table<UsageLimitRow, Insertable<UsageLimitRow>>;

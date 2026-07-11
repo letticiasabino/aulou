@@ -25,7 +25,9 @@ npm run build
 
 ## Produção
 
-O deploy recomendado é Vercel. Importe o repositório, use `npm ci` e configure as variáveis de `.env.example` no ambiente `Production`. Depois do deploy, valide `/api/health`, login, onboarding, upload, agenda, IA, assinatura e `/feedback`.
+O deploy recomendado é Vercel. Importe o repositório, use `npm ci` e configure as variáveis de `.env.example` no ambiente `Production`. O projeto ainda não possui URL pública: deploy e Supabase Production estão `BLOQUEADOS POR ACESSO EXTERNO`. Depois do deploy, valide `/api/health`, login, onboarding, upload, agenda, IA, assinatura e `/feedback`.
+
+Para migrations, instale o Supabase CLI, autentique o projeto e aplique os arquivos de `supabase/migrations` em ordem. Não execute migrations de produção sem revisar RLS e backups.
 
 ## Documentação
 
