@@ -4,6 +4,10 @@ type AcademicStatus = "active" | "archived";
 type FileStatus = "uploaded" | "processing" | "processed" | "failed" | "deleted";
 type ExtractionStatus = "pending" | "processing" | "completed" | "failed";
 type SubscriptionPlan = "free" | "plus" | "pro" | "early_access";
+type AcademicEventType = "class" | "exam" | "assignment" | "forum" | "reading" | "study" | "other";
+type ConfidenceLabel = "needs_review" | "probable" | "high_confidence";
+type ReviewStatus = "pending_review" | "confirmed" | "rejected";
+type AcademicPriority = "low" | "medium" | "high" | "maximum";
 
 type TimestampColumns = {
   created_at: string;
@@ -117,6 +121,28 @@ export type FileExtractionRow = OwnerColumn &
     token_count: number | null;
   };
 
+export type AcademicEventRow = OwnerColumn &
+  TimestampColumns & {
+    id: string;
+    source_file_id: string | null;
+    title: string;
+    description: string | null;
+    subject_name: string;
+    event_type: AcademicEventType;
+    starts_at: string | null;
+    ends_at: string | null;
+    is_all_day: boolean;
+    weight: number | null;
+    confidence_score: number;
+    confidence_label: ConfidenceLabel;
+    review_status: ReviewStatus;
+    priority: AcademicPriority;
+    evidence: string | null;
+    review_reasons: string[];
+    dedupe_key: string;
+    confirmed_at: string;
+  };
+
 export type UserSettingsRow = OwnerColumn &
   TimestampColumns & {
     id: string;
@@ -179,6 +205,7 @@ export type Database = {
       subjects: Table<SubjectRow, Insertable<SubjectRow>>;
       files: Table<FileRow, Insertable<FileRow>>;
       file_extractions: Table<FileExtractionRow, Insertable<FileExtractionRow>>;
+      academic_events: Table<AcademicEventRow, Insertable<AcademicEventRow>>;
       user_settings: Table<UserSettingsRow, Insertable<UserSettingsRow>>;
       subscriptions: Table<SubscriptionRow, Insertable<SubscriptionRow>>;
       usage_limits: Table<UsageLimitRow, Insertable<UsageLimitRow>>;

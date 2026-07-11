@@ -1,4 +1,5 @@
 import type { AcademicEvent, ExtractedAcademicEvent } from "@/types/academic";
+import type { AcademicEventFilters } from "@/types/academic-event-record";
 
 export interface EventConflict {
   eventId: string;
@@ -50,4 +51,19 @@ export function confirmAcademicEvent(
     reviewStatus: "confirmed",
     confirmedAt,
   };
+}
+
+export function filterAcademicEvents(events: AcademicEvent[], filters: AcademicEventFilters) {
+  return events
+    .filter((event) => !filters.subjectName || event.subjectName === filters.subjectName)
+    .filter((event) => !filters.eventType || event.eventType === filters.eventType)
+    .filter(
+      (event) => !filters.from || !event.startsAt || event.startsAt.slice(0, 10) >= filters.from,
+    )
+    .filter((event) => !filters.to || !event.startsAt || event.startsAt.slice(0, 10) <= filters.to)
+    .sort((first, second) => {
+      if (!first.startsAt) return 1;
+      if (!second.startsAt) return -1;
+      return first.startsAt.localeCompare(second.startsAt);
+    });
 }

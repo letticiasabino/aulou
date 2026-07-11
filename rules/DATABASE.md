@@ -1,5 +1,11 @@
 # Database Rules
 
+## Sprint 7 - academic_events
+
+- Eventos importados só podem ser inseridos depois da confirmação do usuário.
+- `academic_events` deve possuir `user_id`, `review_status`, `source_file_id`, `confidence_score` e `dedupe_key`.
+- RLS deve restringir leitura, criação, edição e remoção ao próprio usuário.
+
 ## Sprint 5 - arquivos
 
 - `files.size_bytes` deve ser maior que zero e no máximo 10 MB.

@@ -144,12 +144,8 @@ export function createImportPreview(rawEvents: ExtractedAcademicEventInput[]) {
 }
 
 export function validateImportPreviewEvents(events: ExtractedAcademicEvent[]) {
-  return events.map((event) =>
-    extractedAcademicEventInputSchema.parse({
-      ...event,
-      id: event.id,
-    }),
-  );
+  events.forEach((event) => extractedAcademicEventInputSchema.parse({ ...event, id: event.id }));
+  return events;
 }
 
 export async function extractTextFromFile(file: File): Promise<TextExtractionResult> {

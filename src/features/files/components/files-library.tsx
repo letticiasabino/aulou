@@ -17,6 +17,7 @@ import {
 import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { ImportPreviewDialog } from "@/features/files/components/import-preview-dialog";
 import { formatFileSize } from "@/schemas/academic-file";
+import { calendarService } from "@/services/calendar.service";
 import { filesService } from "@/services/files.service";
 import type { AcademicFile } from "@/types/academic-file";
 import type { ExtractedAcademicEvent } from "@/types/academic";
@@ -157,13 +158,13 @@ export function FilesLibrary() {
     </div>
   );
 
-  function handlePreviewConfirm(events: ExtractedAcademicEvent[]) {
+  async function handlePreviewConfirm(events: ExtractedAcademicEvent[]) {
+    if (!user) return;
     try {
       const validated = validateImportPreviewEvents(events);
+      await calendarService.confirmImportedEvents(user.id, validated);
       setPreview(null);
-      toast.success(
-        `${validated.length} evento(s) revisado(s). A persistência na agenda será conectada na próxima camada.`,
-      );
+      toast.success(`${validated.length} evento(s) confirmado(s) e salvo(s) na agenda.`);
     } catch (unknownError) {
       toast.error(
         unknownError instanceof Error ? unknownError.message : "Revise os campos do preview.",

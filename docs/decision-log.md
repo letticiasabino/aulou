@@ -1,5 +1,11 @@
 # Decision Log
 
+## Sprint 7 - agenda só recebe eventos confirmados
+
+- `academic_events` tem RLS por `user_id` e policies de insert/update exigindo `review_status = confirmed`.
+- A tela usa o mesmo serviço com Supabase ou local-first, deixando a agenda funcional sem bloquear o desenvolvimento local.
+- Filtros são aplicados no serviço e no banco, enquanto a interface mantém as opções de disciplinas disponíveis.
+
 ## Sprint 6 - ImportEngine sem invenção de dados
 
 - TXT e CSV são processados localmente no navegador com parser determinístico para o primeiro ciclo.

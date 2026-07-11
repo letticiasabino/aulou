@@ -1,5 +1,11 @@
 # Security Rules
 
+## Sprint 7 - confirmação e agenda
+
+- O cliente não é a única barreira: as policies de `academic_events` rejeitam insert/update com status diferente de `confirmed`.
+- Eventos importados preservam `source_file_id` e `confidence_score` para rastreabilidade.
+- Filtros nunca removem o predicado de `user_id` no repositório Supabase.
+
 ## Sprint 5 - arquivos
 
 - A aplicação valida extensão, MIME quando fornecido e limite de 10 MB antes de criar o upload.
