@@ -1,0 +1,56 @@
+export const errorCodes = [
+  "VALIDATION_ERROR",
+  "AUTHENTICATION_REQUIRED",
+  "INVALID_AUTH_TOKEN",
+  "EXPIRED_AUTH_TOKEN",
+  "AUTH_PROVIDER_ERROR",
+  "FORBIDDEN",
+  "INSUFFICIENT_PERMISSIONS",
+  "RESOURCE_ACCESS_DENIED",
+  "NOT_FOUND",
+  "CONFLICT",
+  "RATE_LIMIT",
+  "INTERNAL_ERROR",
+  "SEMESTER_NOT_FOUND",
+  "SEMESTER_DATE_RANGE_INVALID",
+  "SEMESTER_ALREADY_ACTIVE",
+  "SEMESTER_CONFLICT",
+  "SUBJECT_NOT_FOUND",
+  "SUBJECT_DUPLICATE",
+  "SUBJECT_SEMESTER_INVALID",
+  "SUBJECT_COLOR_INVALID",
+  "TEACHER_NOT_FOUND",
+  "TEACHER_DUPLICATE",
+  "TEACHER_EMAIL_INVALID",
+  "TEACHER_SUBJECT_LINK_NOT_FOUND",
+  "ACADEMIC_EVENT_NOT_FOUND",
+  "ACADEMIC_EVENT_DATE_RANGE_INVALID",
+  "ACADEMIC_EVENT_SUBJECT_INVALID",
+  "ACADEMIC_EVENT_SEMESTER_INVALID",
+  "ACADEMIC_EVENT_WEIGHT_INVALID",
+  "ACADEMIC_EVENT_CONFIDENCE_INVALID",
+  "NOTIFICATION_NOT_FOUND",
+  "JOB_NOT_FOUND",
+  "FILE_NOT_FOUND",
+  "FILE_EXTRACTION_NOT_FOUND",
+  "FILE_EXTRACTION_NOT_RETRYABLE",
+  "FILE_EXTRACTION_LIMIT_EXCEEDED",
+] as const;
+
+export type ErrorCode = (typeof errorCodes)[number];
+
+export class AppError extends Error {
+  constructor(
+    public readonly code: ErrorCode,
+    message: string,
+    public readonly statusCode = 500,
+    public readonly details: unknown = null,
+  ) {
+    super(message);
+    this.name = "AppError";
+  }
+}
+
+export type ErrorPayload = {
+  error: { code: ErrorCode; message: string; details: unknown; requestId: string };
+};
