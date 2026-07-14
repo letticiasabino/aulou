@@ -60,3 +60,19 @@ Foram entregues fila Postgres duravel, claim atomico, locks, retries com backoff
 ## Estado alvo
 
 A sprint so pode ser declarada concluida quando todos os adapters sem OCR, persistencia, endpoints, integracao com jobs, isolamento e testes estiverem verdes. Aplicacao da migration e smoke test com Storage/RLS reais permanecem evidencia externa separada.
+
+## Estado apos a correcao
+
+| Item                                              | Classificacao final                      |
+| ------------------------------------------------- | ---------------------------------------- |
+| Modulo e migration incremental `file_extractions` | CONCLUÍDO                                |
+| PDF textual e PDF provavelmente escaneado         | CONCLUÍDO                                |
+| DOCX, XLSX e CSV                                  | CONCLUÍDO                                |
+| Imagens como `ocr_required`                       | CONCLUÍDO                                |
+| Normalizacao, metricas, limites e erros seguros   | CONCLUÍDO                                |
+| Endpoints, idempotencia e retry                   | CONCLUÍDO                                |
+| RLS e ownership A/B                               | CONCLUÍDO na base; smoke real pendente   |
+| Testes dos adapters, jobs e rotas                 | CONCLUÍDO                                |
+| Swagger                                           | CONCLUÍDO                                |
+| OCR real, OpenAI e eventos automaticos            | NÃO IMPLEMENTADO, conforme escopo        |
+| Jobs e notificacoes antecipados                   | IMPLEMENTADO FORA DO ESCOPO e preservado |

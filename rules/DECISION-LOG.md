@@ -12,6 +12,13 @@
 - Esses componentes sao preservados porque sao validos, mas nao constituem a conclusao do escopo original da Backend Sprint 5, que e extracao documental.
 - A correcao de escopo reutiliza a fila somente para executar `file_extraction`, com handler e dominio separados das notificacoes.
 
+### Correcao de escopo
+
+- A Sprint 5 passa a representar extracao documental. PDF usa PDF.js; DOCX usa Mammoth; XLSX usa JSZip e Fast XML Parser; CSV usa parser local com suporte a campos entre aspas; imagens sao classificadas como `ocr_required`.
+- `NotificationJobHandler` e `FileExtractionJobHandler` sao registrados separadamente no worker. Nenhum OCR, OpenAI ou evento automatico foi adicionado.
+- A migration incremental `20260714185103_backend_sprint5_file_extractions.sql` preserva migrations anteriores, amplia metricas/status, adiciona idempotencia e RPCs com ownership derivado de `auth.uid()`.
+- Aplicacao e RLS/Storage reais estao `BLOQUEADOS POR ACESSO EXTERNO`: iniciar Docker/Supabase local ou fornecer projeto de teste, aplicar as migrations e executar o fluxo com duas contas dedicadas.
+
 - Jobs de lembrete usam uma tabela Postgres duravel, claim atomico com `FOR UPDATE SKIP LOCKED`, lock temporario, retry exponencial e estado `dead`; Redis foi adiado ate existir concorrencia entre instancias ou carga que justifique outra infraestrutura.
 - Eventos academicos confirmados enfileiram lembretes de forma idempotente. O worker persiste notificacoes in-app e envia e-mail apenas quando Resend e remetente estao configurados; ausencia do provedor e registrada como canal desativado, nunca como envio realizado.
 - A funcao privilegiada de claim tem `search_path` vazio, EXECUTE revogado de `public`, `anon` e `authenticated`, e concedido somente a `service_role`. A tabela tem RLS e clientes autenticados possuem apenas SELECT das proprias linhas.

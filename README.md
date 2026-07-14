@@ -1,6 +1,6 @@
 # Aulou
 
-Assistente acadêmico com IA para transformar cronogramas e materiais universitários em agenda, planos de estudo e revisões acionáveis.
+Assistente academico com IA para transformar cronogramas e materiais universitarios em agenda, planos de estudo e revisoes acionaveis.
 
 ## Desenvolvimento
 
@@ -10,9 +10,7 @@ Copy-Item .env.example .env.local
 npm run dev
 ```
 
-Abra `http://localhost:3000`. Sem Supabase configurado, o app usa o modo local-first para permitir testes do beta sem backend remoto.
-
-## Qualidade
+## Qualidade do frontend
 
 ```bash
 npm run typecheck
@@ -23,19 +21,32 @@ npm run e2e
 npm run build
 ```
 
-## Produção
+## API backend
 
-O Aulou é um único app Next.js full-stack. O frontend e os Route Handlers podem ser publicados no Netlify; o Supabase permanece como banco, Auth e Storage. O projeto Netlify `aulou` já foi criado, mas o primeiro deploy ainda está `BLOQUEADO POR ACESSO EXTERNO` por falta de acesso ao registry npm/GitHub. Render fica reservado para workers futuros.
+O backend separado em `backend/` usa Node.js, TypeScript, Fastify, Zod, Pino, Swagger e Vitest. A Sprint Backend 5 implementa extracao local de PDF, DOCX, XLSX e CSV, classificando imagens e PDFs escaneados para OCR futuro sem executar OCR ou IA.
 
-Para migrations, instale o Supabase CLI, autentique o projeto e aplique os arquivos de `supabase/migrations` em ordem. Não execute migrations de produção sem revisar RLS e backups.
+```bash
+npm --prefix backend install
+npm run backend:dev
+npm run backend:test
+npm run backend:build
+```
 
-## Documentação
+Localmente, a API fica em `http://localhost:4000`, com health em `/health`, readiness em `/ready`, Auth em `/v1/auth/me`, extracoes em `/v1/file-extractions` e Swagger em `/docs`.
 
-- `docs/deploy.md`: deploy, ambientes e variáveis.
-- `docs/beta-checklist.md`: checklist de entrada do beta fechado.
-- `docs/sprint-16-beta-deploy.md`: escopo e critérios desta sprint.
-- `docs/decision-log.md`: decisões arquiteturais.
+## Producao
 
-## Segurança
+O frontend permanece no Netlify; Supabase continua como Auth, Postgres, Storage e RLS; API e worker estao preparados no blueprint Render com `autoDeploy: false`. Nenhum servico foi publicado nesta sprint.
 
-Nunca versione `.env.local`, chaves de API, tokens ou credenciais. O checkout real, limites pagos e persistência de feedback devem ser validados server-side antes de produção pública.
+## Seguranca
+
+Nunca versione `.env.local`, chaves de API, tokens ou credenciais. Secrets do backend ficam somente no ambiente do servico. O checkout real, limites pagos e persistencia server-side devem ser validados antes do beta comercial.
+
+## Documentacao
+
+- `backend/README.md`: fundacao e proximo incremento.
+- `rules/BACKEND-ARCHITECTURE.md`: auditoria e separacao de responsabilidades.
+- `rules/API-CONTRACTS.md`: endpoints planejados.
+- `rules/ERROR-CATALOG.md`: resposta padrao de erros.
+- `rules/BACKEND-SECURITY.md`: controles server-side.
+- `rules/BACKEND-ROADMAP.md`: sprints futuras.

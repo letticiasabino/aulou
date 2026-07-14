@@ -24,6 +24,8 @@ Mover AIContextEngine, resumos, tutor, flashcards, quizzes, PlanningEngine e Ris
 
 Escopo original: extracao textual de PDF, deteccao de PDF provavelmente escaneado, DOCX, XLSX, CSV, classificacao de imagens como `ocr_required`, normalizacao, metricas, persistencia, consulta, idempotencia, retry, RLS, testes e Swagger. OCR real, OpenAI e criacao automatica de eventos permanecem fora do escopo.
 
+Status apos correcao: concluido na base de codigo com adapters locais, limites de 10 MB, 1 milhao de caracteres, 500 paginas e 50 mil linhas, persistencia incremental, endpoints autenticados e job handler isolado. Pendente apenas aplicar migrations e executar smoke test em Supabase Storage autorizado.
+
 ### IMPLEMENTAÇÃO ANTECIPADA
 
 Fila duravel no Postgres, claim atomico, locks, retry com backoff, dead-letter, worker de lembretes, notificacoes in-app, e-mail Resend e configuracao `aulou-worker` no Render foram entregues antecipadamente. O trabalho e preservado e reutilizado por meio de handlers isolados no job registry; ele nao substitui os criterios de conclusao da extracao documental.
