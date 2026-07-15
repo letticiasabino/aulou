@@ -5,6 +5,8 @@ export type BackgroundJob = {
   id: string;
   user_id: string;
   type: BackgroundJobType;
+  environment: "development" | "test" | "staging" | "production";
+  queue_name: "file-extraction" | "notification" | "ocr" | "document-analysis" | "email";
   status: BackgroundJobStatus;
   payload: { eventId?: string; extractionId?: string; fileId?: string };
   attempts: number;

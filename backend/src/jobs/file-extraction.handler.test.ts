@@ -13,6 +13,8 @@ const job: BackgroundJob = {
   id: "11111111-1111-4111-8111-111111111111",
   user_id: "22222222-2222-4222-8222-222222222222",
   type: "file_extraction",
+  environment: "test",
+  queue_name: "file-extraction",
   status: "running",
   payload: {
     extractionId: "33333333-3333-4333-8333-333333333333",
@@ -144,6 +146,7 @@ describe("file extraction jobs", () => {
     const registry = new JobHandlerRegistry([
       {
         jobType: "academic_event_reminder",
+        queueName: "notification",
         async handle() {
           handled.push("notification");
           return {};
@@ -151,6 +154,7 @@ describe("file extraction jobs", () => {
       },
       {
         jobType: "file_extraction",
+        queueName: "file-extraction",
         async handle() {
           handled.push("extraction");
           return {};

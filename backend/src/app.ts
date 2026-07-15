@@ -8,6 +8,7 @@ import { createLogger } from "./shared/logger/logger.js";
 import { healthRoutes } from "./modules/health/health.routes.js";
 import { authRoutes } from "./modules/auth/auth.routes.js";
 import type { Authenticator } from "./shared/auth/auth.types.js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseAuthenticator } from "./shared/auth/supabase-authenticator.js";
 import { semesterRoutes } from "./modules/semesters/semesters.module.js";
 import { subjectRoutes } from "./modules/subjects/subjects.module.js";
@@ -16,7 +17,7 @@ import { academicEventRoutes } from "./modules/academic-events/academic-events.m
 import { notificationRoutes } from "./modules/notifications/notifications.module.js";
 import { fileExtractionRoutes } from "./modules/file-extractions/file-extractions.module.js";
 
-export type AppDependencies = { authenticator?: Authenticator };
+export type AppDependencies = { authenticator?: Authenticator; jobClient?: SupabaseClient };
 
 export async function buildApp(
   config: AppEnv = env,
@@ -42,7 +43,11 @@ export async function buildApp(
   await app.register(teacherRoutes, { authenticator });
   await app.register(academicEventRoutes, { authenticator });
   await app.register(notificationRoutes, { authenticator });
-  await app.register(fileExtractionRoutes, { authenticator });
+  await app.register(fileExtractionRoutes, {
+    authenticator,
+    config,
+    jobClient: dependencies.jobClient,
+  });
 
   return app;
 }

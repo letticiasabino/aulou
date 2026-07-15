@@ -78,13 +78,13 @@ function routeClient(userId: string): SupabaseClient {
       return new RouteQuery(table, userId);
     },
     async rpc(name: string, parameters: Record<string, unknown>) {
-      if (name === "request_file_extraction") {
+      if (name === "request_file_extraction_server") {
         const key = `${userId}:${String(parameters.requested_key)}`;
         const value = requests.get(key) ?? { ...extraction, status: "pending", safe_error: null };
         requests.set(key, value);
         return { data: value, error: null };
       }
-      if (name === "retry_file_extraction") {
+      if (name === "retry_file_extraction_server") {
         return { data: { ...extraction, status: "pending", safe_error: null }, error: null };
       }
       return { data: null, error: { code: "unknown" } };
@@ -103,9 +103,13 @@ const authenticator: Authenticator = {
   },
 };
 
-const app = await buildApp(parseEnv({ NODE_ENV: "test", FRONTEND_URL: "http://localhost:3000" }), {
-  authenticator,
-});
+const app = await buildApp(
+  parseEnv({ NODE_ENV: "test", APP_ENVIRONMENT: "test", FRONTEND_URL: "http://localhost:3000" }),
+  {
+    authenticator,
+    jobClient: routeClient(userA.id),
+  },
+);
 beforeAll(async () => app.ready());
 afterAll(async () => app.close());
 

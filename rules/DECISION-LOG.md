@@ -88,3 +88,10 @@
 - Decisao: interromper o teste global do worker depois de confirmar que a fila ja contem jobs de terceiros. Um worker sem filtro de ambiente nao e seguro para validacao em projeto compartilhado.
 - `notification_deliveries` nao foi encontrada no schema nem no codigo; nao foi criada por inferencia fora do escopo.
 - Advisors: as duas RPCs de extracao foram mantidas como `SECURITY DEFINER` autenticadas porque precisam inserir jobs inacessiveis ao usuario direto. Ambas fazem verificacao de `auth.uid()` e ownership; `anon` permanece sem EXECUTE. A protecao global contra senhas vazadas do Supabase Auth continua pendente fora deste escopo.
+
+## 2026-07-15 - Isolamento de ambientes da fila
+
+- Decisao: cada job recebe `environment` e `queue_name`; o worker exige ambos por configuracao e faz claim atomico apenas para esse par. Nao existe fallback para `production`.
+- Backfill conservador: fixtures historicos `sprint5-*@example.test` sao classificados como `test`; os demais jobs existentes sao preservados como `production`, sem reprocessamento.
+- `notification_deliveries`: **adiado formalmente** para a sprint NotificationEngine. O beta atual registra o estado da notificacao e do job, mas ainda nao necessita auditoria por tentativa, provider ou reenvio.
+- A protecao de senhas vazadas e uma **ACAO MANUAL OBRIGATORIA**: Supabase Dashboard > Authentication > Security > Password Security > Enable leaked password protection.

@@ -7,9 +7,14 @@ import { JobHandlerRegistry } from "../jobs/job-handler.js";
 import { JobRepository } from "../jobs/job.repository.js";
 import { NotificationJobHandler } from "../jobs/notification.processor.js";
 import { createLogger } from "../shared/logger/logger.js";
+import { parseWorkerQueues, requireWorkerEnvironment } from "../jobs/job-environment.js";
 
 export async function runBackgroundWorker(config: AppEnv, signal?: AbortSignal): Promise<void> {
   const logger = pino(createLogger(config));
+  const environment = requireWorkerEnvironment(config.WORKER_ENVIRONMENT);
+  const queues = parseWorkerQueues(config.WORKER_QUEUES);
+  if (config.NODE_ENV === "test" && environment === "production")
+    throw new Error("A test process cannot run a production worker.");
   const client = createAdminClient(config);
   const jobs = new JobRepository(client);
   const registry = new JobHandlerRegistry([
@@ -17,12 +22,22 @@ export async function runBackgroundWorker(config: AppEnv, signal?: AbortSignal):
     new FileExtractionJobHandler(client),
   ]);
   const workerId = `background-${process.pid}-${crypto.randomUUID()}`;
-  logger.info({ workerId }, "background_worker_started");
+  logger.info(
+    {
+      event: "worker.started",
+      workerId,
+      environment,
+      queues,
+      concurrency: 1,
+      pollInterval: config.WORKER_POLL_INTERVAL_MS,
+    },
+    "background_worker_started",
+  );
 
   while (!signal?.aborted) {
     let claimed = 0;
     try {
-      const batch = await jobs.claim(workerId, config.WORKER_BATCH_SIZE);
+      const batch = await jobs.claim(workerId, environment, queues, config.WORKER_BATCH_SIZE);
       claimed = batch.length;
       for (const job of batch) {
         try {

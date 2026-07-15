@@ -17,6 +17,7 @@ type FileRow = {
 
 export class FileExtractionJobHandler implements JobHandler {
   readonly jobType = "file_extraction" as const;
+  readonly queueName = "file-extraction" as const;
 
   constructor(
     private readonly client: SupabaseClient,

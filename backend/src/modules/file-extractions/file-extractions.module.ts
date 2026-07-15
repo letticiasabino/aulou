@@ -2,6 +2,9 @@ import fp from "fastify-plugin";
 import { z } from "zod";
 import { authenticate, getAuthenticatedUser } from "../../shared/auth/auth.middleware.js";
 import type { Authenticator } from "../../shared/auth/auth.types.js";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { AppEnv } from "../../config/env.js";
+import { createAdminClient } from "../../integrations/supabase/admin-client.js";
 import { AppError } from "../../shared/errors/error-catalog.js";
 import { mapDatabaseError } from "../../shared/http/database-errors.js";
 import {
@@ -43,7 +46,11 @@ function mapExtraction(value: Record<string, unknown>, includeText = true) {
   };
 }
 
-export const fileExtractionRoutes = fp<{ authenticator: Authenticator }>(async (app, options) => {
+export const fileExtractionRoutes = fp<{
+  authenticator: Authenticator;
+  config: AppEnv;
+  jobClient?: SupabaseClient;
+}>(async (app, options) => {
   const auth = authenticate(options.authenticator);
 
   app.post("/v1/file-extractions", { preHandler: auth }, async (request, reply) => {
@@ -73,9 +80,12 @@ export const fileExtractionRoutes = fp<{ authenticator: Authenticator }>(async (
         422,
       );
     }
-    const result = await client.rpc("request_file_extraction", {
+    const jobsClient = options.jobClient ?? createAdminClient(options.config);
+    const result = await jobsClient.rpc("request_file_extraction_server", {
       target_file_id: input.fileId,
       requested_key: requestKey,
+      caller_id: user.id,
+      requested_environment: options.config.APP_ENVIRONMENT,
     });
     if (result.error) mapDatabaseError(result.error, "Nao foi possivel solicitar a extracao.");
     return reply.code(202).send({ data: mapExtraction(result.data as Record<string, unknown>) });
@@ -141,7 +151,11 @@ export const fileExtractionRoutes = fp<{ authenticator: Authenticator }>(async (
         409,
       );
     }
-    const result = await client.rpc("retry_file_extraction", { target_extraction_id: params.id });
+    const jobsClient = options.jobClient ?? createAdminClient(options.config);
+    const result = await jobsClient.rpc("retry_file_extraction_server", {
+      target_extraction_id: params.id,
+      caller_id: user.id,
+    });
     if (result.error) mapDatabaseError(result.error, "Nao foi possivel repetir a extracao.");
     return reply.code(202).send({ data: mapExtraction(result.data as Record<string, unknown>) });
   });

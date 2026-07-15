@@ -31,6 +31,7 @@ export function buildEventNotification(event: AcademicEvent, now = new Date()) {
 
 export class NotificationJobHandler implements JobHandler {
   readonly jobType = "academic_event_reminder" as const;
+  readonly queueName = "notification" as const;
   constructor(
     private readonly client: SupabaseClient,
     private readonly email: EmailIntegration,

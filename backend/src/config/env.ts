@@ -1,8 +1,12 @@
 import { z } from "zod";
+import { JOB_ENVIRONMENTS } from "../jobs/job-environment.js";
 
 const envSchema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    APP_ENVIRONMENT: z.enum(JOB_ENVIRONMENTS).default("development"),
+    WORKER_ENVIRONMENT: z.enum(JOB_ENVIRONMENTS).optional(),
+    WORKER_QUEUES: z.string().trim().min(1).optional(),
     PORT: z.coerce.number().int().min(1).max(65535).default(4000),
     SUPABASE_URL: z.string().url().optional(),
     SUPABASE_PUBLISHABLE_KEY: z.string().min(1).optional(),

@@ -12,6 +12,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: APP_ENVIRONMENT
+        value: production
       - key: PORT
         value: 4000
       - key: FRONTEND_URL
@@ -45,6 +47,12 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: APP_ENVIRONMENT
+        value: production
+      - key: WORKER_ENVIRONMENT
+        value: production
+      - key: WORKER_QUEUES
+        value: file-extraction,notification
       - key: FRONTEND_URL
         sync: false
       - key: SUPABASE_URL

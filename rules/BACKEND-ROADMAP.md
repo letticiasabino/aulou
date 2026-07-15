@@ -30,6 +30,8 @@ Validacao de infraestrutura (2026-07-14): `BLOQUEADO POR ACESSO EXTERNO`. A vali
 
 Atualizacao remota (2026-07-15): GitHub publicado, projeto Supabase confirmado e migrations aplicadas. Storage privado e RLS A/B foram validados. Antes da Sprint 6, concluir formatos/jobs em ambiente isolado, reexecutar advisor de seguranca e decidir explicitamente se `notification_deliveries` pertence ao produto.
 
+Isolamento operacional (2026-07-15): a fila passa a separar `development`, `test`, `staging` e `production`, com filas centrais por tipo de job. A validacao remota isolada, limpeza de fixtures e ativacao manual da protecao de senhas vazadas continuam requisitos antes da Sprint 6.
+
 O advisor de seguranca foi executado: as RPCs `SECURITY DEFINER` de extracao receberam aviso esperado e documentado; a protecao contra senhas vazadas do Supabase Auth deve ser habilitada antes de beta publico.
 
 ### IMPLEMENTAÇÃO ANTECIPADA

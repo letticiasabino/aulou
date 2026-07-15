@@ -1,12 +1,20 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { BackgroundJob } from "./job.types.js";
+import type { JobEnvironment, JobQueue } from "./job-environment.js";
 
 export class JobRepository {
   constructor(private readonly client: SupabaseClient) {}
 
-  async claim(workerId: string, batchSize: number): Promise<BackgroundJob[]> {
+  async claim(
+    workerId: string,
+    environment: JobEnvironment,
+    queues: JobQueue[],
+    batchSize: number,
+  ): Promise<BackgroundJob[]> {
     const result = await this.client.rpc("claim_background_jobs", {
       worker_id: workerId,
+      worker_environment: environment,
+      worker_queues: queues,
       batch_size: batchSize,
       lock_seconds: 60,
     });
@@ -43,6 +51,9 @@ export class JobRepository {
       .update({
         status: dead ? "dead" : "retry",
         scheduled_at: dead
+          ? now.toISOString()
+          : new Date(now.getTime() + delaySeconds * 1000).toISOString(),
+        available_at: dead
           ? now.toISOString()
           : new Date(now.getTime() + delaySeconds * 1000).toISOString(),
         last_error: message,
