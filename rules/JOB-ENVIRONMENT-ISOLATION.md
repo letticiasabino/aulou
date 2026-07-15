@@ -9,3 +9,5 @@ Retries, cancelamentos e dead-letter preservam `environment` e `queue_name`. Tes
 Jobs existentes foram preservados: a migration somente marca como `test` registros que possam ser ligados a fixtures identificaveis `sprint5-*@example.test`; sem essa evidencia, o valor conservador e `production`. Nesta aplicacao os 24 registros preexistentes nao tinham essa evidencia e ficaram em `production`. Nenhum deles e reprocessado pela migration.
 
 `notification_deliveries` foi adiado para NotificationEngine: nao ha requisito atual de auditoria de provider, tentativa ou reenvio. Antes do beta publico, habilitar manualmente a protecao de senhas vazadas no Dashboard do Supabase. OCR real permanece fora desta sprint.
+
+O primeiro smoke apos a migration nao cria dados sem credenciais isoladas. Consulte `ISOLATED-WORKER-SMOKE-TEST.md` para a evidencia dos guard rails e o procedimento de desbloqueio.

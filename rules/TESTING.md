@@ -32,3 +32,8 @@ Cobrir schemas de intervalo de datas, cor, peso, filtros e rejeicao de `user_id`
 - RLS e Storage foram exercitados com dois usuarios artificiais: isolamento de arquivos, extracoes, jobs e notificacoes foi confirmado; o bucket permaneceu privado.
 - A API recebeu requisicoes autenticadas de extracao e o worker processou uma falha CSV controlada com segunda tentativa apos backoff.
 - A cobertura remota integral de formatos e dead letter esta bloqueada por fila compartilhada sem isolamento de usuario/ambiente. Nao executar worker global novamente ate haver ambiente de teste dedicado.
+
+## Smoke isolado (2026-07-15)
+
+- A migration agora permite o roteiro exclusivamente em `test/file-extraction`; os guard rails de inicializacao foram exercitados localmente.
+- A execucao remota permanece bloqueada enquanto nao houver credenciais ignoradas para service role e usuario artificial. O roteiro, a ausencia de impacto em producao e a limpeza obrigatoria estao em `rules/ISOLATED-WORKER-SMOKE-TEST.md`.

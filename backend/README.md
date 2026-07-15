@@ -55,3 +55,5 @@ Redis permanece fora do desenho atual: deve ser reavaliado apenas com mais de um
 Em 2026-07-14, `npm ci`, lint, typecheck, build e os 41 testes locais passaram. A validacao contra Supabase real (migrations, Storage privado, RLS A/B, worker, retry e dead letter) esta `BLOQUEADO POR ACESSO EXTERNO` ate que haja CLI autenticada, confirmacao do projeto e contas dedicadas de teste. O registro completo esta em `../rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
 
 Em 2026-07-15, o projeto remoto foi confirmado e as migrations foram aplicadas. API, Storage privado e RLS A/B tiveram evidencia real. Nao executar o worker global novamente para testes enquanto a fila estiver compartilhada; o processamento completo de formatos, retry e dead letter requer ambiente isolado. Consulte `../rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
+
+O worker exige `WORKER_ENVIRONMENT` e `WORKER_QUEUES`; para smoke isolado use somente `test` e `file-extraction`. Sem chave de service role e JWT de usuario artificial em arquivo ignorado, nao inicie o fluxo remoto. O estado atual do roteiro esta em `../rules/ISOLATED-WORKER-SMOKE-TEST.md`.

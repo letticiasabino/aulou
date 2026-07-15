@@ -103,3 +103,10 @@ Nao iniciar a Sprint 6 ou OCR antes de concluir esses passos.
 - Advisor de seguranca: executado novamente. Retornou avisos para `request_file_extraction` e `retry_file_extraction` por serem RPCs `SECURITY DEFINER` executaveis por `authenticated`. O desenho e intencional: ambas validam `auth.uid()` e ownership antes de elevar privilegios para inserir/repetir job; `anon` nao possui EXECUTE. Manter sob revisao em proxima mudanca de autorizacao.
 - Advisor de seguranca: tambem informou protecao contra senhas vazadas desativada no Supabase Auth. Trata-se de configuracao global de Auth, fora das migrations da Sprint 5; deve ser habilitada pelo responsavel do projeto antes de beta publico.
 - Advisor de performance: tres avisos em policies antigas de `subject_teachers`; nao relacionados as migrations da Sprint 5 e nao alterados nesta tarefa.
+
+## Smoke isolado de jobs - 2026-07-15
+
+- A migration de isolamento foi aplicada e confirmou 24 jobs preexistentes exclusivamente em `production/file-extraction`; nenhum foi processado pelo roteiro.
+- O worker recusou localmente configuracao ausente, invalida e a combinacao de processo de teste com worker de producao.
+- O smoke remoto de formatos, retry, dead letter e cancelamento esta `BLOQUEADO POR ACESSO EXTERNO`: nao ha arquivo local ignorado com chave de service role nem JWT de usuario artificial. Nenhum fixture, usuario ou objeto remoto foi criado.
+- Advisors pos-migration foram executados. A protecao contra senhas vazadas continua desabilitada e requer acao manual no Dashboard. Ver `rules/ISOLATED-WORKER-SMOKE-TEST.md`.
