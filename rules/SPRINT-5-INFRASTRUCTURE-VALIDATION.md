@@ -60,3 +60,46 @@ O primeiro teste dentro do sandbox falhou antes de carregar o Vitest devido a pe
 5. Instalar/autenticar `gh`, revisar a arvore de trabalho mista e publicar sem `--force` somente apos a evidencia remota.
 
 Nao iniciar a Sprint 6 ou OCR antes de concluir esses passos.
+
+## Atualizacao remota - 2026-07-15
+
+### GitHub
+
+- GitHub CLI: `2.96.0`; autenticada como a conta proprietaria do repositorio via keyring.
+- Remote confirmado: `https://github.com/letticiasabino/aulou.git`.
+- Os sete commits pendentes foram publicados sem force. `main` esta sincronizada com `origin/main`.
+
+### Projeto e migrations
+
+- Projeto confirmado: `kcylfykwctjbgayajign`, nome `aulou`, organizacao `fptfiqiwlnsvfrpxckpw`, regiao `us-east-2`, status `ACTIVE_HEALTHY`.
+- Supabase CLI: `2.109.1`, autenticada e com o projeto vinculado.
+- Historico consistente: as migrations `20260714181441_backend_sprint5_jobs_notifications.sql` e `20260714185103_backend_sprint5_file_extractions.sql` foram aplicadas apos dry-run.
+- Backup: nenhum backup fisico listado; `pitr_enabled=false`. As migrations aplicadas nao removem dados, mas esse risco deve ser resolvido antes de mudancas destrutivas.
+
+### Banco, RLS e Data API
+
+- `background_jobs`, `notifications` e `file_extractions` existem com RLS ativa.
+- Foram confirmados indices, trigger de lembrete, policies por `auth.uid()` e grants das RPCs. `claim_background_jobs` nao e executavel por `anon` ou `authenticated`; as RPCs de extracao exigem `authenticated`.
+- Operacoes reais autenticadas contra Data API funcionaram para arquivos, extracoes e jobs. Usuario B recebeu conjuntos vazios/operacoes sem efeito para dados de A.
+- `notification_deliveries` nao existe no schema remoto nem em migrations versionadas. O handler atual nao a utiliza; a afirmacao historica de que ela teria sido entregue esta incorreta e exige decisao de escopo separada.
+
+### Storage e A/B
+
+- Bucket `academic-files` confirmado privado, com limite de 10 MB, MIME allowlist e policies de prefixo por usuario para `SELECT`, `INSERT`, `UPDATE` e `DELETE`.
+- Usuario A enviou arquivo artificial e criou URL assinada; usuario B nao leu, assinou ou removeu efetivamente o objeto de A; acesso anonimo foi negado.
+- A operacao de delete de B retornou sucesso vazio, comportamento de RLS sem linhas afetadas; o objeto continuou acessivel para A.
+- B nao leu arquivos, extracoes, jobs ou notificacoes de A, nem criou extracao para arquivo de A.
+
+### Worker, formatos e retries
+
+- API local iniciou e recebeu requisicoes autenticadas reais de extracao.
+- O worker real foi iniciado contra o projeto e processou arquivo CSV artificial corrompido, registrando falha segura e executando uma segunda tentativa com backoff.
+- A validacao completa dos formatos e do estado terminal foi interrompida: a fila compartilhada ja possui jobs de extracao de outros dados, e o worker nao possui filtro de ambiente/teste. Reexecuta-lo poderia processar trabalho fora do roteiro de teste.
+- Por seguranca, nao foram executadas novas tentativas de worker global. PDF, DOCX, XLSX, CSV valido, imagem, retry completo e dead letter permanecem `BLOQUEADO POR AMBIENTE DE TESTE NAO ISOLADO`.
+- Nenhum OCR foi executado.
+
+### Advisors
+
+- Advisor de seguranca: executado novamente. Retornou avisos para `request_file_extraction` e `retry_file_extraction` por serem RPCs `SECURITY DEFINER` executaveis por `authenticated`. O desenho e intencional: ambas validam `auth.uid()` e ownership antes de elevar privilegios para inserir/repetir job; `anon` nao possui EXECUTE. Manter sob revisao em proxima mudanca de autorizacao.
+- Advisor de seguranca: tambem informou protecao contra senhas vazadas desativada no Supabase Auth. Trata-se de configuracao global de Auth, fora das migrations da Sprint 5; deve ser habilitada pelo responsavel do projeto antes de beta publico.
+- Advisor de performance: tres avisos em policies antigas de `subject_teachers`; nao relacionados as migrations da Sprint 5 e nao alterados nesta tarefa.

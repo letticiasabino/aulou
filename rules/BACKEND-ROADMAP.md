@@ -28,6 +28,10 @@ Status apos correcao: concluido na base de codigo com adapters locais, limites d
 
 Validacao de infraestrutura (2026-07-14): `BLOQUEADO POR ACESSO EXTERNO`. A validacao local passou com 41 testes, lint, typecheck e build; a confirmacao do Supabase remoto, Storage, RLS, jobs e push depende de CLIs autenticadas e ambiente de teste. Ver `rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
 
+Atualizacao remota (2026-07-15): GitHub publicado, projeto Supabase confirmado e migrations aplicadas. Storage privado e RLS A/B foram validados. Antes da Sprint 6, concluir formatos/jobs em ambiente isolado, reexecutar advisor de seguranca e decidir explicitamente se `notification_deliveries` pertence ao produto.
+
+O advisor de seguranca foi executado: as RPCs `SECURITY DEFINER` de extracao receberam aviso esperado e documentado; a protecao contra senhas vazadas do Supabase Auth deve ser habilitada antes de beta publico.
+
 ### IMPLEMENTAÇÃO ANTECIPADA
 
 Fila duravel no Postgres, claim atomico, locks, retry com backoff, dead-letter, worker de lembretes, notificacoes in-app, e-mail Resend e configuracao `aulou-worker` no Render foram entregues antecipadamente. O trabalho e preservado e reutilizado por meio de handlers isolados no job registry; ele nao substitui os criterios de conclusao da extracao documental.

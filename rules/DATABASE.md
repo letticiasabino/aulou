@@ -89,6 +89,13 @@ Todas as tabelas acima devem usar policies por dono:
 - O ambiente local nao confirmou o projeto `kcylfykwctjbgayajign`, nao possui CLI Supabase ou Docker e nao tinha credenciais de teste autorizadas.
 - Nenhuma migration foi aplicada sem backup, listagem de historico remoto e confirmacao do alvo. Status: `BLOQUEADO POR ACESSO EXTERNO`.
 
+## Validacao remota pos-Sprint 5 (2026-07-15)
+
+- O projeto `kcylfykwctjbgayajign` foi confirmado e as migrations `20260714181441` e `20260714185103` foram aplicadas apos dry-run e comparacao de historico.
+- `background_jobs`, `notifications` e `file_extractions` foram conferidas com RLS ativa, policies e funcoes remotas.
+- Nao ha backup fisico listado e PITR esta desativado; migrations destrutivas exigem decisao e estrategia de recuperacao antes de aplicacao.
+- `notification_deliveries` nao existe no schema nem nas migrations versionadas.
+
 - Arquivos ficam em `supabase/migrations`.
 - Não editar migration antiga após commit; criar nova migration incremental.
 - Toda alteração de tabela sensível deve vir com RLS e grants no mesmo commit.

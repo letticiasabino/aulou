@@ -80,3 +80,11 @@
 - Evidencia local: `npm ci`, lint, typecheck, build e 41 testes passaram; o teste fora do sandbox resolveu uma restricao de permissao do esbuild no sandbox.
 - Bloqueios: CLI Supabase, Docker, configuracao/credenciais do projeto remoto e CLI GitHub indisponiveis.
 - Status: `BLOQUEADO POR ACESSO EXTERNO`. Nenhum OCR foi iniciado.
+
+## 2026-07-15 - Desbloqueio remoto controlado da Sprint 5
+
+- GitHub e Supabase foram autenticados; `main` foi publicada sem force e as duas migrations pendentes foram aplicadas no projeto confirmado.
+- O projeto nao possui backup fisico listado nem PITR. As migrations foram nao destrutivas; mudancas destrutivas futuras exigem estrategia de recuperacao aprovada.
+- Decisao: interromper o teste global do worker depois de confirmar que a fila ja contem jobs de terceiros. Um worker sem filtro de ambiente nao e seguro para validacao em projeto compartilhado.
+- `notification_deliveries` nao foi encontrada no schema nem no codigo; nao foi criada por inferencia fora do escopo.
+- Advisors: as duas RPCs de extracao foram mantidas como `SECURITY DEFINER` autenticadas porque precisam inserir jobs inacessiveis ao usuario direto. Ambas fazem verificacao de `auth.uid()` e ownership; `anon` permanece sem EXECUTE. A protecao global contra senhas vazadas do Supabase Auth continua pendente fora deste escopo.

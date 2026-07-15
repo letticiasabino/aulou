@@ -26,3 +26,9 @@ Cobrir schemas de intervalo de datas, cor, peso, filtros e rejeicao de `user_id`
 - A suite local passou com 41 testes em 9 arquivos, alem de lint, typecheck e build.
 - A prova em Supabase real continua `BLOQUEADO POR ACESSO EXTERNO`: nao havia CLI, Docker, configuracao do projeto remoto ou credenciais de teste autorizadas.
 - O roteiro e as evidencias, inclusive itens nao executados, estao em `rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
+
+## Execucao remota (2026-07-15)
+
+- RLS e Storage foram exercitados com dois usuarios artificiais: isolamento de arquivos, extracoes, jobs e notificacoes foi confirmado; o bucket permaneceu privado.
+- A API recebeu requisicoes autenticadas de extracao e o worker processou uma falha CSV controlada com segunda tentativa apos backoff.
+- A cobertura remota integral de formatos e dead letter esta bloqueada por fila compartilhada sem isolamento de usuario/ambiente. Nao executar worker global novamente ate haver ambiente de teste dedicado.
