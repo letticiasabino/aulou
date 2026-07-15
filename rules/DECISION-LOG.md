@@ -73,3 +73,10 @@
 - Cliente admin: separado e disponivel apenas para usos futuros explicitamente privilegiados; nao e usado para Auth ou RLS.
 - Rotas: `/v1/auth/me` e `/v1/auth/admin-check` documentadas no OpenAPI e cobertas por mocks.
 - Limite: teste real com Supabase depende de credenciais dedicadas e nao foi executado nesta etapa.
+
+## 2026-07-14 - Validacao de infraestrutura da Sprint 5
+
+- Decisao: nao aplicar migrations nem criar usuarios de teste sem confirmar projeto remoto, organizacao, ambiente, historico e rollback.
+- Evidencia local: `npm ci`, lint, typecheck, build e 41 testes passaram; o teste fora do sandbox resolveu uma restricao de permissao do esbuild no sandbox.
+- Bloqueios: CLI Supabase, Docker, configuracao/credenciais do projeto remoto e CLI GitHub indisponiveis.
+- Status: `BLOQUEADO POR ACESSO EXTERNO`. Nenhum OCR foi iniciado.

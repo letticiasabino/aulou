@@ -83,6 +83,12 @@ Todas as tabelas acima devem usar policies por dono:
 
 ## Migrations
 
+## Validacao pos-Sprint 5 (2026-07-14)
+
+- As migrations de jobs/notificacoes e `file_extractions` permanecem pendentes de aplicacao remota.
+- O ambiente local nao confirmou o projeto `kcylfykwctjbgayajign`, nao possui CLI Supabase ou Docker e nao tinha credenciais de teste autorizadas.
+- Nenhuma migration foi aplicada sem backup, listagem de historico remoto e confirmacao do alvo. Status: `BLOQUEADO POR ACESSO EXTERNO`.
+
 - Arquivos ficam em `supabase/migrations`.
 - Não editar migration antiga após commit; criar nova migration incremental.
 - Toda alteração de tabela sensível deve vir com RLS e grants no mesmo commit.

@@ -49,3 +49,7 @@ Eventos confirmados criam um job idempotente no banco. O worker usa claim atomic
 Extracoes usam o mesmo transporte de jobs, mas handlers separados. O worker baixa o objeto do bucket privado, valida tamanho e assinatura, executa o adapter adequado e persiste texto normalizado, metricas, avisos e estado. Imagens nunca sao enviadas a terceiros: terminam como `ocr_required`.
 
 Redis permanece fora do desenho atual: deve ser reavaliado apenas com mais de uma instancia, volume concorrente relevante ou requisitos de fila que o Postgres nao atenda.
+
+## Validacao de infraestrutura
+
+Em 2026-07-14, `npm ci`, lint, typecheck, build e os 41 testes locais passaram. A validacao contra Supabase real (migrations, Storage privado, RLS A/B, worker, retry e dead letter) esta `BLOQUEADO POR ACESSO EXTERNO` ate que haja CLI autenticada, confirmacao do projeto e contas dedicadas de teste. O registro completo esta em `../rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.

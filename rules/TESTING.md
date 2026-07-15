@@ -20,3 +20,9 @@ Cobrir schemas de intervalo de datas, cor, peso, filtros e rejeicao de `user_id`
 - Extracao deve cobrir PDF textual, PDF provavelmente escaneado, DOCX, XLSX, CSV, imagem, corrupcao, limites, normalizacao e metricas.
 - Rotas devem provar idempotencia, validacao, retry e isolamento entre usuarios A/B.
 - Handler deve provar `processing -> completed`, falha segura, retry/backoff e despacho separado de notificacoes.
+
+## Validacao de infraestrutura pos-Sprint 5 (2026-07-14)
+
+- A suite local passou com 41 testes em 9 arquivos, alem de lint, typecheck e build.
+- A prova em Supabase real continua `BLOQUEADO POR ACESSO EXTERNO`: nao havia CLI, Docker, configuracao do projeto remoto ou credenciais de teste autorizadas.
+- O roteiro e as evidencias, inclusive itens nao executados, estao em `rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
