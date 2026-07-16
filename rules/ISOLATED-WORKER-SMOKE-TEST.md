@@ -28,3 +28,12 @@ Para desbloquear, fornecer em arquivo ignorado uma URL Supabase, chave publishab
 - Performance: indice `background_jobs_environment_claim_idx` aparece como nao usado porque o smoke isolado ainda nao executou. Os demais avisos observados sao preexistentes em `subject_teachers` e outros indices; nao foram alterados.
 
 Nenhum OCR foi iniciado.
+
+## Retomada com credenciais locais - 2026-07-16
+
+- `backend/.env.local` existe e aparece como ignorado no status do Git; as sete variaveis exigidas estao presentes sem registrar valores.
+- API iniciada localmente com `APP_ENVIRONMENT=test`: `/health` retornou `ok` e `/ready` retornou `ready`.
+- Nao foram criados dados remotos. O backend nao possui rota de upload nem rota de cancelamento, portanto nao ha como executar o fluxo real exigido para criar fixtures e cancelar jobs sem usar operacoes administrativas fora do contrato da API.
+- O estado terminal implementado pela fila e `dead`, nao `dead_letter`; essa diferenca deve ser resolvida por decisao de produto/contrato antes de declarar o criterio de dead letter atendido.
+- O worker nao produziu o log de inicio capturavel no processo curto. Ele nao apresentou `production`; a execucao controlada com credenciais deve ser retomada apos definir o roteiro de upload/cancelamento autorizado.
+- Protecao de senhas vazadas: **ACAO MANUAL PENDENTE**, conforme advisor remoto de 2026-07-15.
