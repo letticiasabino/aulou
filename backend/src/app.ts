@@ -16,6 +16,8 @@ import { teacherRoutes } from "./modules/teachers/teachers.module.js";
 import { academicEventRoutes } from "./modules/academic-events/academic-events.module.js";
 import { notificationRoutes } from "./modules/notifications/notifications.module.js";
 import { fileExtractionRoutes } from "./modules/file-extractions/file-extractions.module.js";
+import { fileRoutes } from "./modules/files/files.module.js";
+import { jobRoutes } from "./modules/jobs/jobs.module.js";
 
 export type AppDependencies = { authenticator?: Authenticator; jobClient?: SupabaseClient };
 
@@ -48,6 +50,8 @@ export async function buildApp(
     config,
     jobClient: dependencies.jobClient,
   });
+  await app.register(fileRoutes, { authenticator, config });
+  await app.register(jobRoutes, { authenticator, config });
 
   return app;
 }
