@@ -37,3 +37,8 @@ Cobrir schemas de intervalo de datas, cor, peso, filtros e rejeicao de `user_id`
 
 - A migration agora permite o roteiro exclusivamente em `test/file-extraction`; os guard rails de inicializacao foram exercitados localmente.
 - A execucao remota permanece bloqueada enquanto nao houver credenciais ignoradas para service role e usuario artificial. O roteiro, a ausencia de impacto em producao e a limpeza obrigatoria estao em `rules/ISOLATED-WORKER-SMOKE-TEST.md`.
+
+## Smoke remoto isolado (2026-07-16)
+
+- Os adapters foram validados em Supabase real com oito fixtures e worker `test/file-extraction`; retry/backoff e estado `dead` foram confirmados sem impacto nos 24 jobs de producao.
+- Cancelamento continua sem cobertura remota por nao existir contrato correspondente.

@@ -110,3 +110,9 @@ Nao iniciar a Sprint 6 ou OCR antes de concluir esses passos.
 - O worker recusou localmente configuracao ausente, invalida e a combinacao de processo de teste com worker de producao.
 - O smoke remoto de formatos, retry, dead letter e cancelamento esta `BLOQUEADO POR ACESSO EXTERNO`: nao ha arquivo local ignorado com chave de service role nem JWT de usuario artificial. Nenhum fixture, usuario ou objeto remoto foi criado.
 - Advisors pos-migration foram executados. A protecao contra senhas vazadas continua desabilitada e requer acao manual no Dashboard. Ver `rules/ISOLATED-WORKER-SMOKE-TEST.md`.
+
+## Smoke remoto isolado - 2026-07-16
+
+- Com credenciais locais ignoradas, o worker processou oito fixtures exclusivamente em `test/file-extraction`; a contagem de 24 jobs de producao permaneceu inalterada.
+- PDF textual, DOCX, XLSX e CSVs validos concluiram; PDF escaneado e imagem foram classificados `ocr_required`; CSV corrompido executou retry/backoff e terminou `dead` apos duas tentativas de teste.
+- Todos os dados artificiais foram removidos. Cancelamento permanece pendente porque nao ha contrato de cancelamento. OCR nao foi executado.

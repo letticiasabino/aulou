@@ -37,3 +37,14 @@ Nenhum OCR foi iniciado.
 - O estado terminal implementado pela fila e `dead`, nao `dead_letter`; essa diferenca deve ser resolvida por decisao de produto/contrato antes de declarar o criterio de dead letter atendido.
 - O worker nao produziu o log de inicio capturavel no processo curto. Ele nao apresentou `production`; a execucao controlada com credenciais deve ser retomada apos definir o roteiro de upload/cancelamento autorizado.
 - Protecao de senhas vazadas: **ACAO MANUAL PENDENTE**, conforme advisor remoto de 2026-07-15.
+
+## Execucao remota isolada - 2026-07-16
+
+- Usuario artificial criado por service role e autenticado pelo fluxo de senha com chave publicavel; nenhum identificador, senha, JWT ou conteudo foi registrado.
+- Oito fixtures artificiais foram enviados sob o prefixo do usuario. O worker iniciou com `environment=test`, fila unica `file-extraction` e concorrencia efetiva 1.
+- Resultados: PDF textual `completed`; PDF escaneado provavel `ocr_required`; DOCX `completed`; XLSX `completed`; CSV com virgula e ponto-e-virgula `completed`; imagem `ocr_required`. Nenhum OCR foi executado.
+- CSV corrompido: falha segura, retry apos backoff de 15 segundos e estado terminal `dead` depois de duas tentativas controladas. O contrato chama esse estado de `dead`, nao `dead_letter`.
+- Idempotencia foi exercitada reutilizando a mesma chave para o PDF textual, sem criar segunda extracao/job.
+- A tentativa de cancelamento nao constitui evidencia valida: nao existe endpoint/contrato de cancelamento. Permanece pendente, sem alterar a arquitetura nesta tarefa.
+- Producao antes/depois: 24 jobs `production/file-extraction`; nenhum foi reivindicado, alterado ou reprocessado.
+- Limpeza concluida pelo roteiro: objetos do bucket, jobs/extracoes de teste e usuario artificial foram removidos.
