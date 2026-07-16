@@ -201,12 +201,46 @@ const domainDocs: Record<string, Record<string, Record<string, unknown>>> = {
     post: { tags: ["file-extractions"], security: [{ bearerAuth: [] }] },
   },
   "/v1/files/upload-intents": {
-    post: { tags: ["files"], security: [{ bearerAuth: [] }], body: { type: "object", required: ["filename", "contentType", "sizeBytes"], additionalProperties: false, properties: { filename: { type: "string", maxLength: 180 }, contentType: { type: "string", enum: ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "text/csv", "image/png", "image/jpeg", "image/webp"] }, sizeBytes: { type: "integer", minimum: 1, maximum: 10485760 } } } },
+    post: {
+      tags: ["files"],
+      security: [{ bearerAuth: [] }],
+      body: {
+        type: "object",
+        required: ["filename", "contentType", "sizeBytes"],
+        additionalProperties: false,
+        properties: {
+          filename: { type: "string", maxLength: 180 },
+          contentType: {
+            type: "string",
+            enum: [
+              "application/pdf",
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              "text/csv",
+              "image/png",
+              "image/jpeg",
+              "image/webp",
+            ],
+          },
+          sizeBytes: { type: "integer", minimum: 1, maximum: 10485760 },
+        },
+      },
+    },
   },
-  "/v1/files/upload-intents/:id/complete": { post: { tags: ["files"], security: [{ bearerAuth: [] }] } },
-  "/v1/files": { get: { tags: ["files"], security: [{ bearerAuth: [] }], querystring: pagination } },
-  "/v1/files/:id": { get: { tags: ["files"], security: [{ bearerAuth: [] }] }, delete: { tags: ["files"], security: [{ bearerAuth: [] }] } },
-  "/v1/files/:id/extractions": { get: { tags: ["files"], security: [{ bearerAuth: [] }] }, post: { tags: ["files"], security: [{ bearerAuth: [] }] } },
+  "/v1/files/upload-intents/:id/complete": {
+    post: { tags: ["files"], security: [{ bearerAuth: [] }] },
+  },
+  "/v1/files": {
+    get: { tags: ["files"], security: [{ bearerAuth: [] }], querystring: pagination },
+  },
+  "/v1/files/:id": {
+    get: { tags: ["files"], security: [{ bearerAuth: [] }] },
+    delete: { tags: ["files"], security: [{ bearerAuth: [] }] },
+  },
+  "/v1/files/:id/extractions": {
+    get: { tags: ["files"], security: [{ bearerAuth: [] }] },
+    post: { tags: ["files"], security: [{ bearerAuth: [] }] },
+  },
   "/v1/jobs/:id/cancel": { post: { tags: ["jobs"], security: [{ bearerAuth: [] }] } },
 };
 
