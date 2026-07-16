@@ -5,6 +5,7 @@ import { createAdminClient } from "../../integrations/supabase/admin-client.js";
 import { authenticate, getAuthenticatedUser } from "../../shared/auth/auth.middleware.js";
 import type { Authenticator } from "../../shared/auth/auth.types.js";
 import { AppError } from "../../shared/errors/error-catalog.js";
+import { mapDatabaseError } from "../../shared/http/database-errors.js";
 
 const allowed = [
   "application/pdf",
@@ -94,17 +95,15 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
         .createSignedUploadUrl(intent.storage_path);
       if (signed.error || !signed.data)
         throw new AppError("INTERNAL_ERROR", "Nao foi possivel preparar upload.", 500);
-      return reply
-        .code(201)
-        .send({
-          data: {
-            id: intent.id,
-            fileId: intent.file_id,
-            uploadUrl: signed.data.signedUrl,
-            token: signed.data.token,
-            expiresAt: intent.expires_at,
-          },
-        });
+      return reply.code(201).send({
+        data: {
+          id: intent.id,
+          fileId: intent.file_id,
+          uploadUrl: signed.data.signedUrl,
+          token: signed.data.token,
+          expiresAt: intent.expires_at,
+        },
+      });
     });
     app.post(
       "/v1/files/upload-intents/:id/complete",
@@ -204,6 +203,58 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
         .eq("id", result.data.id)
         .eq("user_id", user.id);
       return reply.code(204).send();
+    });
+    app.post("/v1/files/:id/extractions", { preHandler: auth }, async (request, reply) => {
+      const user = getAuthenticatedUser(request);
+      const fileId = idSchema.parse(request.params).id;
+      const key = z
+        .string()
+        .min(1)
+        .max(200)
+        .parse(request.headers["idempotency-key"] ?? `file:${fileId}`);
+      const admin = createAdminClient(options.config);
+      const file = await admin
+        .from("files")
+        .select("id,status,size_bytes")
+        .eq("id", fileId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (!file.data || file.data.status !== "uploaded")
+        throw new AppError("FILE_NOT_FOUND", "Arquivo nao esta pronto para extracao.", 404);
+      const extraction = await admin.rpc("request_file_extraction_server", {
+        target_file_id: fileId,
+        requested_key: key,
+        caller_id: user.id,
+        requested_environment: options.config.APP_ENVIRONMENT,
+      });
+      if (extraction.error || !extraction.data)
+        mapDatabaseError(extraction.error, "Nao foi possivel solicitar a extracao.");
+      const job = await admin
+        .from("background_jobs")
+        .select("id,status")
+        .eq("idempotency_key", `file-extraction:${extraction.data.id}`)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      return reply
+        .code(202)
+        .send({
+          data: {
+            extractionId: extraction.data.id,
+            jobId: job.data?.id,
+            status: extraction.data.status,
+          },
+        });
+    });
+    app.get("/v1/files/:id/extractions", { preHandler: auth }, async (request) => {
+      const user = getAuthenticatedUser(request);
+      const fileId = idSchema.parse(request.params).id;
+      const result = await createAdminClient(options.config)
+        .from("file_extractions")
+        .select("id,status,safe_error,adapter,metrics,warnings,created_at,updated_at")
+        .eq("file_id", fileId)
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+      return { data: result.data ?? [] };
     });
   },
 );
