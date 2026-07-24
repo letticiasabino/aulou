@@ -1,4 +1,5 @@
-export type BackgroundJobStatus = "pending" | "running" | "retry" | "completed" | "dead";
+export type BackgroundJobStatus =
+  "pending" | "running" | "retry" | "completed" | "dead" | "cancelled";
 export type BackgroundJobType = "academic_event_reminder" | "file_extraction";
 
 export type BackgroundJob = {

@@ -196,6 +196,16 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
         .eq("user_id", user.id)
         .maybeSingle();
       if (!result.data) return reply.code(204).send();
+      const activeJob = await admin
+        .from("background_jobs")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("type", "file_extraction")
+        .in("status", ["pending", "retry", "running"])
+        .contains("payload", { fileId: result.data.id })
+        .maybeSingle();
+      if (activeJob.data)
+        throw new AppError("JOB_CANCEL_CONFLICT", "Arquivo possui extracao em andamento.", 409);
       await admin.storage.from("academic-files").remove([result.data.storage_path]);
       await admin
         .from("files")
@@ -235,15 +245,13 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
         .eq("idempotency_key", `file-extraction:${extraction.data.id}`)
         .eq("user_id", user.id)
         .maybeSingle();
-      return reply
-        .code(202)
-        .send({
-          data: {
-            extractionId: extraction.data.id,
-            jobId: job.data?.id,
-            status: extraction.data.status,
-          },
-        });
+      return reply.code(202).send({
+        data: {
+          extractionId: extraction.data.id,
+          jobId: job.data?.id,
+          status: extraction.data.status,
+        },
+      });
     });
     app.get("/v1/files/:id/extractions", { preHandler: auth }, async (request) => {
       const user = getAuthenticatedUser(request);
