@@ -48,3 +48,7 @@ Nenhum OCR foi iniciado.
 - A tentativa de cancelamento nao constitui evidencia valida: nao existe endpoint/contrato de cancelamento. Permanece pendente, sem alterar a arquitetura nesta tarefa.
 - Producao antes/depois: 24 jobs `production/file-extraction`; nenhum foi reivindicado, alterado ou reprocessado.
 - Limpeza concluida pelo roteiro: objetos do bucket, jobs/extracoes de teste e usuario artificial foram removidos.
+
+# Retentativa controlada — 2026-07-24
+
+O smoke remoto da Sprint 5.5 não foi iniciado: a única rodada de diagnóstico falhou antes de autenticação ou mutação com `ENOTFOUND` para o host do projeto e timeout de login role na CLI. Nenhum usuário artificial, objeto, extraction ou job foi criado, e os 24 jobs `production/file-extraction` não foram consultados nem alterados nesta rodada. O bloqueio é externo de DNS/conectividade; não repetir até a conectividade ser restabelecida.

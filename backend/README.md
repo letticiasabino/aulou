@@ -57,3 +57,7 @@ Em 2026-07-14, `npm ci`, lint, typecheck, build e os 41 testes locais passaram. 
 Em 2026-07-15, o projeto remoto foi confirmado e as migrations foram aplicadas. API, Storage privado e RLS A/B tiveram evidencia real. Nao executar o worker global novamente para testes enquanto a fila estiver compartilhada; o processamento completo de formatos, retry e dead letter requer ambiente isolado. Consulte `../rules/SPRINT-5-INFRASTRUCTURE-VALIDATION.md`.
 
 O worker exige `WORKER_ENVIRONMENT` e `WORKER_QUEUES`; para smoke isolado use somente `test` e `file-extraction`. Sem chave de service role e JWT de usuario artificial em arquivo ignorado, nao inicie o fluxo remoto. O estado atual do roteiro esta em `../rules/ISOLATED-WORKER-SMOKE-TEST.md`.
+
+## Upload e cancelamento
+
+O upload usa intent autenticado e URL temporária para o bucket privado; a API aceita PDF, DOCX, XLSX, CSV, PNG, JPEG e WebP até 10 MB. O servidor controla usuário, path, ambiente e fila. Consulte `../rules/FILE-UPLOAD-CONTRACT.md`. Jobs de extração podem ser cancelados somente em `pending` ou `retry`; `dead` e `cancelled` são terminais. Consulte `../rules/JOB-CANCELLATION.md`.

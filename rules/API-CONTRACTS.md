@@ -70,6 +70,10 @@ O `id` da resposta vem exclusivamente do token validado pelo Supabase. O cliente
 
 Uploads seguem o limite atual de 10 MB e MIME allowlist. IA recebe limites de tamanho por request e rate limit por usuario/plano. Listagens usam paginacao com limite maximo de 100. Jobs de importacao sao idempotentes por arquivo e checksum.
 
+## Arquivos e jobs de extração
+
+`POST /v1/files/upload-intents`, `POST /v1/files/upload-intents/:id/complete`, `GET /v1/files`, `GET /v1/files/:id`, `DELETE /v1/files/:id`, `POST /v1/files/:id/extractions`, `GET /v1/files/:id/extractions`, `GET /v1/file-extractions/:id` e `POST /v1/jobs/:id/cancel` exigem Bearer JWT e ownership. Upload usa intent e URL temporária para bucket privado; MIME permitido e limite são 10 MB. Criação e cancelamento são idempotentes. Exclusão conflita com extração ativa; `running`, `completed` e `dead` não são canceláveis. `dead` é terminal e `cancelled` permanece cancelado.
+
 ## Erros
 
 401 para sessao ausente/expirada, 403 para ownership negado, 404 para recurso inexistente do usuario, 409 para conflito/duplicidade, 422 para validacao e 429 para limite. O servidor nao retorna stack trace.

@@ -95,3 +95,9 @@
 - Backfill conservador: fixtures historicos `sprint5-*@example.test` sao classificados como `test`; os demais jobs existentes sao preservados como `production`, sem reprocessamento.
 - `notification_deliveries`: **adiado formalmente** para a sprint NotificationEngine. O beta atual registra o estado da notificacao e do job, mas ainda nao necessita auditoria por tentativa, provider ou reenvio.
 - A protecao de senhas vazadas e uma **ACAO MANUAL OBRIGATORIA**: Supabase Dashboard > Authentication > Security > Password Security > Enable leaked password protection.
+
+# 2026-07-24 — Sprint 5.5: não avançar sem homologação remota
+
+**Decisão:** concluir e publicar o trabalho local, mas manter a Sprint 6 bloqueada.
+
+**Motivo:** a única retentativa controlada de acesso ao Supabase falhou em DNS e em timeout de CLI antes de qualquer mutação. A migration incremental de expiração/cancelamento fica versionada para aplicação somente após o histórico remoto ser novamente confirmado.

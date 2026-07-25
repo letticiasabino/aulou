@@ -45,3 +45,7 @@ Enforcement server-side de limites, webhooks de pagamento, analytics confiavel, 
 ## Backend Sprint 3 - Dominio academico
 
 Concluido na base de codigo: CRUD protegido, filtros, paginacao, relacao professor-disciplina, validacao Zod e migration incremental. Pendente: aplicar migration em ambiente Supabase autorizado e executar RLS real com dois usuarios.
+
+# Sprint Backend 5.5 — pendência de homologação
+
+O contrato local de upload, extração e cancelamento está implementado e validado localmente. A homologação remota, incluindo Storage, RLS A/B, worker `test/file-extraction`, advisors e a confirmação da migration incremental, permanece bloqueada por DNS/conectividade do projeto Supabase. A Sprint 6 não deve ser iniciada antes desse smoke.

@@ -6,8 +6,13 @@ import { authenticate, getAuthenticatedUser } from "../../shared/auth/auth.middl
 import type { Authenticator } from "../../shared/auth/auth.types.js";
 import { AppError } from "../../shared/errors/error-catalog.js";
 import { mapDatabaseError } from "../../shared/http/database-errors.js";
+import {
+  paginationMeta,
+  paginationQuerySchema,
+  paginationRange,
+} from "../../shared/http/pagination.js";
 
-const allowed = [
+export const allowedUploadContentTypes = [
   "application/pdf",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -16,10 +21,10 @@ const allowed = [
   "image/jpeg",
   "image/webp",
 ] as const;
-const createSchema = z
+export const uploadIntentSchema = z
   .object({
     filename: z.string().trim().min(1).max(180),
-    contentType: z.enum(allowed),
+    contentType: z.enum(allowedUploadContentTypes),
     sizeBytes: z
       .number()
       .int()
@@ -28,7 +33,7 @@ const createSchema = z
   })
   .strict();
 const idSchema = z.object({ id: z.string().uuid() });
-function safeName(name: string) {
+export function sanitizeFileName(name: string) {
   const clean = name
     .normalize("NFKC")
     .replace(/[\\/\0]/g, "-")
@@ -53,7 +58,7 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
   async (app, options) => {
     const auth = authenticate(options.authenticator);
     app.post("/v1/files/upload-intents", { preHandler: auth }, async (request, reply) => {
-      const input = createSchema.parse(request.body);
+      const input = uploadIntentSchema.parse(request.body);
       const user = getAuthenticatedUser(request);
       const key = z
         .string()
@@ -70,7 +75,7 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
       let intent = existing.data;
       if (!intent) {
         const fileId = crypto.randomUUID();
-        const path = `${user.id}/${fileId}/${safeName(input.filename)}`;
+        const path = `${user.id}/${fileId}/${sanitizeFileName(input.filename)}`;
         const created = await admin
           .from("file_upload_intents")
           .insert({
@@ -167,13 +172,19 @@ export const fileRoutes = fp<{ authenticator: Authenticator; config: AppEnv }>(
     );
     app.get("/v1/files", { preHandler: auth }, async (request) => {
       const user = getAuthenticatedUser(request);
+      const query = paginationQuerySchema.parse(request.query);
+      const { from, to } = paginationRange(query.page, query.limit);
       const result = await createAdminClient(options.config)
         .from("files")
-        .select("*")
+        .select("*", { count: "exact" })
         .eq("user_id", user.id)
         .neq("status", "deleted")
-        .order("created_at", { ascending: false });
-      return { data: (result.data ?? []).map(mapFile) };
+        .order("created_at", { ascending: false })
+        .range(from, to);
+      return {
+        data: (result.data ?? []).map(mapFile),
+        meta: paginationMeta(query.page, query.limit, result.count ?? 0),
+      };
     });
     app.get("/v1/files/:id", { preHandler: auth }, async (request) => {
       const user = getAuthenticatedUser(request);
