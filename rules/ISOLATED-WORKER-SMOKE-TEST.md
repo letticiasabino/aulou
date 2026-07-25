@@ -52,3 +52,7 @@ Nenhum OCR foi iniciado.
 # Retentativa controlada — 2026-07-24
 
 O smoke remoto da Sprint 5.5 não foi iniciado: a única rodada de diagnóstico falhou antes de autenticação ou mutação com `ENOTFOUND` para o host do projeto e timeout de login role na CLI. Nenhum usuário artificial, objeto, extraction ou job foi criado, e os 24 jobs `production/file-extraction` não foram consultados nem alterados nesta rodada. O bloqueio é externo de DNS/conectividade; não repetir até a conectividade ser restabelecida.
+
+## Diagnóstico final de homologação — 2026-07-24
+
+O CLI confirmou o projeto `kcylfykwctjbgayajign` (`aulou`, organização `fptfiqiwlnsvfrpxckpw`, `us-east-2`) e vínculo local corretos, mas com status `INACTIVE`. DNS padrão, Cloudflare e Google responderam NXDOMAIN para o host do projeto, enquanto `https://supabase.co` respondeu 200. A causa provável é a inatividade do projeto, não um problema local de proxy, cache ou host. Não houve reativação automática, pois ela pode gerar impacto operacional ou financeiro. A migration `20260724000000_upload_intent_expiry_and_extraction_cancellation_scope.sql` não foi aplicada; smoke, RLS remoto, advisors e leaked password protection continuam pendentes.

@@ -48,4 +48,4 @@ Concluido na base de codigo: CRUD protegido, filtros, paginacao, relacao profess
 
 # Sprint Backend 5.5 — pendência de homologação
 
-O contrato local de upload, extração e cancelamento está implementado e validado localmente. A homologação remota, incluindo Storage, RLS A/B, worker `test/file-extraction`, advisors e a confirmação da migration incremental, permanece bloqueada por DNS/conectividade do projeto Supabase. A Sprint 6 não deve ser iniciada antes desse smoke.
+O contrato local de upload, extração e cancelamento está implementado e validado localmente. A homologação remota, incluindo Storage, RLS A/B, worker `test/file-extraction`, advisors e a confirmação da migration incremental, permanece bloqueada porque o projeto Supabase `aulou` está `INACTIVE`. A Sprint 6 não deve ser iniciada antes de reativar o projeto e executar o smoke.

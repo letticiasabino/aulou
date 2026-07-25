@@ -101,3 +101,9 @@
 **Decisão:** concluir e publicar o trabalho local, mas manter a Sprint 6 bloqueada.
 
 **Motivo:** a única retentativa controlada de acesso ao Supabase falhou em DNS e em timeout de CLI antes de qualquer mutação. A migration incremental de expiração/cancelamento fica versionada para aplicação somente após o histórico remoto ser novamente confirmado.
+
+## 2026-07-24 — Projeto Supabase inativo bloqueia homologação
+
+**Decisão:** não reativar automaticamente o projeto `aulou`.
+
+**Evidência:** a lista autenticada do CLI confirmou o ref correto, organização e região, porém status `INACTIVE`; resolutores público e local retornaram NXDOMAIN ao host do projeto. A reativação pode ter efeito operacional ou financeiro e exige autorização explícita. Até então, não aplicar migration, não criar usuários artificiais e não iniciar worker remoto.

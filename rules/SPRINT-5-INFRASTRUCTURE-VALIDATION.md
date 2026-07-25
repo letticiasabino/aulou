@@ -119,4 +119,4 @@ Nao iniciar a Sprint 6 ou OCR antes de concluir esses passos.
 
 # Sprint 5.5 — status de conectividade (2026-07-24)
 
-Uma retentativa controlada de DNS, HTTPS e CLI não resolveu `kcylfykwctjbgayajign.supabase.co`; a CLI encerrou por timeout ao inicializar a role de login. Advisors, RLS remota, confirmação/aplicação da migration incremental e leaked password protection permanecem bloqueados externamente. Não houve mutação remota nesta tentativa.
+Uma retentativa controlada de DNS, HTTPS e CLI não resolveu `kcylfykwctjbgayajign.supabase.co`; a CLI encerrou por timeout ao inicializar a role de login. Advisors, RLS remota, confirmação/aplicação da migration incremental e leaked password protection permanecem bloqueados externamente. Não houve mutação remota nesta tentativa. A consulta autenticada de projetos confirmou que o projeto correto está `INACTIVE`; a reativação depende de decisão operacional da proprietária.
